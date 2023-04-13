@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			.body {
+				font-size: 16px;
+                display: flex;
+                 margin: auto;
+			}
+
+			.container {
+				
+                 position: relative;
+                margin: auto;
+                padding:0;
+			}
+            .reference {
+				position: absolute;
+                top : 150px;
+                left: 20px;
+			}
+
+            .designation {
+				position: absolute;
+                top : 280px;
+                left: 20px;
+			}
+			.left {
+				float: left;
+			}
+			.right {
+				float: right;
+				margin-left: 90px;
+
+			}
+            .center {
+                text-align: center;
+            }
+            .column{
+                border: 1px solid #000;
+            }
+            .remarque-wrap{
+                position: absolute;
+                top : 600px;
+                left: 20px;
+                text-align: center;
+            }
+            .remarque{
+                margin-top: 10px;
+                width: 300px;
+                background-color:#f2f5f7;
+                border: 1px solid #000;
+            }
+            .mode-paiement{
+                background: var(--mode-paiement);
+                padding: 10px;
+                text-align: justify;
+                margin-top: -10px;
+            }
+            .bold{
+                font-weight: bold;
+            }
+
+             .signature {
+				margin-top : 20px;
+                left: 550px;
+			}
+           
+		</style>
+	</head>
+	<body>
+
+		<div class="container">
+			<table>
+       
+             <thead>
+              <th>B.A.D.G.E Département Natoraly Fish
+               </th>
+               <th>
+               </th>
+             <thead>
+				<tr>
+					<td>
+						<div class="address left">
+					
+							<span>Lot VT 68 M Andohanimandroseza, </span>
+							<span>Antananarivo 101</span>
+							<div class="container">
+								<div> 
+									<span>034 46 900 00 - </span>
+									<span>038 98 982 47 - </span>
+									<span>034 51 435 45 </span>
+								</div>
+							</div>
+						</td>
+					</td>
+
+					<td class="right">
+						<div class="right">
+							<span>Client : {{customer}}</span></br>
+							<span>Adresse : {{adresse}}</span></br>
+                            <span>Contact : {{contact}}</span></br>
+							<span>NIF : {{nif}}</span></br>
+							<span>RCS : {{stat}}</span></br>
+						</div>
+					</td>
+				</tr>
+			</table>
+
+            <div class="reference">
+                <span> DATE : {{date}}</span><br/>
+                <span> POINT DE VENTE : {{pointOfSale}}</span><br/>
+                <span> FACTURE : {{reference}}</span>
+            </div>
+
+            <div class="designation">
+                <table style=" border-collapse: collapse;
+                border: 1px solid #000; width:100%;" >
+                <colgroup>
+        <col span="1" style="width: 40%;">
+        <col span="1" style="width: 20%;">
+        <col span="1" style="width: 20%;">
+        <col span="1" style="width: 20%;">
+      </colgroup>
+                    <thead>
+                        <tr>
+                            <th class="column" style="width:300px; background-color:#5d7079; color: white;">Description</th>
+                            <th class="column" style="width:100px; background-color:#5d7079; color: white;">Quantité (kg)</th>
+                            <th class="column" style="width:100px; background-color:#5d7079; color: white;">Prix unitaire</th>
+                            <th class="column" style="width:100px; background-color:#5d7079; color: white;">Prix Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in articles %}
+                        <tr class="">
+                            <td class="column center">{{item.name }}</td>
+                            <td class="column center">{{item.quantity }}</td>
+                            <td class="column center">{{item.unit_price | number_format(3, ',', ' ')}}</td>
+                            <td class="column center">{{item.amount | number_format(3, ',', ' ')}}</td>
+                        </tr>
+                    {% endfor %}
+                    {% if remise != 0 %}
+                         <tr>
+                                <td></td>
+                                <td></td>
+                                <td class="column center bold"> Sous-total</td>
+                                <td class="column center">{{ total | number_format(3, ',', ' ')}}</td>
+                        </tr>
+                         <tr>
+                                <td></td>
+                                <td></td>
+                                <td class="column center bold"> Remise</td>
+                                <td class="column center">0</td>
+                        </tr>
+                    {% endif %}
+                       
+                         <tr>
+                          <td></td>
+                            <td></td>
+                            <td class="column center bold"> Total à payer</td>
+                            <td class="column center">{{ total | number_format(3, ',', ' ')}}</td>
+                           
+                        </tr>
+                        {% if paymentReceived > 0 %}
+                             <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="column center bold"> Montant payé</td>
+                                    <td class="column center">{{ paymentReceived | number_format(3, ',', ' ')}}</td>
+                            </tr>
+                        {% endif %}
+
+                        {% if leftToPay > 0 and leftToPay !=  total %}
+                             <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="column center bold"> Reste à payer</td>
+                                    <td class="column center">{{ leftToPay | number_format(3, ',', ' ')}}</td>
+                            </tr>
+                        {% endif %}
+                       
+                    </tbody>
+                </table>
+                    <div class="remarque">
+                        <span style="background-color:#5d7079; padding : 5px; color: white;">Remarques et instructions de paiement :</span>
+                        <i style="background-color:#f2f5f7;"></br>
+                            Le mode de paiement est par chèque
+                            bancaire ou virement bancaire au compte
+                            BFV-SG (TOGNONAVELO Alexandre)
+                            n° 00008 00005 05003020222 68
+                        <i>
+                    </div>
+
+                    <div class="signature left">
+                        <i> Responsable Facturation</i>
+                    </div>
+                </div>
+        
+         <div class="remarque-wrap">
+        
+        <div class="questions">
+            <p>Si vous avez des questions sur cette facture, n'hésitez pas à nous contacter.</p>
+        </div>
+     </div>
+		</div>
+
+		
+	</body>
+</html>

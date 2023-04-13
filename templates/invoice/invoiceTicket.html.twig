@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    
+
+    <style>
+        body{
+            background: #f1f0f5;
+        }
+        .page-core{
+            width: 100%;
+            margin: auto;
+            max-width: 500px;
+            /*border: 1px solid rgb(60,66,87);*/
+            padding: 50px;
+            padding-top: 25px;
+            padding-bottom: 25px;
+            background: #fff;
+        }
+        .page-core p{
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        .flex{
+            display: flex;
+        }
+        .titre-ticket{
+            display: flex; 
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .date-ticket{
+            justify-content: space-between;
+        }
+        .list-ticket li{
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .list-ticket li span {
+            width: 100px;
+            display: flex;
+            justify-content: end;
+        }
+        
+        .ticket-footer{
+            display: flex; 
+            flex-direction: column;
+            text-align: center;
+        }
+        .total-ticket{
+            display: flex; 
+            justify-content: end;
+            flex-direction: column;
+            align-items: end;
+        }
+        .align-right{
+            text-align: right;
+        }
+        .align-left{
+            text-align: left;
+        }
+        table{
+            width: 100%;
+        }
+        table,td,th,tr{
+            border-collapse: collapse;
+            border: 1px solid #000;
+        }
+        th{
+            text-align: center;
+            padding: 2px;
+        }
+        td {
+            text-align: center;
+            padding: 2px;
+        }
+        .question{
+            text-align: center;
+        }
+    </style>
+    </head>
+    <body>
+        <div class="page-core">
+            <div class="titre-ticket">
+                <h2>B.A.D.G.E Département Natoraly Fish</h2>
+            </div>
+            <div class="align-left">
+                <p>ADRESSE : Lot VT 68M Andohanimandroseza, Antananarivo 101</p>
+                <p>TELEPHONE : <strong>034 46 900 00</strong> - <strong>098 98 982 47</strong></p>
+            </div>
+            <div class="date-ticket flex">
+                <div class="left-col">
+                    <p>POINT DE VENTE : {{pointOfSale}}</p>
+                    <p>DATE : {{date}} </p>
+                </div>
+                
+            </div>
+            <div class="right-col">
+                <p class="align-right">TICKET : {{reference}}</p>
+                <br/>
+            </div>
+
+            <div class="list-ticket">
+                <table>
+                    <thead>
+                        <th>DESIGNATION</th>
+                        <th>QUANTITE</th>
+                        <th>P.U</th>
+                        <th>MONTANT</th> 
+                    </thead>
+                    <tbody>
+                    {% for item in articles %}
+                        <tr class="">
+                            <td>{{item.name }}</td>
+                            <td>{{item.quantity }}</td>
+                            <td>{{item.unit_price | number_format(3, ',', ' ')}}</td>
+                            <td>{{item.amount | number_format(3, ',', ' ')}}</td>
+                        </tr>
+                    {% endfor %}
+                        <tr>
+                            <td colspan="3"><strong>TOTAL</strong></td> 
+                            <td><strong>{{ total | number_format(3, ',', ' ')}}</strong></td>
+                        </tr>
+                    </tbody>
+                </table> 
+            </div>
+           
+            <div class="ticket-footer">
+                <h2>B.A.D.G.E</h2>
+                <p><strong>VOUS REMERCIE DE VOTRE VISITE</strong></p>
+            </div>
+
+            <p class="question">Si vous-avez des questions sur ce ticket, n'hésitez pas à nous contacter.	</p>
+        </div>
+    </body>
+</html>
