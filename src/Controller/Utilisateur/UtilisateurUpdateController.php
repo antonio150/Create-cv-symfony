@@ -49,11 +49,8 @@ class UtilisateurUpdateController extends AbstractController
                             "message" => "Utilisateur introuvable dans le système !"
                         );
                     } else {
-                       
                         $userType = $userTypeRepository->find($data["userType"]);
-                        // $user->setUserType($userType);
                         $user->setBaseAttributes($data, $userType);
-                        
                         try {
                             $em->persist($user);
                             $em->flush();
@@ -62,7 +59,6 @@ class UtilisateurUpdateController extends AbstractController
                                 "message" => "Modification terminée avec succès !"
                             );
                         } catch (Exception $ex) {
-
                             $output = array(
                                 "status" => "error",
                                 "message" => $ex->getMessage()

@@ -5,6 +5,7 @@ namespace App\Controller\Utilisateur;
 use App\Entity\Collector;
 use App\Entity\Utilisateur;
 use App\Repository\CollectorRepository;
+use App\Repository\ContractRepository;
 use App\Repository\UserTypeRepository;
 use App\Repository\UtilisateurRepository;
 use Exception;
@@ -26,8 +27,11 @@ class UtilisateurCreateController extends AbstractController
     /**
      * @Route("/api/v1/user/create", name="app_user_create")
      */
-    public function create(UserTypeRepository $userTypeRepository, UtilisateurRepository $utilisateurRepository, CollectorRepository $collectorRepository): JsonResponse
-    {
+    public function create(
+        UserTypeRepository $userTypeRepository,
+        UtilisateurRepository $utilisateurRepository,
+        ContractRepository $contractRepository
+    ): JsonResponse {
         $request = Request::createFromGlobals();
         $data = json_decode($request->getContent(), true);
         $output = array();
@@ -45,16 +49,27 @@ class UtilisateurCreateController extends AbstractController
                     'status' => 'error'
                 );
             } else {
+
                 $username = isset($data["username"]) ? $data["username"] : NULL;
                 $password = isset($data["password"]) ? $data["password"] : NULL;
                 $name = isset($data["name"]) ? $data["name"] : NULL;
                 $firstName = isset($data["firstName"]) ? $data["firstName"] : NULL;
-                $type = isset($data["type"]) ? $data["type"] : NULL;
                 $adresse = isset($data["adresse"]) ? $data["adresse"] : NULL;
                 $typeUserId = isset($data["typeUser"]) ? $data["typeUser"] : NULL;
+                $contractId = isset($data["contract"]) ? $data["contract"] : NULL;
 
+
+                $contract = $contractRepository->find($contractId);
                 $typeUser = $userTypeRepository->find($typeUserId);
-                
+
+                if (empty($contract)) {
+                    $output = array(
+                        "status" => "error",
+                        "message" => "Type de contrat introuvable !"
+                    );
+                    return $this->json($output);
+                }
+
                 if (empty($typeUser)) {
                     $output = array(
                         "status" => "error",
@@ -63,41 +78,20 @@ class UtilisateurCreateController extends AbstractController
                     return $this->json($output);
                 }
 
-                if ($typeUser->isCollector()) {
-                    $credit = isset($data["credit"]) ? $data["credit"] : NULL;
-                    if (empty($data["credit"])) {
-                        $output = array(
-                            'message' => 'Merci de remplir le credit par défaut du collecteur ! ',
-                            'status' => 'error'
-                        );
-                     return $this->json($output);
-                    }
-                }
-
-
-                $user = new Utilisateur($username, $password, $name, $firstName, $type, $adresse, $typeUser);
-
+                $user = new Utilisateur($username, $password, $name, $firstName, $adresse, $typeUser);
                 $user->setPassword($this->_passwordEncoder->encodePassword(
                     $user,
                     $user->getPassword()
                 ));
-
+                
                 try {
                     $utilisateurRepository->add($user, true);
-                    if ($typeUser->isCollector()) {
-                        // Creation Collector
-                        $cin = $typeUserId = isset($data["cin"]) ? $data["cin"] : NULL;
-                        $credit = $typeUserId = isset($data["credit"]) ? $data["credit"] : NULL;
-                        $collector = new Collector($cin, $credit, $user);
-                        $collectorRepository->add($collector, true);
-                    }
                     $output = array(
                         "status" => "success",
                         "message" => "Nouveau utilisateur enregistré avec succès !",
                         "Id" => $user->getId()
                     );
                 } catch (Exception $ex) {
-
                     $output = array(
                         "status" => "error",
                         "message" => $ex->getMessage()

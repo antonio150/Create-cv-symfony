@@ -50,10 +50,10 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $first_name;
 
-    /**
-     * @ORM\Column(type="string", length=20, nullable=true)
-     */
-    private $type;
+    // /**
+    //  * @ORM\Column(type="string", length=20, nullable=true)
+    //  */
+    // private $type;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
@@ -89,6 +89,11 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\ManyToOne(targetEntity=UserType::class)
      */
     private $user_type;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Contract::class)
+     */
+    private $contract;
 
     public function getId(): ?int
     {
@@ -185,20 +190,17 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function __construct($username, $password, $name, $firstName, $type, $adresse, UserType $userType)
+    public function __construct($username, $password, $name, $firstName, $adresse, UserType $userType)
     {
         switch($userType->getId()) {
             case 1:
                 $this->roles = ["ROLE_ADMIN"];
                 break;
             case 3:
-                $this->roles = ["ROLE_SALES"];
-                break;
-            case 4:
-                $this->roles = ["ROLE_STOCK"];
+                $this->roles = ["ROLE_CLIENT"];
                 break;
             case 2:
-                $this->roles = ["ROLE_COLLECT"];
+                $this->roles = ["ROLE_USER"];
                 break;
         }
 
@@ -206,7 +208,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         $this->password = $password;
         $this->name = $name;
         $this->first_name = $firstName;
-        $this->type = $type;
         $this->adresse = $adresse;
         $this->is_deleted = false;
         $this->createdAt = new DateTime();
@@ -234,18 +235,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFirstName(?string $first_name): self
     {
         $this->first_name = $first_name;
-
-        return $this;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(?string $type): self
-    {
-        $this->type = $type;
 
         return $this;
     }
@@ -314,30 +303,25 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $name = isset($data["name"]) ? $data["name"] : NULL;
         $firstName = isset($data["firstName"]) ? $data["firstName"] : NULL;
-        $type = isset($data["type"]) ? $data["type"] : NULL;
         $adresse = isset($data["adresse"]) ? $data["adresse"] : NULL;
         $username = isset($data["username"]) ? $data["username"] : NULL;
         $id = isset($data["id"]) ? $data["id"] : NULL;
 
-        switch($type) {
+        switch($userType->getId()) {
             case 1:
                 $this->roles = ["ROLE_ADMIN"];
                 break;
             case 3:
-                $this->roles = ["ROLE_SALES"];
-                break;
-            case 4:
-                $this->roles = ["ROLE_STOCK"];
+                $this->roles = ["ROLE_CLIENT"];
                 break;
             case 2:
-                $this->roles = ["ROLE_COLLECT"];
+                $this->roles = ["ROLE_USER"];
                 break;
         }
 
         $this->username = $username;
         $this->name = $name;
         $this->first_name = $firstName;
-        $this->type = $type;
         $this->adresse = $adresse;
         $this->id = $id;
         $this->updatedAt = new DateTime();
@@ -352,6 +336,18 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUserType(?UserType $user_type): self
     {
         $this->user_type = $user_type;
+
+        return $this;
+    }
+
+    public function getContract(): ?Contract
+    {
+        return $this->contract;
+    }
+
+    public function setContract(?Contract $contract): self
+    {
+        $this->contract = $contract;
 
         return $this;
     }
