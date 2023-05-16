@@ -24,25 +24,44 @@ class InformationUpdateController extends AbstractController
             $parametersAsArray = json_decode($content, true);
         }
 
+        if (empty($parametersAsArray)) {
+            return $this->json([
+                'message' => 'Le champ est vide',
+                'status' => 'error'
+            ]);
+        } else {
+            if (
+                empty($parametersAsArray['name']) || empty($parametersAsArray['first_name']) || empty($parametersAsArray['email']) || empty($parametersAsArray['profil_title']) ||
+                empty($parametersAsArray['telephone']) || empty($parametersAsArray['address']) || empty($parametersAsArray['postal_code']) || empty($parametersAsArray['city']) ||
+                empty($parametersAsArray['sexe']) || empty($parametersAsArray['nationality']) || empty($parametersAsArray['marital_status']) ||
+                empty($parametersAsArray['is_deleted']) || empty($parametersAsArray['createdAt']) || empty($parametersAsArray['updatedAt'])
+            ) {
+                return $this->json([
+                    'message' => 'Veuiller remplir tous les champ svp !',
+                    'status' => 'error'
+                ]);
+            } else {
+                $info = $entityManager->getRepository(PersonalInformation::class)->find($parametersAsArray["id"]);
 
-        $info = $entityManager->getRepository(PersonalInformation::class)->find($parametersAsArray["id"]);
+                $info->setName($parametersAsArray["name"]);
+                $info->setFirstName($parametersAsArray["first_name"]);
+                $info->setEmail($parametersAsArray["email"]);
+                $info->setProfilTitle($parametersAsArray["profil_title"]);
+                $info->setTelephone($parametersAsArray["telephone"]);
+                $info->setAddress($parametersAsArray["address"]);
+                $info->setPostalCode($parametersAsArray["postal_code"]);
+                $info->setCity($parametersAsArray["city"]);
+                $info->setSexe($parametersAsArray["sexe"]);
+                $info->setNationality($parametersAsArray["nationality"]);
+                $info->setMaritalStatus($parametersAsArray["marital_status"]);
+                $info->setIsDeleted($parametersAsArray["is_deleted"]);
+                $info->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['createdAt']));
+                $info->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
 
-        $info->setName($parametersAsArray["name"]);
-        $info->setFirstName($parametersAsArray["first_name"]);
-        $info->setEmail($parametersAsArray["email"]);
-        $info->setProfilTitle($parametersAsArray["profil_title"]);
-        $info->setTelephone($parametersAsArray["telephone"]);
-        $info->setAddress($parametersAsArray["address"]);
-        $info->setPostalCode($parametersAsArray["postal_code"]);
-        $info->setCity($parametersAsArray["city"]);
-        $info->setSexe($parametersAsArray["sexe"]);
-        $info->setNationality($parametersAsArray["nationality"]);
-        $info->setMaritalStatus($parametersAsArray["marital_status"]);
-        $info->setIsDeleted($parametersAsArray["is_deleted"]);
-        $info->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['createdAt']));
-        $info->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
-
-        $entityManager->flush();
+                $entityManager->flush();
+            }
+        }
+      
 
         return $this->json([
             'message' => 'Champ modifier',
