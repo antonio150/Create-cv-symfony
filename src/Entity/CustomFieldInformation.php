@@ -20,11 +20,7 @@ class CustomFieldInformation
     /**
      * @ORM\ManyToOne(targetEntity=PersonalInformation::class)
      */
-    private $personalInformation;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+   
     private $field_name;
 
     /**
@@ -47,22 +43,21 @@ class CustomFieldInformation
      */
     private $is_deleted;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=PersonalInformation::class, inversedBy="customFieldInformation")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $personalInformation;
+
+  
+    
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getPersonalInformation(): ?PersonalInformation
-    {
-        return $this->personalInformation;
-    }
-
-    public function setPersonalInformation(?PersonalInformation $personalInformation): self
-    {
-        $this->personalInformation = $personalInformation;
-
-        return $this;
-    }
+   
 
     public function getFieldName(): ?string
     {
@@ -120,6 +115,18 @@ class CustomFieldInformation
     public function setIsDeleted(?bool $is_deleted): self
     {
         $this->is_deleted = $is_deleted;
+
+        return $this;
+    }
+
+    public function getPersonalInformation(): ?PersonalInformation
+    {
+        return $this->personalInformation;
+    }
+
+    public function setPersonalInformation(?PersonalInformation $personalInformation): self
+    {
+        $this->personalInformation = $personalInformation;
 
         return $this;
     }

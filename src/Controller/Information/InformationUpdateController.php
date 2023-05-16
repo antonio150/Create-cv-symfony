@@ -34,6 +34,8 @@ class InformationUpdateController extends AbstractController
                 empty($parametersAsArray['name']) || empty($parametersAsArray['first_name']) || empty($parametersAsArray['email']) || empty($parametersAsArray['profil_title']) ||
                 empty($parametersAsArray['telephone']) || empty($parametersAsArray['address']) || empty($parametersAsArray['postal_code']) || empty($parametersAsArray['city']) ||
                 empty($parametersAsArray['sexe']) || empty($parametersAsArray['nationality']) || empty($parametersAsArray['marital_status']) ||
+                empty($parametersAsArray['photo']) || empty($parametersAsArray['path']) || empty($parametersAsArray['position']) ||
+                empty($parametersAsArray['datenaiss']) || empty($parametersAsArray['lieudenaiss']) || empty($parametersAsArray['driver_license']) ||
                 empty($parametersAsArray['is_deleted']) || empty($parametersAsArray['createdAt']) || empty($parametersAsArray['updatedAt'])
             ) {
                 return $this->json([
@@ -55,6 +57,14 @@ class InformationUpdateController extends AbstractController
                 $info->setNationality($parametersAsArray["nationality"]);
                 $info->setMaritalStatus($parametersAsArray["marital_status"]);
                 $info->setIsDeleted($parametersAsArray["is_deleted"]);
+                $info->setPhoto($parametersAsArray['photo']);
+                $info->setPath($parametersAsArray['path']);
+                $info->setPosition($parametersAsArray['position']);
+                $info->setDatenaiss(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['datenaiss']));
+                $info->setLieudenaiss($parametersAsArray['lieudenaiss']);
+                $info->setDriverLicense($parametersAsArray['driver_license']);
+
+
                 $info->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['createdAt']));
                 $info->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
 

@@ -22,7 +22,7 @@ class InformationReadController extends AbstractController
         EntityManagerInterface $entityManager
     ): JsonResponse {
 
-        $parametersAsArray = [];
+       
 
         $val = $entityManager->getRepository(PersonalInformation::class)->findAll();
 
@@ -41,6 +41,13 @@ class InformationReadController extends AbstractController
             $val["nationality"] = $infos->getNationality();
             $val["marital_status"] = $infos->getMaritalStatus();
             $val["is_deleted"] = $infos->isIsDeleted();
+            $val["photo"] = $infos->getPhoto();
+            $val["path"] = $infos->getPath();
+            $val["position"] = $infos->getPosition();
+            $val["datenaiss"] = $infos->getDatenaiss();
+            $val["lieudenaiss"] = $infos->getLieudenaiss();
+            $val["driver_license"] = $infos->getDriverLicense();
+
             $val["createdAt"] = $infos->getCreatedAt();
             $val["updatedAt"] = $infos->getUpdatedAt();
 

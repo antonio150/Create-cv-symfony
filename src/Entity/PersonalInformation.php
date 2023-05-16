@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PersonalInformationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -86,6 +88,52 @@ class PersonalInformation
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $photo;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $path;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $position;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $datenaiss;
+
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $lieudenaiss;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $driver_license;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CustomFieldInformation::class, mappedBy="personalInformation", orphanRemoval=true)
+     */
+    private $customFieldInformation;
+
+    public function __construct()
+    {
+        $this->customFieldInformation = new ArrayCollection();
+    }
+
+   
+
+  
+
+   
 
     public function getId(): ?int
     {
@@ -256,6 +304,108 @@ class PersonalInformation
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getPath(): ?string
+    {
+        return $this->path;
+    }
+
+    public function setPath(?string $path): self
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    public function getPosition(): ?string
+    {
+        return $this->position;
+    }
+
+    public function setPosition(?string $position): self
+    {
+        $this->position = $position;
+
+        return $this;
+    }
+
+    public function getDatenaiss(): ?\DateTimeInterface
+    {
+        return $this->datenaiss;
+    }
+
+    public function setDatenaiss(\DateTimeInterface $datenaiss): self
+    {
+        $this->datenaiss = $datenaiss;
+
+        return $this;
+    }
+
+    public function getLieudenaiss(): ?string
+    {
+        return $this->lieudenaiss;
+    }
+
+    public function setLieudenaiss(string $lieudenaiss): self
+    {
+        $this->lieudenaiss = $lieudenaiss;
+
+        return $this;
+    }
+
+    public function getDriverLicense(): ?string
+    {
+        return $this->driver_license;
+    }
+
+    public function setDriverLicense(?string $driver_license): self
+    {
+        $this->driver_license = $driver_license;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CustomFieldInformation>
+     */
+    public function getCustomFieldInformation(): Collection
+    {
+        return $this->customFieldInformation;
+    }
+
+    public function addCustomFieldInformation(CustomFieldInformation $customFieldInformation): self
+    {
+        if (!$this->customFieldInformation->contains($customFieldInformation)) {
+            $this->customFieldInformation[] = $customFieldInformation;
+            $customFieldInformation->setPersonalInformation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomFieldInformation(CustomFieldInformation $customFieldInformation): self
+    {
+        if ($this->customFieldInformation->removeElement($customFieldInformation)) {
+            // set the owning side to null (unless already changed)
+            if ($customFieldInformation->getPersonalInformation() === $this) {
+                $customFieldInformation->setPersonalInformation(null);
+            }
+        }
 
         return $this;
     }
