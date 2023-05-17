@@ -32,55 +32,66 @@ class InformationCreateController extends AbstractController
             ]);
         } else {
             if (
-                empty($parametersAsArray['name']) || empty($parametersAsArray['first_name']) || empty($parametersAsArray['email']) || empty($parametersAsArray['profil_title']) ||
-                empty($parametersAsArray['telephone']) || empty($parametersAsArray['address']) || empty($parametersAsArray['postal_code']) || empty($parametersAsArray['city']) ||
-                empty($parametersAsArray['sexe']) || empty($parametersAsArray['nationality']) || empty($parametersAsArray['marital_status']) ||
-                empty($parametersAsArray['photo']) || empty($parametersAsArray['path']) || empty($parametersAsArray['position']) ||
-                empty($parametersAsArray['datenaiss']) || empty($parametersAsArray['lieudenaiss']) || empty($parametersAsArray['driver_license']) ||
-                empty($parametersAsArray['is_deleted']) || empty($parametersAsArray['createdAt']) || empty($parametersAsArray['updatedAt'])
+                empty($parametersAsArray['name']) || empty($parametersAsArray['first_name']) || empty($parametersAsArray['email']) ||
+                empty($parametersAsArray['telephone']) || empty($parametersAsArray['address']) 
             ) {
                 return $this->json([
                     'message' => 'Veuiller remplir tous les champ svp !',
                     'status' => 'error'
                 ]);
             } else {
-                $info = new PersonalInformation();
-           
-                $info->setName($parametersAsArray['name']);
-                $info->setFirstName($parametersAsArray['first_name']);
-                $info->setEmail($parametersAsArray['email']);
-                $info->setProfilTitle($parametersAsArray['profil_title']);
-                $info->setTelephone($parametersAsArray['telephone']);
-                $info->setAddress($parametersAsArray['address']);
-                $info->setPostalCode($parametersAsArray['postal_code']);
-                $info->setCity($parametersAsArray['city']);
-                $info->setSexe($parametersAsArray['sexe']);
-                $info->setNationality($parametersAsArray['nationality']);
-                $info->setMaritalStatus($parametersAsArray['marital_status']);
-                $info->setIsDeleted($parametersAsArray['is_deleted']);
-                $info->setPhoto($parametersAsArray['photo']);
-                $info->setPath($parametersAsArray['path']);
-                $info->setPosition($parametersAsArray['position']);
-                $info->setDatenaiss(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['datenaiss']));
-                $info->setLieudenaiss($parametersAsArray['lieudenaiss']);
-                $info->setDriverLicense($parametersAsArray['driver_license']);
+                $str = $parametersAsArray['email'];
+                $pattern = "/@/i";
+
+                $date = date('Y-m-d');
+                if (preg_match($pattern, $str) === 1) {
+                    $info = new PersonalInformation();
+
+                    $info->setName($parametersAsArray['name']);
+                    $info->setFirstName($parametersAsArray['first_name']);
+                    $info->setEmail($parametersAsArray['email']);
+                    $info->setTelephone($parametersAsArray['telephone']);
+                    $info->setAddress($parametersAsArray['address']);
+                    $info->setPostalCode($parametersAsArray['postal_code']);
+                    $info->setCity($parametersAsArray['city']);
+                    $info->setSexe($parametersAsArray['sexe']);
+                    $info->setNationality($parametersAsArray['nationality']);
+                    $info->setMaritalStatus($parametersAsArray['marital_status']);
+                    $info->setIsDeleted($parametersAsArray['is_deleted']);
+                    $info->setPhoto($parametersAsArray['photo']);
+                    $info->setPath($parametersAsArray['path']);
+                    $info->setPosition($parametersAsArray['position']);
+                    $info->setDatenaiss(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['datenaiss']));
+                    $info->setLieudenaiss($parametersAsArray['lieudenaiss']);
+                    $info->setDriverLicense($parametersAsArray['driver_license']);
 
 
 
-                $info->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['createdAt']));
-                $info->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
+                    $info->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
+                    // $info->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
 
-                $form = $parametersAsArray;
-                $vals = $info->getId();
 
-                $entityManager->persist($info);
-                $entityManager->flush();
+                    $form = $parametersAsArray;
+                    $vals = $info->getId();
 
-                return $this->json([
-                    'message' => 'La liste des Information Créer',
-                    'data' => $vals,
-                    'status' => 'success'
-                ]);
+                    $entityManager->persist($info);
+                    $entityManager->flush();
+
+                    return $this->json([
+                        'message' => 'La liste des Information Créer',
+                        'data' => $vals,
+                        'status' => 'success'
+                    ]);
+                } else {
+                    return $this->json([
+                        'message' => 'Email non valide',
+                        'status' => 'error'
+                    ]);
+                }
+                    
+                    
+
+                   
             }
         }
     }

@@ -20,6 +20,16 @@ class PersonalInformation
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $photo;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $path;
+
+    /**
      * @ORM\Column(type="string", length=150, nullable=true)
      */
     private $name;
@@ -35,9 +45,9 @@ class PersonalInformation
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=100, nullable=true)
      */
-    private $profil_title;
+    private $position;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
@@ -60,6 +70,21 @@ class PersonalInformation
     private $city;
 
     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $datenaiss;
+
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $lieudenaiss;
+
+    /**
+     * @ORM\Column(type="string", length=100, nullable=true)
+     */
+    private $driver_license;
+
+    /**
      * @ORM\Column(type="string", length=15, nullable=true)
      */
     private $sexe;
@@ -73,6 +98,11 @@ class PersonalInformation
      * @ORM\Column(type="string", length=10, nullable=true)
      */
     private $marital_status;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CustomFieldInformation::class, mappedBy="personalInformation", orphanRemoval=true)
+     */
+    private $customFieldInformation;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -89,49 +119,14 @@ class PersonalInformation
      */
     private $updatedAt;
 
-    /**
-     * @ORM\Column(type="string", length=100, nullable=true)
-     */
-    private $photo;
+    
 
-    /**
-     * @ORM\Column(type="string", length=100, nullable=true)
-     */
-    private $path;
-
-    /**
-     * @ORM\Column(type="string", length=100, nullable=true)
-     */
-    private $position;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $datenaiss;
-
-    /**
-     * @ORM\Column(type="string", length=100)
-     */
-    private $lieudenaiss;
-
-    /**
-     * @ORM\Column(type="string", length=100, nullable=true)
-     */
-    private $driver_license;
-
-    /**
-     * @ORM\OneToMany(targetEntity=CustomFieldInformation::class, mappedBy="personalInformation", orphanRemoval=true)
-     */
-    private $customFieldInformation;
+  
 
     public function __construct()
     {
         $this->customFieldInformation = new ArrayCollection();
     }
-
-   
-
-  
 
    
 
@@ -176,17 +171,7 @@ class PersonalInformation
         return $this;
     }
 
-    public function getProfilTitle(): ?string
-    {
-        return $this->profil_title;
-    }
-
-    public function setProfilTitle(?string $profil_title): self
-    {
-        $this->profil_title = $profil_title;
-
-        return $this;
-    }
+    
 
     public function getTelephone(): ?string
     {

@@ -4,6 +4,7 @@ namespace App\Controller\Information;
 
 use App\Entity\PersonalInformation;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,21 +20,53 @@ class InformationDeleteController extends AbstractController
         EntityManagerInterface $entityManager
 
     ): Response {
-        $parametersAsArray = [];
+        $data = [];
         if ($content = $request->getContent()) {
-            $parametersAsArray = json_decode($content, true);
+            $data = json_decode($content, true);
+        }
+        $id = isset($data["id"]) ? $data["id"] : NULL;
+        $em = $this->getDoctrine()->getManager();
+
+
+        if ($id == NULL) {
+            $output = array(
+                "status" => "erreur",
+                "message" => "Données introuvable, merci de contacter l'administrateur !"
+            );
+        } else {
+            $parameter = array(
+                "id" => $data["id"]
+            );
+            $repository = $em->getRepository(PersonalInformation::class);
+            $info = $repository->find($parameter);
+
+            if (empty($info)) {
+                $output = array(
+                    "status" => "erreur",
+                    "message" => "Information non disponible !"
+                );
+            } else {
+
+                $info->setIsDeleted(true);
+                try {
+                    $em->persist($info);
+                    $em->flush();
+                    $output = array(
+                        "status" => "success",
+                        "message" => "Information supprimé avec succès !"
+                    );
+                } catch (Exception $ex) {
+
+                    $output = array(
+                        "status" => "erreur",
+                        "message" => $ex->getMessage()
+                    );
+                }
+            }
         }
 
-
-        $val = $entityManager->getRepository(PersonalInformation::class)->find($parametersAsArray["id"]);
-
-
-        $entityManager->remove($val);
-        $entityManager->flush();
-
-        return $this->json([
-            'message' => 'Champ supprimer',
-            'status' => 'succes'
-        ]);
+        return $this->json(
+            $output
+        );
     }
 }

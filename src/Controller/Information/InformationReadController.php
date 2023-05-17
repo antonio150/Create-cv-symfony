@@ -22,44 +22,40 @@ class InformationReadController extends AbstractController
         EntityManagerInterface $entityManager
     ): JsonResponse {
 
-       
 
-        $val = $entityManager->getRepository(PersonalInformation::class)->findAll();
 
-        $array = [];
 
-        foreach ($val as $infos) {
-            $val["name"] = $infos->getName();
-            $val["first_name"] = $infos->getFirstName();
-            $val["email"] = $infos->getEmail();
-            $val["profil_title"] = $infos->getProfilTitle();
-            $val["telephone"] = $infos->getTelephone();
-            $val["address"] = $infos->getAddress();
-            $val["postal_code"] = $infos->getPostalCode();
-            $val["city"] = $infos->getCity();
-            $val["sexe"] = $infos->getSexe();
-            $val["nationality"] = $infos->getNationality();
-            $val["marital_status"] = $infos->getMaritalStatus();
-            $val["is_deleted"] = $infos->isIsDeleted();
-            $val["photo"] = $infos->getPhoto();
-            $val["path"] = $infos->getPath();
-            $val["position"] = $infos->getPosition();
-            $val["datenaiss"] = $infos->getDatenaiss();
-            $val["lieudenaiss"] = $infos->getLieudenaiss();
-            $val["driver_license"] = $infos->getDriverLicense();
+        $output = array();
+        $temp = array();
+        $repository = $this->getDoctrine()->getRepository(PersonalInformation::class);
+        $data = $repository->findBy(['is_deleted' => false], array('id' => 'DESC'));
 
-            $val["createdAt"] = $infos->getCreatedAt();
-            $val["updatedAt"] = $infos->getUpdatedAt();
+        foreach ($data as $item) {
+            $temp["name"] = $item->getName();
+            $temp["first_name"] = $item->getFirstName();
+            $temp["email"] = $item->getEmail();
+            $temp["telephone"] = $item->getTelephone();
+            $temp["address"] = $item->getAddress();
+            $temp["postal_code"] = $item->getPostalCode();
+            $temp["city"] = $item->getCity();
+            $temp["sexe"] = $item->getSexe();
+            $temp["nationality"] = $item->getNationality();
+            $temp["marital_status"] = $item->getMaritalStatus();
+            $temp["photo"] = $item->getPhoto();
+            $temp["path"] = $item->getPath();
+            $temp["position"] = $item->getPosition();
+            $temp["datenaiss"] = $item->getDatenaiss();
+            $temp["lieudenaiss"] = $item->getLieudenaiss();
+            $temp["driver_license"] = $item->getDriverLicense();
 
-            $array[] = $val;
+            $temp["createdAt"] = $item->getCreatedAt();
+            $temp["updatedAt"] = $item->getUpdatedAt();
+            array_push($output, $temp);
         }
 
-
-
-
         return $this->json([
-            'message' => 'La liste des Information',
-            'data' => $array,
+            'message' => 'La liste des utilisateurs',
+            'data' => $output,
             'status' => 'success'
         ]);
     }

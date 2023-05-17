@@ -37,6 +37,8 @@ class UtilisateurCreateController extends AbstractController
         $output = array();
         $em = $this->getDoctrine()->getManager();
 
+  
+
         if (empty($data)) {
             $output = array(
                 'message' => 'Les données envoyées sont vides ! ',
