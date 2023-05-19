@@ -75,7 +75,7 @@ class CvCreateController extends AbstractController
                 );
             } else if (empty($data["CenterOfInterest"])) {
                 $output = array(
-                    'message' => 'Merci de remplir les champs information ! ',
+                    'message' => 'Merci de remplir les champs Centre d\'interet ! ',
                     'status' => 'error'
                 );
             } else {

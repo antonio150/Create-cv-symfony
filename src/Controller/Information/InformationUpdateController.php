@@ -66,7 +66,7 @@ class InformationUpdateController extends AbstractController
                     $info->setSexe($parametersAsArray["sexe"]);
                     $info->setNationality($parametersAsArray["nationality"]);
                     $info->setMaritalStatus($parametersAsArray["marital_status"]);
-                    $info->setIsDeleted($parametersAsArray["is_deleted"]);
+                        $info->setIsDeleted(false);
                     $info->setPhoto($parametersAsArray['photo']);
                     $info->setPath($parametersAsArray['path']);
                     $info->setPosition($parametersAsArray['position']);
