@@ -27,18 +27,18 @@ class Profil
      */
     private $is_deleted;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Curriculum::class)
-     */
-    private $curriculum;
+    // /**
+    //  * @ORM\ManyToOne(targetEntity=Curriculum::class, nullable=true)
+    //  */
+    // private $curriculum;
 
     /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $created_at;
 
     /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $updated_at;
 
@@ -71,36 +71,36 @@ class Profil
         return $this;
     }
 
-    public function getCurriculum(): ?Curriculum
-    {
-        return $this->curriculum;
-    }
+    // public function getCurriculum(): ?Curriculum
+    // {
+    //     return $this->curriculum;
+    // }
 
-    public function setCurriculum(?Curriculum $curriculum): self
-    {
-        $this->curriculum = $curriculum;
+    // public function setCurriculum(?Curriculum $curriculum): self
+    // {
+    //     $this->curriculum = $curriculum;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->created_at;
     }
 
-    public function setCreatedAt(?\DateTimeImmutable $created_at): self
+    public function setCreatedAt(?\DateTimeInterface $created_at): self
     {
         $this->created_at = $created_at;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updated_at;
     }
 
-    public function setUpdatedAt(?\DateTimeImmutable $updated_at): self
+    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
 

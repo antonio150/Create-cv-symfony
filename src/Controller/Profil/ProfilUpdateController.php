@@ -30,12 +30,21 @@ class ProfilUpdateController extends AbstractController
             ]);
         } else {
 
+            if (empty($parametersAsArray["id"])) {
+                return $this->json([
+                    'message' => 'Id Undefined !',
+                    'status' => 'error'
+                ]);
+            } else {
+                $date = date('Y-m-d');
 
-            $info = $entityManager->getRepository(Profil::class)->find($parametersAsArray["id"]);
+                $profil = $entityManager->getRepository(Profil::class)->find($parametersAsArray["id"]);
 
-            $info->setDescription($parametersAsArray['description']);
-            $info->setCurriculum($parametersAsArray['curriculum']);
+                $profil->setDescription($parametersAsArray['description']);
+                // $profil->setCurriculum($parametersAsArray['curriculum']);
 
+                // $profil->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['createdAt']));
+                $profil->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
 
             $entityManager->flush();
 
@@ -43,6 +52,8 @@ class ProfilUpdateController extends AbstractController
                 'message' => 'Champ modifier',
                 'status' => 'succes'
             ]);
+
+        }
         }
     }
 }

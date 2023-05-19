@@ -46,6 +46,13 @@ class InformationUpdateController extends AbstractController
 
                 if (preg_match($pattern, $str) === 1) {
 
+                    if (empty($parametersAsArray["id"])) {
+                        return $this->json([
+                            'message' => 'Id Undefined !',
+                            'status' => 'error'
+                        ]);
+                    } else {
+
                     $info = $entityManager->getRepository(PersonalInformation::class)->find($parametersAsArray["id"]);
 
                     $info->setName($parametersAsArray["name"]);
@@ -77,6 +84,7 @@ class InformationUpdateController extends AbstractController
                         'message' => 'Champ modifier',
                         'status' => 'succes'
                     ]);
+                    }
                 } else {
                     return $this->json([
                         'message' => 'Mail non valide',

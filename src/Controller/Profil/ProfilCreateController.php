@@ -5,6 +5,7 @@ namespace App\Controller\Profil;
 use App\Entity\Profil;
 use App\Repository\ProfilRepository;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +17,7 @@ class ProfilCreateController extends AbstractController
      * @Route("/profil/profil/create", name="app_profil_profil_create")
      */
     public function index(
-        EntityManager $entityManager,
+        EntityManagerInterface $entityManager,
         Request $request
     ): Response {
         $parametersAsArray = [];
@@ -32,10 +33,14 @@ class ProfilCreateController extends AbstractController
         } else {
 
             $info = new Profil();
+            $date = date('Y-m-d');
 
             $info->setDescription($parametersAsArray['description']);
-            $info->setCurriculum($parametersAsArray['curriculum']);
+            // $info->setCurriculum($parametersAsArray['curriculum']);
+            $info->setIsDeleted(false);
 
+            $info->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
+                    // $info->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
 
             $entityManager->persist($info);
             $entityManager->flush();

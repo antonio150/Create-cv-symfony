@@ -60,8 +60,7 @@ class InformationGetByIdController extends AbstractController
                     $val["lieudenaiss"] = $infos->getLieudenaiss();
                     $val["driver_license"] = $infos->getDriverLicense();
 
-                    $val["createdAt"] = $infos->getCreatedAt();
-                    $val["updatedAt"] = $infos->getUpdatedAt();
+                 
 
                     $array[] = $val;
                 }

@@ -1,0 +1,66 @@
+{
+        "Information" : {
+                "name" : "tony",
+                "first_name" : "koto",
+                "email" : "d@gmail.com",
+                
+                "telephone" : "0323589656",
+                "address" : "talatamaty",
+                "postal_code" : "101",
+                "city" : "Antananarivo",
+                "sexe" : "Male",
+                "nationality" : "Malagasy",
+                "marital_status" : "actif",
+                "is_deleted" : "false",
+                "photo" : "sary.jpg",
+                "path" : "assert/img",
+                "position" : "absolute",
+                "datenaiss" : "2018-09-09",
+                "lieudenaiss" : "Toamasina",
+                "driver_license" : "A"
+                        
+                    },
+
+        "Profil" : {
+                "description" : "efeefr"
+        },
+
+        "Formation" : {
+                "training": "sdeed",
+                "establishment" : "dff",
+                "city" : "frfr",
+                "month_start" : "1",
+                "year_start" : "2000",
+                "month_end" : "4",
+                "year_end" : "2020",
+                "this_day" : "true",
+                "description" : "oiu"
+            },
+
+        "Experience" : {
+                "job": "devvvvvvvvvvvvvv",
+                "company" : "dfrfr",
+                "city" : "ikujk",
+                "month_start" : "1",
+                "year_start" : "1996",
+                "month_end" : "2",
+                "year_end" : "2000",
+                "this_day" : "true",
+                "description" : "sqD BE RE FGHTH"
+            },
+
+        "Skill" : {
+                "skill" : "tony",
+                "level" : "2"
+            },
+
+        "Language" : {
+                "language" : "ang",
+                "level" : "2"
+            },
+
+        "CenterOfInterest" : {
+                "description" : "dff gthyhy ffdfe"
+            }
+
+}

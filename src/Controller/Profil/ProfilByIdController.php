@@ -32,7 +32,7 @@ class ProfilByIdController extends AbstractController
         foreach ($dataQuery as $item) {
             $temp["id"] = $item->getId();
             $temp["description"] = $item->getDescription();
-            $temp["curriculum"] = $item->getCurriculum();
+            // $temp["curriculum"] = $item->getCurriculum();
             array_push($output, $temp);
         }
 

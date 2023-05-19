@@ -22,7 +22,7 @@ class ProfilReadController extends AbstractController
         foreach ($data as $item) {
             $temp["id"] = $item->getId();
             $temp["description"] = $item->getDescription();
-            $temp["curriculum"] = $item->getgetCurriculum();
+            // $temp["curriculum"] = $item->getgetCurriculum();
 
             array_push($output, $temp);
         }
