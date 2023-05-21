@@ -2,6 +2,7 @@
 
 namespace App\Controller\Language;
 
+use App\Entity\Language;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,8 +14,25 @@ class LanguageReadController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('language/language_read/index.html.twig', [
-            'controller_name' => 'LanguageReadController',
+        $output = array();
+        $temp = array();
+        $repository = $this->getDoctrine()->getRepository(Language::class);
+        $data = $repository->findBy(['is_deleted' => false], array('id' => 'DESC'));
+
+        foreach ($data as $item) {
+            $temp["language"] = $item->getLanguage();
+            $temp["level"] = $item->getLevel();
+
+
+            $temp["createdAt"] = $item->getCreatedAt();
+            $temp["updatedAt"] = $item->getUpdatedAt();
+            array_push($output, $temp);
+        }
+
+        return $this->json([
+            'message' => 'La liste des language',
+            'data' => $output,
+            'status' => 'success'
         ]);
     }
 }

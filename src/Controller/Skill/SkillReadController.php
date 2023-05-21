@@ -2,6 +2,7 @@
 
 namespace App\Controller\Skill;
 
+use App\Entity\Skill;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,8 +14,25 @@ class SkillReadController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('skill/skill_read/index.html.twig', [
-            'controller_name' => 'SkillReadController',
+        $output = array();
+        $temp = array();
+        $repository = $this->getDoctrine()->getRepository(Skill::class);
+        $data = $repository->findBy(['is_deleted' => false], array('id' => 'DESC'));
+
+        foreach ($data as $item) {
+            $temp["skill"] = $item->getSkill();
+            $temp["level"] = $item->getLevel();
+
+
+            $temp["createdAt"] = $item->getCreatedAt();
+            $temp["updatedAt"] = $item->getUpdatedAt();
+            array_push($output, $temp);
+        }
+
+        return $this->json([
+            'message' => 'List of skill',
+            'data' => $output,
+            'status' => 'success'
         ]);
     }
 }
