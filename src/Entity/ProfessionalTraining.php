@@ -18,14 +18,14 @@ class ProfessionalTraining
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=150, nullable=true)
      */
-    private $training;
+    private $position;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=150, nullable=true)
      */
-    private $establishment;
+    private $employer;
 
     /**
      * @ORM\Column(type="string", length=150, nullable=true)
@@ -82,31 +82,33 @@ class ProfessionalTraining
      */
     private $curriculum;
 
+    
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTraining(): ?string
+    public function getPosition(): ?string
     {
-        return $this->training;
+        return $this->position;
     }
 
-    public function setTraining(?string $training): self
+    public function setPosition(?string $position): self
     {
-        $this->training = $training;
+        $this->position = $position;
 
         return $this;
     }
 
-    public function getEstablishment(): ?string
+    public function getEmployer(): ?string
     {
-        return $this->establishment;
+        return $this->employer;
     }
 
-    public function setEstablishment(?string $establishment): self
+    public function setEmployer(?string $employer): self
     {
-        $this->establishment = $establishment;
+        $this->employer = $employer;
 
         return $this;
     }
@@ -242,4 +244,6 @@ class ProfessionalTraining
 
     //     return $this;
     // }
+
+    
 }

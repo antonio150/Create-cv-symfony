@@ -47,6 +47,11 @@ class Language
      */
     private $curriculum;
 
+    /**
+     * @ORM\OneToOne(targetEntity=ListLanguage::class, mappedBy="id_language", cascade={"persist", "remove"})
+     */
+    private $listLanguage;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +125,28 @@ class Language
     public function setCurriculum(?Curriculum $curriculum): self
     {
         $this->curriculum = $curriculum;
+
+        return $this;
+    }
+
+    public function getListLanguage(): ?ListLanguage
+    {
+        return $this->listLanguage;
+    }
+
+    public function setListLanguage(?ListLanguage $listLanguage): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($listLanguage === null && $this->listLanguage !== null) {
+            $this->listLanguage->setIdLanguage(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($listLanguage !== null && $listLanguage->getIdLanguage() !== $this) {
+            $listLanguage->setIdLanguage($this);
+        }
+
+        $this->listLanguage = $listLanguage;
 
         return $this;
     }

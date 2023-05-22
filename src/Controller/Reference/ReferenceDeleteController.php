@@ -45,7 +45,7 @@ class ReferenceDeleteController extends AbstractController
                 );
             } else {
 
-                $info->setIsDeleted(true);
+                $info->setDeleted(true);
                 try {
                     $em->persist($info);
                     $em->flush();

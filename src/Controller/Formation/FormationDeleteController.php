@@ -16,8 +16,7 @@ class FormationDeleteController extends AbstractController
      * @Route("/formation/formation/delete", name="app_formation_formation_delete")
      */
     public function index(
-        Request $request,
-        EntityManagerInterface $entityManager
+        Request $request
     ): Response
     {
         $data = [];

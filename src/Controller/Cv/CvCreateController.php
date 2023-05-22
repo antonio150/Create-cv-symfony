@@ -2,6 +2,7 @@
 
 namespace App\Controller\Cv;
 
+use App\Entity\BasDePage;
 use App\Entity\CenterOfInterest;
 use App\Entity\Formation;
 use App\Entity\Language;
@@ -9,6 +10,7 @@ use App\Entity\PersonalInformation;
 use App\Entity\ProfessionalExperience;
 use App\Entity\ProfessionalTraining;
 use App\Entity\Profil;
+use App\Entity\Reference;
 use App\Entity\Skill;
 use App\Repository\CurriculumRepository;
 use App\Repository\CustomFieldInformationRepository;
@@ -78,6 +80,21 @@ class CvCreateController extends AbstractController
                     'message' => 'Merci de remplir les champs Centre d\'interet ! ',
                     'status' => 'error'
                 );
+            } else if (empty($data["Reference"])) {
+                $output = array(
+                    'message' => 'Merci de remplir les champs Reference ! ',
+                    'status' => 'error'
+                );
+            } else if (empty($data["BasDePage"])) {
+                $output = array(
+                    'message' => 'Merci de remplir les champs Bas de page ! ',
+                    'status' => 'error'
+                );
+            } else if (empty($data["Training"])) {
+                $output = array(
+                    'message' => 'Merci de remplir les champs Training ! ',
+                    'status' => 'error'
+                );
             } else {
 
                 if (
@@ -118,6 +135,22 @@ class CvCreateController extends AbstractController
                         'message' => 'Veuiller remplir tous les champ de Language svp !',
                         'status' => 'error'
                     );
+                } else if (
+                    empty($data["Reference"]['name']) || empty($data["Reference"]['company']) || empty($data["Reference"]['city']) || empty($data["Reference"]['phone'])
+                    || empty($data["Reference"]['mail'])
+                ) {
+                    $output = array(
+                        'message' => 'Veuiller remplir tous les champ de Reference svp !',
+                        'status' => 'error'
+                    );
+                } else  if (
+                    empty($data["Training"]['position']) || empty($data["Training"]['employer']) || empty($data["Training"]['city']) ||
+                    empty($data["Training"]['month_start']) || empty($data["Training"]['year_start']) || empty($data["Training"]['month_end']) || empty($data["Training"]['year_end'])
+                ) {
+                    $output = array(
+                        'message' => 'Veuiller remplir tous les champ de Training svp !',
+                        'status' => 'error'
+                    );
                 } else {
 
                     // ======================================== Information =========================================
@@ -131,7 +164,7 @@ class CvCreateController extends AbstractController
 
                         // foreach ($data["Information"] as $value) {
 
-                        $date = date('Y-m-d');
+                        
 
                         $info = new PersonalInformation();
 
@@ -171,7 +204,7 @@ class CvCreateController extends AbstractController
                     // ======================================== PROFIL =========================================
 
                     $profil = new Profil();
-                    $date = date('Y-m-d');
+                    
 
                     $profil->setDescription($data["Profil"]['description']);
                     // $profil->setCurriculum($data['curriculum']);
@@ -191,7 +224,7 @@ class CvCreateController extends AbstractController
 
                     // ======================================== Formation =========================================
 
-                    $date = date('Y-m-d');
+                    
 
                     $formation = new Formation();
 
@@ -225,7 +258,7 @@ class CvCreateController extends AbstractController
                     // ======================================== EXPERIENCE =========================================
 
 
-                    $date = date('Y-m-d');
+                    
 
                     $experience = new ProfessionalExperience();
 
@@ -260,7 +293,7 @@ class CvCreateController extends AbstractController
 
 
                     $info = new Skill();
-                    $date = date('Y-m-d');
+                    
 
                     $info->setSkill($data["Skill"]['skill']);
                     $info->setLevel($data["Skill"]['level']);
@@ -282,7 +315,7 @@ class CvCreateController extends AbstractController
                     // ======================================== LANGUAGE =========================================
 
 
-                    $date = date('Y-m-d');
+                    
 
                     $lang = new Language();
 
@@ -309,7 +342,7 @@ class CvCreateController extends AbstractController
                     // ======================================== Center of INTEREST =========================================
 
 
-                    $date = date('Y-m-d');
+                    
 
                     $centerofinterest = new CenterOfInterest();
 
@@ -332,6 +365,120 @@ class CvCreateController extends AbstractController
 
                     $output = array(
                         'message' => 'Centre d\'interet Créer',
+                        'status' => 'success'
+                    );
+
+
+
+                    // ======================================== Reference =========================================
+
+
+
+                    $str = $data["Reference"]['mail'];
+                    $pattern = "/@/i";
+
+
+                    if (preg_match($pattern,
+                        $str
+                    ) === 1) {
+                        $reference = new Reference();
+
+                        $reference->setName($data["Reference"]['name']);
+                        $reference->setCompany($data["Reference"]['company']);
+                        $reference->setCity($data["Reference"]['city']);
+                        $reference->setPhone($data["Reference"]['phone']);
+                        $reference->setMail($data["Reference"]['mail']);
+
+                        $reference->setDeleted(false);
+
+
+                        $reference->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
+                        // $reference->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $data['updatedAt']));
+
+
+
+
+                        $entityManager->persist($reference);
+                        $entityManager->flush();
+
+                        $output = array(
+                            'message' => 'La liste des Refence Créer',
+                            'status' => 'success'
+                        );
+                    } else {
+                        $output = array(
+                            'message' => 'Email de reference non valide',
+                            'status' => 'error'
+                        );
+                    }
+
+                    // ======================================== Bas de page =========================================
+
+
+
+
+                    $basdepage = new BasDePage();
+
+                    $basdepage->setDescription($data["BasDePage"]['description']);
+
+                    $basdepage->setDeleted(false);
+
+
+
+
+                    $basdepage->setCreatedAt(\DateTime::createFromFormat(
+                        'Y-m-d',
+                        $date
+                    ));
+                    // $basdepage->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $data['updatedAt']));
+
+
+
+                    $entityManager->persist($basdepage);
+                    $entityManager->flush();
+
+                    $output = array(
+                        'message' => 'Bas de page Créer',
+                        'status' => 'success'
+                    );
+
+
+
+
+                    // ======================================== Training =========================================
+
+
+
+
+
+                    $training = new ProfessionalTraining();
+
+                    $training->setPosition($data["Training"]['position']);
+                    $training->setEmployer($data["Training"]['employer']);
+                    $training->setCity($data["Training"]['city']);
+                    $training->setMonthStart($data["Training"]['month_start']);
+                    $training->setYearStart($data["Training"]['year_start']);
+                    $training->setMonthEnd($data["Training"]['month_end']);
+                    $training->setYearEnd($data["Training"]['year_end']);
+                    $training->setThisDay($data["Training"]['this_day']);
+                    $training->setisDeleted(false);
+
+
+
+
+
+                    $training->setCreatedAt(\DateTime::createFromFormat(
+                        'Y-m-d',
+                        $date
+                    ));
+                    // $training->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $data['updatedAt']));
+
+
+                    $entityManager->persist($training);
+                    $entityManager->flush();
+
+                    $output = array(
+                        'message' => 'Training Créer',
                         'status' => 'success'
                     );
                 }
