@@ -2,6 +2,7 @@
 
 namespace App\Controller\Reference;
 
+use App\Entity\Curriculum;
 use App\Entity\Reference;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -54,6 +55,12 @@ class ReferenceUpdateController extends AbstractController
                     } else {
 
                         $info = $entityManager->getRepository(Reference::class)->find($parametersAsArray["id"]);
+                        $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $parametersAsArray["id_cv"]]);
+
+                        $array = [];
+
+
+                        $info->setIdCv($val);
 
                         $info->setName($parametersAsArray['name']);
                         $info->setCompany($parametersAsArray['company']);

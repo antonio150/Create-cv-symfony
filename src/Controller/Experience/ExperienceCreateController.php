@@ -2,6 +2,7 @@
 
 namespace App\Controller\Experience;
 
+use App\Entity\Curriculum;
 use App\Entity\ProfessionalExperience;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -41,27 +42,38 @@ class ExperienceCreateController extends AbstractController
 
                 $date = date('Y-m-d');
 
-                $formation = new ProfessionalExperience();
+                $experience = new ProfessionalExperience();
 
-                $formation->setJob($parametersAsArray['job']);
-                $formation->setCompany($parametersAsArray['company']);
-                $formation->setCity($parametersAsArray['city']);
-                $formation->setMonthStart($parametersAsArray['month_start']);
-                $formation->setYearStart($parametersAsArray['year_start']);
-                $formation->setMonthEnd($parametersAsArray['month_end']);
-                $formation->setYearEnd($parametersAsArray['year_end']);
-                $formation->setThisDay($parametersAsArray['this_day']);
-                $formation->setIsDeleted(false);
+                $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $parametersAsArray["id_cv"]]);
+
+                $array = [];
+
+                foreach ($val as $infos) {
+                    $experience->setIdCv($infos);
 
 
+                    $array[] = $experience;
+                }
+
+                $experience->setJob($parametersAsArray['job']);
+                $experience->setCompany($parametersAsArray['company']);
+                $experience->setCity($parametersAsArray['city']);
+                $experience->setMonthStart($parametersAsArray['month_start']);
+                $experience->setYearStart($parametersAsArray['year_start']);
+                $experience->setMonthEnd($parametersAsArray['month_end']);
+                $experience->setYearEnd($parametersAsArray['year_end']);
+                $experience->setThisDay($parametersAsArray['this_day']);
+                $experience->setIsDeleted(false);
 
 
 
-                $formation->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
-                // $formation->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
 
 
-                $entityManager->persist($formation);
+                $experience->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
+                // $experience->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
+
+
+                $entityManager->persist($experience);
                 $entityManager->flush();
 
                 return $this->json([

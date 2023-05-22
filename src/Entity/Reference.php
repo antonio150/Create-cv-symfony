@@ -57,6 +57,11 @@ class Reference
      */
     private $deleted;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Curriculum::class, inversedBy="id_reference")
+     */
+    private $id_cv;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -154,6 +159,18 @@ class Reference
     public function setDeleted(?bool $deleted): self
     {
         $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    public function getIdCv(): ?Curriculum
+    {
+        return $this->id_cv;
+    }
+
+    public function setIdCv(?Curriculum $id_cv): self
+    {
+        $this->id_cv = $id_cv;
 
         return $this;
     }

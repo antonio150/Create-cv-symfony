@@ -43,6 +43,7 @@ class ReferenceByIdController extends AbstractController
                 $array = [];
 
                 foreach ($val as $infos) {
+                    $val["id_cv"] = $infos->getIdCv();
                     $val["name"] = $infos->getName();
                     $val["company"] = $infos->getCompany();
                     $val["city"] = $infos->getCity();

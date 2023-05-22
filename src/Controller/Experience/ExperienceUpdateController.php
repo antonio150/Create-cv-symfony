@@ -52,21 +52,26 @@ class ExperienceUpdateController extends AbstractController
                         ]);
                     } else {
 
-                        $formation = $entityManager->getRepository(PersonalInformation::class)->find($parametersAsArray["id"]);
+                        $experience = $entityManager->getRepository(PersonalInformation::class)->find($parametersAsArray["id"]);
+                        $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $parametersAsArray["id_cv"]]);
 
-                        $formation->setJob($parametersAsArray['job']);
-                        $formation->setCompany($parametersAsArray['company']);
-                        $formation->setCity($parametersAsArray['city']);
-                        $formation->setMonthStart($parametersAsArray['month_start']);
-                        $formation->setYearStart($parametersAsArray['year_start']);
-                        $formation->setMonthEnd($parametersAsArray['month_end']);
-                        $formation->setYearEnd($parametersAsArray['year_end']);
-                        $formation->setThisDay($parametersAsArray['this_day']);
-                        $formation->setIsDeleted(false);
+                        $array = [];
 
 
-                        // $formation->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['createdAt']));
-                        $formation->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
+                        $experience->setIdCv($val);
+                        $experience->setJob($parametersAsArray['job']);
+                        $experience->setCompany($parametersAsArray['company']);
+                        $experience->setCity($parametersAsArray['city']);
+                        $experience->setMonthStart($parametersAsArray['month_start']);
+                        $experience->setYearStart($parametersAsArray['year_start']);
+                        $experience->setMonthEnd($parametersAsArray['month_end']);
+                        $experience->setYearEnd($parametersAsArray['year_end']);
+                        $experience->setThisDay($parametersAsArray['this_day']);
+                        $experience->setIsDeleted(false);
+
+
+                        // $experience->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['createdAt']));
+                        $experience->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
 
 
                         $entityManager->flush();

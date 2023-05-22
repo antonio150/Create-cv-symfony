@@ -2,6 +2,7 @@
 
 namespace App\Controller\ListLanguage;
 
+use App\Entity\Curriculum;
 use App\Entity\Language;
 use App\Entity\ListLanguage;
 use Doctrine\ORM\EntityManagerInterface;
@@ -59,6 +60,13 @@ class ListLanguageUpdateController extends AbstractController
 
 
                     $formation->setIdLanguage($val);
+
+                    $id_cv = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $parametersAsArray["id_cv"]]);
+
+                    $array = [];
+
+
+                    $formation->setIdCv($id_cv);
 
 
 

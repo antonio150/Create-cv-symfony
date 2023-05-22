@@ -30,6 +30,7 @@ class ExperienceReadController extends AbstractController
         $data = $repository->findBy(['is_deleted' => false], array('id' => 'DESC'));
 
         foreach ($data as $item) {
+            $temp["id_cv"] = $item->getIdCv();
             $temp["job"] = $item->getJob();
             $temp["company"] = $item->getCompany();
             $temp["city"] = $item->getCity();

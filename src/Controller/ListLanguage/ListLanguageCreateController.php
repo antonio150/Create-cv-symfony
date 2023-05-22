@@ -2,6 +2,7 @@
 
 namespace App\Controller\ListLanguage;
 
+use App\Entity\Curriculum;
 use App\Entity\Language;
 use App\Entity\ListLanguage;
 use Doctrine\ORM\EntityManagerInterface;
@@ -50,6 +51,18 @@ class ListLanguageCreateController extends AbstractController
 
                 foreach ($val as $infos) {
                     $formation->setIdLanguage($infos);
+
+
+                    $array[] = $formation;
+                }
+
+
+                $id_cv = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $parametersAsArray["id_cv"]]);
+
+                $array = [];
+
+                foreach ($id_cv as $infos) {
+                    $formation->setIdCv($infos);
 
 
                     $array[] = $formation;

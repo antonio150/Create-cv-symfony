@@ -42,6 +42,11 @@ class Profil
      */
     private $updated_at;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Curriculum::class, mappedBy="id_profil", cascade={"persist", "remove"})
+     */
+    private $id_cv;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,6 +108,28 @@ class Profil
     public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getIdCv(): ?Curriculum
+    {
+        return $this->id_cv;
+    }
+
+    public function setIdCv(?Curriculum $id_cv): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($id_cv === null && $this->id_cv !== null) {
+            $this->id_cv->setIdProfil(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($id_cv !== null && $id_cv->getIdProfil() !== $this) {
+            $id_cv->setIdProfil($this);
+        }
+
+        $this->id_cv = $id_cv;
 
         return $this;
     }

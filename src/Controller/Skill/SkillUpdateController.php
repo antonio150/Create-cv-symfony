@@ -2,6 +2,7 @@
 
 namespace App\Controller\Skill;
 
+use App\Entity\Curriculum;
 use App\Entity\Skill;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -50,16 +51,21 @@ class SkillUpdateController extends AbstractController
                     ]);
                 } else {
 
-                    $lang = $entityManager->getRepository(Skill::class)->find($parametersAsArray["id"]);
+                    $skill = $entityManager->getRepository(Skill::class)->find($parametersAsArray["id"]);
 
-                    $lang->setSkill($parametersAsArray['skill']);
-                    $lang->setLevel($parametersAsArray['level']);
-
-                    $lang->setIsDeleted(false);
+                    $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $parametersAsArray["id_cv"]]);
 
 
-                    // $lang->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['createdAt']));
-                    $lang->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
+                    $skill->setIdCv($val);
+
+                    $skill->setSkill($parametersAsArray['skill']);
+                    $skill->setLevel($parametersAsArray['level']);
+
+                    $skill->setIsDeleted(false);
+
+
+                    // $skill->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['createdAt']));
+                    $skill->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
 
                     $entityManager->flush();
 

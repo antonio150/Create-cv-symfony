@@ -3,6 +3,7 @@
 namespace App\Controller\Centerofinterest;
 
 use App\Entity\CenterOfInterest;
+use App\Entity\Curriculum;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,6 +35,16 @@ class CenterofinterestCreateController extends AbstractController
             $date = date('Y-m-d');
 
             $centerofinterest = new CenterOfInterest();
+            $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $parametersAsArray["id_cv"]]);
+
+            $array = [];
+
+            foreach ($val as $infos) {
+                $centerofinterest->setIdCv($infos);
+
+
+                $array[] = $centerofinterest;
+            }
 
             $centerofinterest->setDescription($parametersAsArray['description']);
 
@@ -46,15 +57,11 @@ class CenterofinterestCreateController extends AbstractController
             // $centerofinterest->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
 
 
-            $form = $parametersAsArray;
-            $vals = $centerofinterest->getId();
-
+            
             $entityManager->persist($centerofinterest);
             $entityManager->flush();
 
-            return $this->json([
-                'message' => 'Centre d\'interet Créer',
-                'data' => $vals,
+            return $this->json(['message' => 'Centre d\'interet Créer',
                 'status' => 'success'
             ]);
         }

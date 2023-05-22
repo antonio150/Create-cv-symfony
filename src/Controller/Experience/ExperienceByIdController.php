@@ -41,6 +41,7 @@ class ExperienceByIdController extends AbstractController
                 $array = [];
 
                 foreach ($val as $infos) {
+                    $val["id_cv"] = $infos->getIdCv();
                     $val["job"] = $infos->getJob();
                     $val["company"] = $infos->getCompany();
                     $val["city"] = $infos->getCity();

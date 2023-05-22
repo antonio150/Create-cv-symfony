@@ -43,6 +43,7 @@ class SkillByIdController extends AbstractController
                 $array = [];
 
                 foreach ($val as $infos) {
+                    $val["id_cv"] = $infos->getIdCv();
                     $val["skill"] = $infos->getSkill();
                     $val["level"] = $infos->getLevel();
                     $val["createdAt"] = $infos->getCreatedAt();

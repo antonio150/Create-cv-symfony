@@ -43,6 +43,7 @@ class FormationByIdController extends AbstractController
                 $array = [];
 
                 foreach ($val as $infos) {
+                    $val["id_cv"] = $infos->getIdCv();
                     $val["training"] = $infos->getTraining();
                     $val["establishment"] = $infos->getEstablishment();
                     $val["city"] = $infos->getCity();

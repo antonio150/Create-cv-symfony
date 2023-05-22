@@ -20,6 +20,7 @@ class ListLanguageReadController extends AbstractController
         $data = $repository->findBy(['deleted' => false], array('id' => 'DESC'));
 
         foreach ($data as $item) {
+            $temp["id_cv"] = $item->getIdCv();
             $temp["id_language"] = $item->getIdLanguage();
             $temp["note_language"] = $item->getNoteLanguage();
 
@@ -28,8 +29,7 @@ class ListLanguageReadController extends AbstractController
             array_push($output, $temp);
         }
 
-        return $this->json([
-            'message' => 'La liste des utilisateurs',
+        return $this->json(['message' => 'La liste des language',
             'data' => $output,
             'status' => 'success'
         ]);

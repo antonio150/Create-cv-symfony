@@ -2,6 +2,7 @@
 
 namespace App\Controller\Formation;
 
+use App\Entity\Curriculum;
 use App\Entity\Formation;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -52,7 +53,12 @@ class FormationUpdateController extends AbstractController
                     ]);
                 } else {
                     $formation = $entityManager->getRepository(Formation::class)->find($parametersAsArray["id"]);
+                    $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $parametersAsArray["id_cv"]]);
 
+                    $array = [];
+
+
+                    $formation->setIdCv($val);
 
                     $formation->setTraining($parametersAsArray['training']);
                     $formation->setEstablishment($parametersAsArray['establishment']);

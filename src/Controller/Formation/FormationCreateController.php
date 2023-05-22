@@ -2,6 +2,7 @@
 
 namespace App\Controller\Formation;
 
+use App\Entity\Curriculum;
 use App\Entity\Formation;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -45,6 +46,16 @@ class FormationCreateController extends AbstractController
 
                 $formation = new Formation();
 
+                $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $parametersAsArray["id_cv"]]);
+
+                $array = [];
+
+                foreach ($val as $infos) {
+                    $formation->setIdCv($infos);
+
+
+                    $array[] = $formation;
+                }
                 $formation->setTraining($parametersAsArray['training']);
                 $formation->setEstablishment($parametersAsArray['establishment']);
                 $formation->setCity($parametersAsArray['city']);

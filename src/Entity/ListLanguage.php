@@ -42,6 +42,11 @@ class ListLanguage
      */
     private $deleted;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Curriculum::class, inversedBy="id_langue")
+     */
+    private $id_cv;
+
 
 
     public function getId(): ?int
@@ -105,6 +110,18 @@ class ListLanguage
     public function setDeleted(?bool $deleted): self
     {
         $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    public function getIdCv(): ?Curriculum
+    {
+        return $this->id_cv;
+    }
+
+    public function setIdCv(?Curriculum $id_cv): self
+    {
+        $this->id_cv = $id_cv;
 
         return $this;
     }

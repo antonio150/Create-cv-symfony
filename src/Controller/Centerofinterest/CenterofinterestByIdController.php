@@ -43,6 +43,7 @@ class CenterofinterestByIdController extends AbstractController
                 $array = [];
 
                 foreach ($val as $infos) {
+                    $val["id_cv"] = $infos->getIdCv();
                     $val["description"] = $infos->getDescription();
                     $val["createdAt"] = $infos->getCreatedAt();
                     $val["updatedAt"] = $infos->getUpdatedAt();

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProfessionalTrainingRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -81,6 +83,16 @@ class ProfessionalTraining
      * @ORM\ManyToOne(targetEntity=Curriculum::class)
      */
     private $curriculum;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Curriculum::class, mappedBy="id_training")
+     */
+    private $id_cv;
+
+    public function __construct()
+    {
+        $this->id_cv = new ArrayCollection();
+    }
 
     
 
@@ -244,6 +256,36 @@ class ProfessionalTraining
 
     //     return $this;
     // }
+
+    /**
+     * @return Collection<int, Curriculum>
+     */
+    public function getIdCv(): Collection
+    {
+        return $this->id_cv;
+    }
+
+    public function addIdCv(Curriculum $idCv): self
+    {
+        if (!$this->id_cv->contains($idCv)) {
+            $this->id_cv[] = $idCv;
+            $idCv->setIdTraining($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdCv(Curriculum $idCv): self
+    {
+        if ($this->id_cv->removeElement($idCv)) {
+            // set the owning side to null (unless already changed)
+            if ($idCv->getIdTraining() === $this) {
+                $idCv->setIdTraining(null);
+            }
+        }
+
+        return $this;
+    }
 
     
 }

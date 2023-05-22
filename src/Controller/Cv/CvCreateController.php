@@ -4,8 +4,10 @@ namespace App\Controller\Cv;
 
 use App\Entity\BasDePage;
 use App\Entity\CenterOfInterest;
+use App\Entity\Curriculum;
 use App\Entity\Formation;
 use App\Entity\Language;
+use App\Entity\ListLanguage;
 use App\Entity\PersonalInformation;
 use App\Entity\ProfessionalExperience;
 use App\Entity\ProfessionalTraining;
@@ -129,7 +131,7 @@ class CvCreateController extends AbstractController
                         'status' => 'error'
                     );
                 } else if (
-                    empty($data["Language"]['language']) || empty($data["Language"]['level'])
+                    empty($data["ListeLanguage"]['note_language']) || empty($data["ListeLanguage"]['id_language'])
                 ) {
                     $output = array(
                         'message' => 'Veuiller remplir tous les champ de Language svp !',
@@ -153,12 +155,16 @@ class CvCreateController extends AbstractController
                     );
                 } else {
 
+                    $cv = new Curriculum();
+
                     // ======================================== Information =========================================
 
                     $str = $data["Information"]['email'];
                     $pattern = "/@/i";
 
                     $date = date('Y-m-d');
+
+
                     if (preg_match($pattern, $str) === 1) {
 
 
@@ -167,6 +173,8 @@ class CvCreateController extends AbstractController
                         
 
                         $info = new PersonalInformation();
+
+                        $cv->setPersonalInformation($info->getId());
 
                         $info->setName($data["Information"]["name"]);
                         $info->setFirstName($data["Information"]["first_name"]);
@@ -204,8 +212,9 @@ class CvCreateController extends AbstractController
                     // ======================================== PROFIL =========================================
 
                     $profil = new Profil();
-                    
 
+                    $cv->setIdProfil($profil->getId());
+                    
                     $profil->setDescription($data["Profil"]['description']);
                     // $profil->setCurriculum($data['curriculum']);
                     $profil->setIsDeleted(false);
@@ -228,6 +237,7 @@ class CvCreateController extends AbstractController
 
                     $formation = new Formation();
 
+                    $formation->setIdCv($cv->getId());
                     $formation->setTraining($data["Formation"]['training']);
                     $formation->setEstablishment($data["Formation"]['establishment']);
                     $formation->setCity($data["Formation"]['city']);
@@ -262,6 +272,7 @@ class CvCreateController extends AbstractController
 
                     $experience = new ProfessionalExperience();
 
+                    $experience->setIdCv($cv->getId());
                     $experience->setJob($data["Experience"]['job']);
                     $experience->setCompany($data["Experience"]['company']);
                     $experience->setCity($data["Experience"]['city']);
@@ -292,17 +303,17 @@ class CvCreateController extends AbstractController
                     // ======================================== SKILL =========================================
 
 
-                    $info = new Skill();
-                    
+                    $skill = new Skill();
 
-                    $info->setSkill($data["Skill"]['skill']);
-                    $info->setLevel($data["Skill"]['level']);
-                    $info->setIsDeleted(false);
+                    $skill->setIdCv($cv->getId());
+                    $skill->setSkill($data["Skill"]['skill']);
+                    $skill->setLevel($data["Skill"]['level']);
+                    $skill->setIsDeleted(false);
 
-                    $info->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
-                    // $info->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $data['updatedAt']));
+                    $skill->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
+                    // $skill->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $data['updatedAt']));
 
-                    $entityManager->persist($info);
+                    $entityManager->persist($skill);
                     $entityManager->flush();
 
                     $output = array(
@@ -315,14 +326,33 @@ class CvCreateController extends AbstractController
                     // ======================================== LANGUAGE =========================================
 
 
-                    
 
-                    $lang = new Language();
 
-                    $lang->setLanguage($data["Language"]['language']);
-                    $lang->setLevel($data["Language"]['level']);
+                    $date = date('Y-m-d');
 
-                    $lang->setIsDeleted(false);
+                    $lang = new ListLanguage();
+
+                    $val = $entityManager->getRepository(Language::class)->findBy(['id' => $data["id_language"]]);
+
+                    $array = [];
+
+                    foreach ($val as $infos) {
+                        $lang->setIdLanguage($infos);
+
+
+                        $array[] = $formation;
+                    }
+
+
+                    $id_cv = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $data["id_cv"]]);
+
+                    $array = [];
+
+                    foreach ($id_cv as $infos) {
+                        $lang->setIdCv($infos);
+                    }
+
+                    $lang->setDeleted(false);
 
 
                     $lang->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
@@ -479,6 +509,7 @@ class CvCreateController extends AbstractController
 
                     $output = array(
                         'message' => 'Training Créer',
+                        'data' => $info->getId(),
                         'status' => 'success'
                     );
                 }

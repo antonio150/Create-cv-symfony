@@ -77,6 +77,11 @@ class Formation
      */
     private $updated_at;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Curriculum::class, inversedBy="id_formation")
+     */
+    private $id_cv;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -222,6 +227,18 @@ class Formation
     public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getIdCv(): ?Curriculum
+    {
+        return $this->id_cv;
+    }
+
+    public function setIdCv(?Curriculum $id_cv): self
+    {
+        $this->id_cv = $id_cv;
 
         return $this;
     }

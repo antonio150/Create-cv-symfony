@@ -3,6 +3,7 @@
 namespace App\Controller\Centerofinterest;
 
 use App\Entity\CenterOfInterest;
+use App\Entity\Curriculum;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -42,6 +43,12 @@ class CenterofinterestUpdateController extends AbstractController
             } else {
 
                 $centerofinterest = $entityManager->getRepository(CenterOfInterest::class)->find($parametersAsArray["id"]);
+                $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $parametersAsArray["id_cv"]]);
+
+                $array = [];
+
+
+                $centerofinterest->setIdCv($val);
 
                 $centerofinterest->setDescription($parametersAsArray['description']);
 

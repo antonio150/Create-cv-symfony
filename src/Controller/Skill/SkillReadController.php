@@ -20,6 +20,7 @@ class SkillReadController extends AbstractController
         $data = $repository->findBy(['is_deleted' => false], array('id' => 'DESC'));
 
         foreach ($data as $item) {
+            $temp["id_cv"] = $item->getIdCv();
             $temp["skill"] = $item->getSkill();
             $temp["level"] = $item->getLevel();
 

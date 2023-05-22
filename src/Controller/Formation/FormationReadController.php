@@ -20,6 +20,7 @@ class FormationReadController extends AbstractController
         $data = $repository->findBy(['deleted' => false], array('id' => 'DESC'));
 
         foreach ($data as $item) {
+            $temp["id_cv"] = $item->getIdCv();
             $temp["training"] = $item->getTraining();
             $temp["establishment"] = $item->getEstablishment();
             $temp["city"] = $item->getCity();

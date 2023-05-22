@@ -58,7 +58,7 @@ class InformationUpdateController extends AbstractController
                     $info->setName($parametersAsArray["name"]);
                     $info->setFirstName($parametersAsArray["first_name"]);
                     $info->setEmail($parametersAsArray["email"]);
-                    $info->setProfilTitle($parametersAsArray["profil_title"]);
+                   
                     $info->setTelephone($parametersAsArray["telephone"]);
                     $info->setAddress($parametersAsArray["address"]);
                     $info->setPostalCode($parametersAsArray["postal_code"]);

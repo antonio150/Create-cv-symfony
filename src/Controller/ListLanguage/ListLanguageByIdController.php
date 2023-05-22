@@ -42,6 +42,7 @@ class ListLanguageByIdController extends AbstractController
                 $array = [];
 
                 foreach ($val as $infos) {
+                    $val["id_cv"] = $infos->getIdCv();
                     $val["id_language"] = $infos->getIdLanguage();
                     $val["note_language"] = $infos->getNoteLanguage();
 

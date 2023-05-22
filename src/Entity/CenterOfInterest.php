@@ -42,6 +42,11 @@ class CenterOfInterest
      */
     private $curriculum;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Curriculum::class, inversedBy="id_interet")
+     */
+    private $id_cv;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,6 +108,18 @@ class CenterOfInterest
     public function setCurriculum(?Curriculum $curriculum): self
     {
         $this->curriculum = $curriculum;
+
+        return $this;
+    }
+
+    public function getIdCv(): ?Curriculum
+    {
+        return $this->id_cv;
+    }
+
+    public function setIdCv(?Curriculum $id_cv): self
+    {
+        $this->id_cv = $id_cv;
 
         return $this;
     }

@@ -20,6 +20,7 @@ class ReferenceReadController extends AbstractController
         $data = $repository->findBy(['deleted' => false], array('id' => 'DESC'));
 
         foreach ($data as $item) {
+            $temp["id_cv"] = $item->getIdCv();
             $temp["name"] = $item->getName();
             $temp["company"] = $item->getCompany();
             $temp["city"] = $item->getCity();
