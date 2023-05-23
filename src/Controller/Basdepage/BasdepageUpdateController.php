@@ -36,7 +36,7 @@ class BasdepageUpdateController extends AbstractController
 
             if (empty($parametersAsArray["id"])) {
                 return $this->json([
-                    'message' => 'Id Undefined !',
+                    'message' => 'Id non definie !',
                     'status' => 'error'
                 ]);
             } else {
@@ -55,7 +55,7 @@ class BasdepageUpdateController extends AbstractController
                 $entityManager->flush();
 
                 return $this->json([
-                    'message' => 'Champ modifier',
+                    'message' => 'Modification effectué avec succès',
                     'status' => 'success'
                 ]);
             }

@@ -29,7 +29,7 @@ class BasdepageDeleteController extends AbstractController
 
         if ($id == NULL) {
             $output = array(
-                "status" => "erreur",
+                "status" => "error",
                 "message" => "Données introuvable, merci de contacter l'administrateur !"
             );
         } else {
@@ -41,7 +41,7 @@ class BasdepageDeleteController extends AbstractController
 
             if (empty($info)) {
                 $output = array(
-                    "status" => "erreur",
+                    "status" => "error",
                     "message" => "Bas de page non disponible !"
                 );
             } else {

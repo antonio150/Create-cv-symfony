@@ -61,7 +61,8 @@ class CenterofinterestCreateController extends AbstractController
             $entityManager->persist($centerofinterest);
             $entityManager->flush();
 
-            return $this->json(['message' => 'Centre d\'interet Créer',
+            return $this->json([
+                'message' => 'Centre d\'interet Créer avec succés',
                 'status' => 'success'
             ]);
         }

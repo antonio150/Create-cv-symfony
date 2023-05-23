@@ -44,8 +44,7 @@ class ExperienceReadController extends AbstractController
             array_push($output, $temp);
         }
 
-        return $this->json([
-            'message' => 'La liste des utilisateurs',
+        return $this->json(['message' => 'Liste des experiences',
             'data' => $output,
             'status' => 'success'
         ]);

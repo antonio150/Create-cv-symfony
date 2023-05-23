@@ -46,7 +46,7 @@ class ProfilCreateController extends AbstractController
             $entityManager->flush();
 
             return $this->json([
-                'message' => 'Profil Créer avec success',
+                'message' => 'Profil ajouter avec succès',
                 'status' => 'success'
             ]);
         }

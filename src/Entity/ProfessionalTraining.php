@@ -287,5 +287,17 @@ class ProfessionalTraining
         return $this;
     }
 
+    public function getCurriculum(): ?Curriculum
+    {
+        return $this->curriculum;
+    }
+
+    public function setCurriculum(?Curriculum $curriculum): self
+    {
+        $this->curriculum = $curriculum;
+
+        return $this;
+    }
+
     
 }

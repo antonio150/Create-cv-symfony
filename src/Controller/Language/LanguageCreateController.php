@@ -62,7 +62,7 @@ class LanguageCreateController extends AbstractController
                 $entityManager->flush();
 
                 return $this->json([
-                    'message' => 'Language Créer',
+                        'message' => 'Modification effectué avec succès',
                     'data' => $vals,
                     'status' => 'success'
                 ]);

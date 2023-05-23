@@ -46,8 +46,7 @@ class ListLanguageUpdateController extends AbstractController
 
 
                 if (empty($parametersAsArray["id"])) {
-                    return $this->json([
-                        'message' => 'Id Undefined !',
+                    return $this->json(['message' => 'Id non definie !',
                         'status' => 'error'
                     ]);
                 } else {
@@ -82,8 +81,7 @@ class ListLanguageUpdateController extends AbstractController
 
                     $entityManager->flush();
 
-                    return $this->json([
-                        'message' => 'Champ modifier avec success',
+                    return $this->json(['message' => 'Modification effectué avec succès',
                         'status' => 'success'
                     ]);
                 }

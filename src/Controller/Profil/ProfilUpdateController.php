@@ -32,7 +32,7 @@ class ProfilUpdateController extends AbstractController
 
             if (empty($parametersAsArray["id"])) {
                 return $this->json([
-                    'message' => 'Id Undefined !',
+                    'message' => 'Id non definie !',
                     'status' => 'error'
                 ]);
             } else {
@@ -48,8 +48,8 @@ class ProfilUpdateController extends AbstractController
 
             $entityManager->flush();
 
-            return $this->json([
-                'message' => 'Champ modifier',
+                return $this->json([
+                    'message' => 'Profil modifié avec succès',
                     'status' => 'success'
             ]);
 

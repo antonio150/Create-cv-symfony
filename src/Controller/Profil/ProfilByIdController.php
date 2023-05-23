@@ -36,8 +36,7 @@ class ProfilByIdController extends AbstractController
             array_push($output, $temp);
         }
 
-        return $this->json([
-            'message' => 'Info Profil',
+        return $this->json(['message' => 'Affichage de Profil',
             'data' => $output,
             'status' => 'success'
         ]);

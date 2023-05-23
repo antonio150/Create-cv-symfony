@@ -54,7 +54,7 @@ class SkillDeleteController extends AbstractController
                     $em->flush();
                     $output = array(
                         "status" => "success",
-                        "message" => "Skill supprimer with success !"
+                        "message" => "Skill supprimé avec succés !"
                     );
                 } catch (Exception $ex) {
 

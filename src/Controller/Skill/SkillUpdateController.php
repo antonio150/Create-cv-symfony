@@ -69,7 +69,7 @@ class SkillUpdateController extends AbstractController
                     $entityManager->flush();
 
                     return $this->json([
-                        'message' => 'Champ modifier',
+                        'message' => 'Modification effectué avec succès',
                         'status' => 'success'
                     ]);
                 }

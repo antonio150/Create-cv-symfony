@@ -36,8 +36,8 @@ class InformationGetByIdController extends AbstractController
 
             if ($val === null) {
                 return $this->json([
-                    'message' => 'Id undefined',
-                    'status' => 'success'
+                    'message' => 'Id non definie',
+                    'status' => 'error'
                 ]);
             } else {
                 $array = [];
@@ -69,7 +69,7 @@ class InformationGetByIdController extends AbstractController
 
 
                 return $this->json([
-                    'message' => 'Liste des Information',
+                    'message' => 'Affichage de l\'Information',
                     'data' => $array,
                     'status' => 'success'
                 ]);

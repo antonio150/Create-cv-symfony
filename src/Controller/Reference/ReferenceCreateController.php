@@ -72,7 +72,8 @@ class ReferenceCreateController extends AbstractController
                     $entityManager->persist($reference);
                     $entityManager->flush();
 
-                    return $this->json(['message' => 'Reference Créer',
+                    return $this->json([
+                        'message' => 'Reference créer avec succés',
                         'status' => 'success'
                     ]);
                 } else {

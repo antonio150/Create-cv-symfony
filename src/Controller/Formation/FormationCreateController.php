@@ -81,7 +81,7 @@ class FormationCreateController extends AbstractController
                 $entityManager->flush();
 
                 return $this->json([
-                    'message' => 'Formation Créer',
+                    'message' => 'Formation créé avec succès',
                     'status' => 'success'
                 ]);
             }

@@ -32,7 +32,8 @@ class ReferenceReadController extends AbstractController
             array_push($output, $temp);
         }
 
-        return $this->json(['message' => 'Liste des utilisateurs',
+        return $this->json([
+            'message' => 'Liste des references',
             'data' => $output,
             'status' => 'success'
         ]);

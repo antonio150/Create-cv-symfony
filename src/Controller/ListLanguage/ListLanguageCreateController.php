@@ -84,7 +84,7 @@ class ListLanguageCreateController extends AbstractController
                 $entityManager->flush();
 
                 return $this->json([
-                    'message' => 'Formation Créer',
+                    'message' => 'Formation créer avec succés',
                     'status' => 'success'
                 ]);
             }

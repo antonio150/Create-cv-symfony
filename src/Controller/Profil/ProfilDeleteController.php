@@ -47,7 +47,7 @@ class ProfilDeleteController extends AbstractController
                     $em->flush();
                     $output = array(
                         "status" => "success",
-                        "message" => "Utilisateur supprimé avec succès !"
+                        "message" => "Le profil a été supprimé avec succès !"
                     );
                 } catch (Exception $ex) {
 

@@ -6,10 +6,12 @@ use App\Entity\PersonalInformation;
 use App\Repository\PersonalInformationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class InformationCreateController extends AbstractController
 {
@@ -18,7 +20,8 @@ class InformationCreateController extends AbstractController
      */
     public function index(
         Request $request,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        SluggerInterface $slugger
     ): JsonResponse {
         $parametersAsArray = [];
         if ($content = $request->getContent()) {
@@ -58,8 +61,35 @@ class InformationCreateController extends AbstractController
                     $info->setNationality($parametersAsArray['nationality']);
                     $info->setMaritalStatus($parametersAsArray['marital_status']);
                     $info->setIsDeleted(false);
-                    $info->setPhoto($parametersAsArray['photo']);
-                    $info->setPath($parametersAsArray['path']);
+
+
+
+
+                    $brochureFile = $request->files->get('file');
+
+                    if ($brochureFile) {
+                        $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                        // this is needed to safely include the file name as part of the URL
+                        $safeFilename = $slugger->slug($originalFilename);
+                        $newFilename = $safeFilename . '-' . uniqid() . '.' . $brochureFile->guessExtension();
+
+
+                        try {
+                            $brochureFile->move(
+                                $this->getParameter('brochures_directory'),
+                                $newFilename
+                            );
+                        } catch (FileException $e) {
+                            // ... handle exception if something happens during file upload
+                        }
+                        $info->setPhoto($newFilename);
+
+                        $path = $this->getParameter('brochures_directory');
+
+                        $info->setPath($path);
+                    }
+
+                    // $info->setPath($parametersAsArray['path']);
                     $info->setPosition($parametersAsArray['position']);
                     $info->setDatenaiss(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['datenaiss']));
                     $info->setLieudenaiss($parametersAsArray['lieudenaiss']);
@@ -71,15 +101,13 @@ class InformationCreateController extends AbstractController
                     // $info->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
 
 
-                    $form = $parametersAsArray;
-                    $vals = $info->getId();
-
+                 
                     $entityManager->persist($info);
                     $entityManager->flush();
 
                     return $this->json([
-                        'message' => 'La liste des Information Créer avec success',
-                        'data' => $vals,
+                        'message' => 'Liste des Informations créer avec succés',
+                        
                         'status' => 'success'
                     ]);
                 } else {

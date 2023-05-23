@@ -35,8 +35,8 @@ class ListLanguageByIdController extends AbstractController
 
             if ($val === null) {
                 return $this->json([
-                    'message' => 'Id undefined',
-                    'status' => 'success'
+                    'message' => 'Id non definie',
+                    'status' => 'error'
                 ]);
             } else {
                 $array = [];
@@ -51,7 +51,8 @@ class ListLanguageByIdController extends AbstractController
                     $array[] = $val;
                 }
 
-                return $this->json(['message' => 'Liste des Listlanguage',
+                return $this->json([
+                    'message' => 'Affichage de Listlanguage',
                     'data' => $array,
                     'status' => 'success'
                 ]);

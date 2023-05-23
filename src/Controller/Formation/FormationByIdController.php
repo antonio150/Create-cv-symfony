@@ -35,9 +35,8 @@ class FormationByIdController extends AbstractController
             $val = $entityManager->getRepository(Formation::class)->findBy(['id' => $parametersAsArray["id"]], ['deleted' => false]);
 
             if ($val === null) {
-                return $this->json([
-                    'message' => 'Id undefined',
-                    'status' => 'success'
+                return $this->json(['message' => 'Id non definie',
+                    'status' => 'error'
                 ]);
             } else {
                 $array = [];
@@ -58,8 +57,7 @@ class FormationByIdController extends AbstractController
                     $array[] = $val;
                 }
 
-                return $this->json([
-                    'message' => 'La liste des Information',
+                return $this->json(['message' => 'Affichage de Information',
                     'data' => $array,
                     'status' => 'success'
                 ]);

@@ -62,7 +62,7 @@ class SkillCreateController extends AbstractController
                 $entityManager->flush();
 
                 return $this->json([
-                    'message' => 'Skill Créer',
+                    'message' => 'Skill créer avec succés',
                     'status' => 'success'
                 ]);
             }

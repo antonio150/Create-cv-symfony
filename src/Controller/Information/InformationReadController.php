@@ -53,7 +53,8 @@ class InformationReadController extends AbstractController
             array_push($output, $temp);
         }
 
-        return $this->json(['message' => 'Liste des utilisateurs',
+        return $this->json([
+                'message' => 'Liste des informations',
             'data' => $output,
             'status' => 'success'
         ]);

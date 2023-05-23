@@ -48,8 +48,7 @@ class ReferenceUpdateController extends AbstractController
                 if (preg_match($pattern, $str) === 1) {
 
                     if (empty($parametersAsArray["id"])) {
-                        return $this->json([
-                            'message' => 'Id Undefined !',
+                        return $this->json(['message' => 'Id non definie !',
                             'status' => 'error'
                         ]);
                     } else {
@@ -76,8 +75,7 @@ class ReferenceUpdateController extends AbstractController
 
                         $entityManager->flush();
 
-                        return $this->json([
-                            'message' => 'Champ modifier',
+                        return $this->json(['message' => 'Modification effectué avec succès',
                             'status' => 'success'
                         ]);
                     }

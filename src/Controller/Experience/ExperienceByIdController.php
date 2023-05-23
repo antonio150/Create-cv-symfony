@@ -34,7 +34,7 @@ class ExperienceByIdController extends AbstractController
 
             if ($val === null) {
                 return $this->json([
-                    'message' => 'Id undefined',
+                    'message' => 'Id non definie',
                     'status' => 'error'
                 ]);
             } else {
@@ -57,7 +57,7 @@ class ExperienceByIdController extends AbstractController
                 }
 
                 return $this->json([
-                    'message' => 'La liste des Experience',
+                    'message' => 'Affichage de Experience',
                     'data' => $array,
                     'status' => 'success'
                 ]);

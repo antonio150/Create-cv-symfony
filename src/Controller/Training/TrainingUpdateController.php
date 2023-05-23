@@ -70,8 +70,7 @@ class TrainingUpdateController extends AbstractController
 
                     $entityManager->flush();
 
-                    return $this->json([
-                        'message' => 'Champ modifier',
+                    return $this->json(['message' => 'Modification effectué avec succès',
                         'status' => 'success'
                     ]);
                 }

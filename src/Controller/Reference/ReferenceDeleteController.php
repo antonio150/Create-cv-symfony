@@ -51,7 +51,7 @@ class ReferenceDeleteController extends AbstractController
                     $em->flush();
                     $output = array(
                         "status" => "success",
-                        "message" => "Reference supprimé avec success !"
+                        "message" => "Reference supprimé avec succés !"
                     );
                 } catch (Exception $ex) {
 

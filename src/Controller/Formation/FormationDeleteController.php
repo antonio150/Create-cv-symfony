@@ -52,7 +52,7 @@ class FormationDeleteController extends AbstractController
                     $em->flush();
                     $output = array(
                         "status" => "success",
-                        "message" => "Formation supprimé avec success !"
+                        "message" => "Formation supprimé avec succés !"
                     );
                 } catch (Exception $ex) {
 

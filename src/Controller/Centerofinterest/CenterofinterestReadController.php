@@ -29,8 +29,7 @@ class CenterofinterestReadController extends AbstractController
             array_push($output, $temp);
         }
 
-        return $this->json([
-            'message' => 'La liste des Centerofinterest',
+        return $this->json(['message' => 'Liste des Centerofinterest',
             'data' => $output,
             'status' => 'success'
         ]);

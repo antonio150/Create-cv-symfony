@@ -28,8 +28,7 @@ class BasdepageReadController extends AbstractController
             array_push($output, $temp);
         }
 
-        return $this->json([
-            'message' => 'La liste des Bas de page',
+        return $this->json(['message' => 'Liste des Bas de page',
             'data' => $output,
             'status' => 'success'
         ]);

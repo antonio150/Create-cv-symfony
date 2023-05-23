@@ -36,7 +36,7 @@ class BasdepageByIdController extends AbstractController
 
             if ($val === null) {
                 return $this->json([
-                    'message' => 'Id undefined',
+                    'message' => 'Id non definie',
                     'status' => 'success'
                 ]);
             } else {
@@ -56,7 +56,7 @@ class BasdepageByIdController extends AbstractController
 
 
                 return $this->json([
-                    'message' => 'La liste des Bas de page',
+                    'message' => 'Affichage de Bas de page',
                     'data' => $array,
                     'status' => 'success'
                 ]);

@@ -36,8 +36,8 @@ class ReferenceByIdController extends AbstractController
 
             if ($val === null) {
                 return $this->json([
-                    'message' => 'Id undefined',
-                    'status' => 'success'
+                    'message' => 'Id non definie',
+                    'status' => 'error'
                 ]);
             } else {
                 $array = [];
@@ -60,7 +60,7 @@ class ReferenceByIdController extends AbstractController
 
 
                 return $this->json([
-                    'message' => 'Liste des Reference',
+                    'message' => 'Affichage de Reference',
                     'data' => $array,
                     'status' => 'success'
                 ]);

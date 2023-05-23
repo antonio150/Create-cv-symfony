@@ -2,6 +2,7 @@
 
 namespace App\Controller\Experience;
 
+use App\Entity\Curriculum;
 use App\Entity\ProfessionalExperience;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -46,8 +47,8 @@ class ExperienceUpdateController extends AbstractController
                
 
                     if (empty($parametersAsArray["id"])) {
-                        return $this->json([
-                            'message' => 'Id Undefined !',
+                    return $this->json([
+                        'message' => 'Id non definie !',
                             'status' => 'error'
                         ]);
                     } else {
@@ -76,7 +77,8 @@ class ExperienceUpdateController extends AbstractController
 
                         $entityManager->flush();
 
-                    return $this->json(['message' => 'Champ modifier avec success',
+                    return $this->json([
+                        'message' => 'Modification effectué avec succès',
                         'status' => 'success'
                     ]);
                 }

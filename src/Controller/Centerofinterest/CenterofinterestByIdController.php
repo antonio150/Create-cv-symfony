@@ -36,7 +36,7 @@ class CenterofinterestByIdController extends AbstractController
 
             if ($val === null) {
                 return $this->json([
-                    'message' => 'Id undefined',
+                    'message' => 'Id non definie',
                     'status' => 'success'
                 ]);
             } else {
@@ -56,7 +56,7 @@ class CenterofinterestByIdController extends AbstractController
 
 
                 return $this->json([
-                    'message' => 'La liste des Center of Interest',
+                    'message' => 'Affichage de Center of Interest',
                     'data' => $array,
                     'status' => 'success'
                 ]);

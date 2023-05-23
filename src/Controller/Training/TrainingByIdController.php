@@ -56,8 +56,7 @@ class TrainingByIdController extends AbstractController
                     $array[] = $val;
                 }
 
-                return $this->json([
-                    'message' => 'Liste des training',
+                return $this->json(['message' => 'Affichage de training',
                     'data' => $array,
                     'status' => 'success'
                 ]);

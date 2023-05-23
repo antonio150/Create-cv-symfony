@@ -76,7 +76,8 @@ class ExperienceCreateController extends AbstractController
                 $entityManager->persist($experience);
                 $entityManager->flush();
 
-                return $this->json(['message' => 'Experience Créer avec success',
+                return $this->json([
+                    'message' => 'Experience créer avec succés',
                     'status' => 'success'
                 ]);
             }

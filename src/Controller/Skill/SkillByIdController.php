@@ -36,8 +36,8 @@ class SkillByIdController extends AbstractController
 
             if ($val === null) {
                 return $this->json([
-                    'message' => 'Id undefined',
-                    'status' => 'success'
+                    'message' => 'Id non definie',
+                    'status' => 'error'
                 ]);
             } else {
                 $array = [];
@@ -57,7 +57,7 @@ class SkillByIdController extends AbstractController
 
 
                 return $this->json([
-                    'message' => 'liste of Skill',
+                    'message' => 'Affichage de Skill',
                     'data' => $array,
                     'status' => 'success'
                 ]);
