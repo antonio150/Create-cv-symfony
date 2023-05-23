@@ -6,6 +6,7 @@ use App\Entity\PersonalInformation;
 use App\Repository\PersonalInformationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -64,32 +65,24 @@ class InformationCreateController extends AbstractController
 
 
 
-
-                    $brochureFile = $request->files->get('file');
-
-                    if ($brochureFile) {
-                        $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                        // this is needed to safely include the file name as part of the URL
-                        $safeFilename = $slugger->slug($originalFilename);
-                        $newFilename = $safeFilename . '-' . uniqid() . '.' . $brochureFile->guessExtension();
+                    $filesystem = new Filesystem();
 
 
-                        try {
-                            $brochureFile->move(
-                                $this->getParameter('brochures_directory'),
-                                $newFilename
-                            );
-                        } catch (FileException $e) {
-                            // ... handle exception if something happens during file upload
-                        }
-                        $info->setPhoto($newFilename);
 
-                        $path = $this->getParameter('brochures_directory');
+                    // $brochureFile = $request->files->get('file');
+                    $pathname = $parametersAsArray["path"];
+                    $newFilename = $parametersAsArray["photo"];
 
-                        $info->setPath($path);
-                    }
+                    $filesystem->copy($pathname . '/' . $newFilename, $this->getParameter('brochures_directory') . '/' . $newFilename);
 
-                    // $info->setPath($parametersAsArray['path']);
+
+
+
+
+
+                    $info->setPhoto($parametersAsArray["photo"]);
+
+                    $info->setPath($parametersAsArray["path"]);
                     $info->setPosition($parametersAsArray['position']);
                     $info->setDatenaiss(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['datenaiss']));
                     $info->setLieudenaiss($parametersAsArray['lieudenaiss']);
