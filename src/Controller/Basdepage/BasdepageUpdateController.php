@@ -56,7 +56,7 @@ class BasdepageUpdateController extends AbstractController
 
                 return $this->json([
                     'message' => 'Champ modifier',
-                    'status' => 'succes'
+                    'status' => 'success'
                 ]);
             }
         }

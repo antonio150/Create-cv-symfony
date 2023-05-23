@@ -78,7 +78,7 @@ class InformationCreateController extends AbstractController
                     $entityManager->flush();
 
                     return $this->json([
-                        'message' => 'La liste des Information Créer',
+                        'message' => 'La liste des Information Créer avec success',
                         'data' => $vals,
                         'status' => 'success'
                     ]);

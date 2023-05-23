@@ -64,8 +64,7 @@ class TrainingCreateController extends AbstractController
                 $entityManager->persist($formation);
                 $entityManager->flush();
 
-                return $this->json([
-                    'message' => 'Training Créer',
+                return $this->json(['message' => 'Training Créer avec success',
                     'status' => 'success'
                 ]);
             }

@@ -31,8 +31,8 @@ class ExperienceCreateController extends AbstractController
             ]);
         } else {
             if (
-                empty($parametersAsArray['job']) || empty($parametersAsArray['company']) || empty($parametersAsArray['city']) ||
-                empty($parametersAsArray['month_start']) || empty($parametersAsArray['year_start']) || empty($parametersAsArray['month_end']) || empty($parametersAsArray['year_end'])
+                empty($parametersAsArray['job']) || empty($parametersAsArray['company']) || empty($parametersAsArray['city']) || empty($parametersAsArray['month_start']) ||
+                empty($parametersAsArray['year_start']) || empty($parametersAsArray['month_end']) || empty($parametersAsArray['year_end']) || empty($parametersAsArray['this_day'])
             ) {
                 return $this->json([
                     'message' => 'Veuiller remplir tous les champ svp !',
@@ -76,8 +76,7 @@ class ExperienceCreateController extends AbstractController
                 $entityManager->persist($experience);
                 $entityManager->flush();
 
-                return $this->json([
-                    'message' => 'Experience Créer',
+                return $this->json(['message' => 'Experience Créer avec success',
                     'status' => 'success'
                 ]);
             }

@@ -61,9 +61,8 @@ class CenterofinterestUpdateController extends AbstractController
 
                 $entityManager->flush();
 
-                return $this->json([
-                    'message' => 'Champ modifier',
-                    'status' => 'succes'
+                return $this->json(['message' => 'Champ modifier avec success',
+                    'status' => 'success'
                 ]);
             }
         }

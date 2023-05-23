@@ -52,12 +52,12 @@ class BasdepageDeleteController extends AbstractController
                     $em->flush();
                     $output = array(
                         "status" => "success",
-                        "message" => "Bas de page supprimé avec succès !"
+                        "message" => "Bas de page supprimé avec success !"
                     );
                 } catch (Exception $ex) {
 
                     $output = array(
-                        "status" => "erreur",
+                        "status" => "error",
                         "message" => $ex->getMessage()
                     );
                 }

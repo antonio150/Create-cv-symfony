@@ -46,15 +46,12 @@ class BasdepageCreateController extends AbstractController
             // $basdepage->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
 
 
-            $form = $parametersAsArray;
-            $vals = $basdepage->getId();
+          
 
             $entityManager->persist($basdepage);
             $entityManager->flush();
 
-            return $this->json([
-                'message' => 'Bas de page Créer',
-                'data' => $vals,
+            return $this->json(['message' => 'Bas de page Créer',
                 'status' => 'success'
             ]);
         }

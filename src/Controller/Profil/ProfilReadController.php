@@ -27,8 +27,7 @@ class ProfilReadController extends AbstractController
             array_push($output, $temp);
         }
 
-        return $this->json([
-            'message' => 'La liste des profil',
+        return $this->json(['message' => 'Liste des profil',
             'data' => $output,
             'status' => 'success'
         ]);

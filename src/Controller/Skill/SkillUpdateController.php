@@ -45,8 +45,7 @@ class SkillUpdateController extends AbstractController
 
 
                 if (empty($parametersAsArray["id"])) {
-                    return $this->json([
-                        'message' => 'Id Undefined !',
+                    return $this->json(['message' => 'Id non definie !',
                         'status' => 'error'
                     ]);
                 } else {
@@ -71,7 +70,7 @@ class SkillUpdateController extends AbstractController
 
                     return $this->json([
                         'message' => 'Champ modifier',
-                        'status' => 'succes'
+                        'status' => 'success'
                     ]);
                 }
             }

@@ -35,8 +35,7 @@ class TrainingReadController extends AbstractController
             array_push($output, $temp);
         }
 
-        return $this->json([
-            'message' => 'La liste des Training',
+        return $this->json(['message' => 'Liste des Training',
             'data' => $output,
             'status' => 'success'
         ]);

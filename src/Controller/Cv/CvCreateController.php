@@ -226,7 +226,7 @@ class CvCreateController extends AbstractController
                     $entityManager->flush();
 
                     $output = array(
-                        'message' => 'Ajout avec succes ',
+                        'message' => 'Ajout avec success ',
                         'status' => 'success'
                     );
 
@@ -260,7 +260,7 @@ class CvCreateController extends AbstractController
                     $entityManager->flush();
 
                     $output = array(
-                        'message' => 'Ajout avec succes ',
+                        'message' => 'Ajout avec success ',
                         'status' => 'success'
                     );
 
@@ -295,7 +295,7 @@ class CvCreateController extends AbstractController
                     $entityManager->flush();
 
                     $output = array(
-                        'message' => 'Experience Créer',
+                        'message' => 'Experience Créer avec success',
                         'status' => 'success'
                     );
 
@@ -317,7 +317,7 @@ class CvCreateController extends AbstractController
                     $entityManager->flush();
 
                     $output = array(
-                        'message' => 'Skill Créer',
+                        'message' => 'Skill Créer avec success',
                         'status' => 'success'
                     );
 
@@ -364,7 +364,7 @@ class CvCreateController extends AbstractController
                     $entityManager->flush();
 
                     $output = array(
-                        'message' => 'Language Créer',
+                        'message' => 'Language Créer avec success',
                         'status' => 'success'
                     );
 
@@ -394,7 +394,7 @@ class CvCreateController extends AbstractController
                     $entityManager->flush();
 
                     $output = array(
-                        'message' => 'Centre d\'interet Créer',
+                        'message' => 'Centre d\'interet Créer avec success',
                         'status' => 'success'
                     );
 
@@ -432,7 +432,7 @@ class CvCreateController extends AbstractController
                         $entityManager->flush();
 
                         $output = array(
-                            'message' => 'La liste des Refence Créer',
+                            'message' => 'La liste des Refence Créer avec success',
                             'status' => 'success'
                         );
                     } else {
@@ -468,7 +468,7 @@ class CvCreateController extends AbstractController
                     $entityManager->flush();
 
                     $output = array(
-                        'message' => 'Bas de page Créer',
+                        'message' => 'Bas de page Créer avec success',
                         'status' => 'success'
                     );
 
@@ -508,7 +508,7 @@ class CvCreateController extends AbstractController
                     $entityManager->flush();
 
                     $output = array(
-                        'message' => 'Training Créer',
+                        'message' => 'Training Créer avec success',
                         'data' => $info->getId(),
                         'status' => 'success'
                     );

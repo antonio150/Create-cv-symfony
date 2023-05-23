@@ -82,7 +82,6 @@ class FormationCreateController extends AbstractController
 
                 return $this->json([
                     'message' => 'Formation Créer',
-                    'data' => $vals,
                     'status' => 'success'
                 ]);
             }

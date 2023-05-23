@@ -20,12 +20,12 @@ class ProfilByIdController extends AbstractController
         $request = Request::createFromGlobals();
         $data = json_decode($request->getContent(), true);
 
-        $dataQuery = $profilRepository->findBy(['id' => $data["id"]]);
+        $dataQuery = $profilRepository->findBy(['id' => $data["id"]], ['is_deleted' => false]);
 
         if (empty($dataQuery)) {
             $output = array(
                 'message' => 'Profil introuvable ! ',
-                'status' => 'erreur'
+                'status' => 'error'
             );
         }
 

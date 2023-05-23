@@ -30,12 +30,12 @@ class ExperienceByIdController extends AbstractController
             ]);
         } else {
 
-            $val = $entityManager->getRepository(ProfessionalExperience::class)->findBy(['id' => $parametersAsArray["id"]]);
+            $val = $entityManager->getRepository(ProfessionalExperience::class)->findBy(['id' => $parametersAsArray["id"]], ['is_deleted' => false]);
 
             if ($val === null) {
                 return $this->json([
                     'message' => 'Id undefined',
-                    'status' => 'success'
+                    'status' => 'error'
                 ]);
             } else {
                 $array = [];

@@ -31,7 +31,7 @@ class SkillDeleteController extends AbstractController
 
         if ($id == NULL) {
             $output = array(
-                "status" => "erreur",
+                "status" => "error",
                 "message" => "Données introuvable, merci de contacter l'administrateur !"
             );
         } else {
@@ -43,8 +43,8 @@ class SkillDeleteController extends AbstractController
 
             if (empty($info)) {
                 $output = array(
-                    "status" => "erreur",
-                    "message" => "Langage undefined !"
+                    "status" => "error",
+                    "message" => "Langage non definie !"
                 );
             } else {
 
@@ -54,12 +54,12 @@ class SkillDeleteController extends AbstractController
                     $em->flush();
                     $output = array(
                         "status" => "success",
-                        "message" => "Skill deleted with success !"
+                        "message" => "Skill supprimer with success !"
                     );
                 } catch (Exception $ex) {
 
                     $output = array(
-                        "status" => "erreur",
+                        "status" => "error",
                         "message" => $ex->getMessage()
                     );
                 }

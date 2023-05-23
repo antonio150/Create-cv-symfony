@@ -32,7 +32,7 @@ class ReferenceByIdController extends AbstractController
             ]);
         } else {
 
-            $val = $entityManager->getRepository(Reference::class)->findBy(['id' => $parametersAsArray["id"]]);
+            $val = $entityManager->getRepository(Reference::class)->findBy(['id' => $parametersAsArray["id"]], ['deleted' => false]);
 
             if ($val === null) {
                 return $this->json([
@@ -60,7 +60,7 @@ class ReferenceByIdController extends AbstractController
 
 
                 return $this->json([
-                    'message' => 'La liste des Reference',
+                    'message' => 'Liste des Reference',
                     'data' => $array,
                     'status' => 'success'
                 ]);

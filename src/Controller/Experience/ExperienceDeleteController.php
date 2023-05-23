@@ -30,7 +30,7 @@ class ExperienceDeleteController extends AbstractController
 
         if ($id == NULL) {
             $output = array(
-                "status" => "erreur",
+                "status" => "error",
                 "message" => "Données introuvable, merci de contacter l'administrateur !"
             );
         } else {
@@ -42,7 +42,7 @@ class ExperienceDeleteController extends AbstractController
 
             if (empty($info)) {
                 $output = array(
-                    "status" => "erreur",
+                    "status" => "error",
                     "message" => "Experience non disponible !"
                 );
             } else {
@@ -53,12 +53,12 @@ class ExperienceDeleteController extends AbstractController
                     $em->flush();
                     $output = array(
                         "status" => "success",
-                        "message" => "Experience supprimé avec succès !"
+                        "message" => "Experience supprimé avec success !"
                     );
                 } catch (Exception $ex) {
 
                     $output = array(
-                        "status" => "erreur",
+                        "status" => "error",
                         "message" => $ex->getMessage()
                     );
                 }

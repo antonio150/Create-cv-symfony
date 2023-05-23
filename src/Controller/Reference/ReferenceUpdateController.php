@@ -78,7 +78,7 @@ class ReferenceUpdateController extends AbstractController
 
                         return $this->json([
                             'message' => 'Champ modifier',
-                            'status' => 'succes'
+                            'status' => 'success'
                         ]);
                     }
                 } else {

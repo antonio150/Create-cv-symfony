@@ -28,7 +28,7 @@ class ReferenceDeleteController extends AbstractController
 
         if ($id == NULL) {
             $output = array(
-                "status" => "erreur",
+                "status" => "error",
                 "message" => "Données introuvable, merci de contacter l'administrateur !"
             );
         } else {
@@ -40,7 +40,7 @@ class ReferenceDeleteController extends AbstractController
 
             if (empty($info)) {
                 $output = array(
-                    "status" => "erreur",
+                    "status" => "error",
                     "message" => "Reference non disponible !"
                 );
             } else {
@@ -51,12 +51,12 @@ class ReferenceDeleteController extends AbstractController
                     $em->flush();
                     $output = array(
                         "status" => "success",
-                        "message" => "Reference supprimé avec succès !"
+                        "message" => "Reference supprimé avec success !"
                     );
                 } catch (Exception $ex) {
 
                     $output = array(
-                        "status" => "erreur",
+                        "status" => "error",
                         "message" => $ex->getMessage()
                     );
                 }

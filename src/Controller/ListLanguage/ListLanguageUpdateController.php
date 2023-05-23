@@ -83,8 +83,8 @@ class ListLanguageUpdateController extends AbstractController
                     $entityManager->flush();
 
                     return $this->json([
-                        'message' => 'Champ modifier',
-                        'status' => 'succes'
+                        'message' => 'Champ modifier avec success',
+                        'status' => 'success'
                     ]);
                 }
             }

@@ -32,7 +32,7 @@ class BasdepageByIdController extends AbstractController
             ]);
         } else {
 
-            $val = $entityManager->getRepository(BasDePage::class)->findBy(['id' => $parametersAsArray["id"]]);
+            $val = $entityManager->getRepository(BasDePage::class)->findBy(['id' => $parametersAsArray["id"]], ['deleted' => false]);
 
             if ($val === null) {
                 return $this->json([

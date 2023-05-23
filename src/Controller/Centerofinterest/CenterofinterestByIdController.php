@@ -32,7 +32,7 @@ class CenterofinterestByIdController extends AbstractController
             ]);
         } else {
 
-            $val = $entityManager->getRepository(CenterOfInterest::class)->findBy(['id' => $parametersAsArray["id"]]);
+            $val = $entityManager->getRepository(CenterOfInterest::class)->findBy(['id' => $parametersAsArray["id"], ['is_deleted' => false]]);
 
             if ($val === null) {
                 return $this->json([

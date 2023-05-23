@@ -30,8 +30,7 @@ class SkillReadController extends AbstractController
             array_push($output, $temp);
         }
 
-        return $this->json([
-            'message' => 'List of skill',
+        return $this->json(['message' => 'List de skill',
             'data' => $output,
             'status' => 'success'
         ]);

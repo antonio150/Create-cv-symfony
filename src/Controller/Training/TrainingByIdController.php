@@ -31,12 +31,12 @@ class TrainingByIdController extends AbstractController
             ]);
         } else {
 
-            $val = $entityManager->getRepository(ProfessionalTraining::class)->findBy(['id' => $parametersAsArray["id"]]);
+            $val = $entityManager->getRepository(ProfessionalTraining::class)->findBy(['id' => $parametersAsArray["id"]], ['is_deleted' => false]);
 
             if ($val === null) {
                 return $this->json([
-                    'message' => 'Id undefined',
-                    'status' => 'success'
+                    'message' => 'Id non definie',
+                    'status' => 'error'
                 ]);
             } else {
                 $array = [];

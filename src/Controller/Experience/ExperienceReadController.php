@@ -2,6 +2,7 @@
 
 namespace App\Controller\Experience;
 
+use App\Entity\ProfessionalExperience;
 use App\Repository\PersonalInformationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,7 +27,7 @@ class ExperienceReadController extends AbstractController
 
         $output = array();
         $temp = array();
-        $repository = $this->getDoctrine()->getRepository(PersonalInformation::class);
+        $repository = $this->getDoctrine()->getRepository(ProfessionalExperience::class);
         $data = $repository->findBy(['is_deleted' => false], array('id' => 'DESC'));
 
         foreach ($data as $item) {

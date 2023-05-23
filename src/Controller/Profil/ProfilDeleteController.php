@@ -24,7 +24,7 @@ class ProfilDeleteController extends AbstractController
 
         if ($id == NULL) {
             $output = array(
-                "status" => "erreur",
+                "status" => "error",
                 "message" => "Données introuvable, merci de contacter l'administrateur !"
             );
         } else {
@@ -36,7 +36,7 @@ class ProfilDeleteController extends AbstractController
 
             if (empty($client)) {
                 $output = array(
-                    "status" => "erreur",
+                    "status" => "error",
                     "message" => "Profil non disponible !"
                 );
             } else {
@@ -52,7 +52,7 @@ class ProfilDeleteController extends AbstractController
                 } catch (Exception $ex) {
 
                     $output = array(
-                        "status" => "erreur",
+                        "status" => "error",
                         "message" => $ex->getMessage()
                     );
                 }

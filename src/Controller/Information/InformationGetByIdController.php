@@ -32,7 +32,7 @@ class InformationGetByIdController extends AbstractController
             ]);
         } else {
 
-            $val = $entityManager->getRepository(PersonalInformation::class)->findBy(['id' => $parametersAsArray["id"]]);
+            $val = $entityManager->getRepository(PersonalInformation::class)->findBy(['id' => $parametersAsArray["id"]], ['is_deleted' => false]);
 
             if ($val === null) {
                 return $this->json([
@@ -69,7 +69,7 @@ class InformationGetByIdController extends AbstractController
 
 
                 return $this->json([
-                    'message' => 'La liste des Information',
+                    'message' => 'Liste des Information',
                     'data' => $array,
                     'status' => 'success'
                 ]);

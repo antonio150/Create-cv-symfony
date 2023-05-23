@@ -30,7 +30,7 @@ class InformationDeleteController extends AbstractController
 
         if ($id == NULL) {
             $output = array(
-                "status" => "erreur",
+                "status" => "error",
                 "message" => "Données introuvable, merci de contacter l'administrateur !"
             );
         } else {
@@ -42,7 +42,7 @@ class InformationDeleteController extends AbstractController
 
             if (empty($info)) {
                 $output = array(
-                    "status" => "erreur",
+                    "status" => "error",
                     "message" => "Information non disponible !"
                 );
             } else {
@@ -58,7 +58,7 @@ class InformationDeleteController extends AbstractController
                 } catch (Exception $ex) {
 
                     $output = array(
-                        "status" => "erreur",
+                        "status" => "error",
                         "message" => $ex->getMessage()
                     );
                 }

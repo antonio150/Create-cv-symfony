@@ -32,7 +32,7 @@ class SkillByIdController extends AbstractController
             ]);
         } else {
 
-            $val = $entityManager->getRepository(Skill::class)->findBy(['id' => $parametersAsArray["id"]]);
+            $val = $entityManager->getRepository(Skill::class)->findBy(['id' => $parametersAsArray["id"]], ['is_deleted' => false]);
 
             if ($val === null) {
                 return $this->json([

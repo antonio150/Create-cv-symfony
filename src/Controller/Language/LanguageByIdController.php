@@ -32,7 +32,7 @@ class LanguageByIdController extends AbstractController
             ]);
         } else {
 
-            $val = $entityManager->getRepository(Language::class)->findBy(['id' => $parametersAsArray["id"]]);
+            $val = $entityManager->getRepository(Language::class)->findBy(['id' => $parametersAsArray["id"]], ['is_deleted' => false]);
 
             if ($val === null) {
                 return $this->json([
@@ -55,8 +55,7 @@ class LanguageByIdController extends AbstractController
 
 
 
-                return $this->json([
-                    'message' => 'La liste des Language',
+                return $this->json(['message' => 'Liste des Language',
                     'data' => $array,
                     'status' => 'success'
                 ]);

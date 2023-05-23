@@ -29,7 +29,8 @@ class ListLanguageReadController extends AbstractController
             array_push($output, $temp);
         }
 
-        return $this->json(['message' => 'La liste des language',
+        return $this->json([
+            'message' => 'Liste des language',
             'data' => $output,
             'status' => 'success'
         ]);

@@ -2,6 +2,7 @@
 
 namespace App\Controller\Experience;
 
+use App\Entity\ProfessionalExperience;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -30,8 +31,8 @@ class ExperienceUpdateController extends AbstractController
             ]);
         } else {
             if (
-                empty($parametersAsArray['name']) || empty($parametersAsArray['first_name']) || empty($parametersAsArray['email']) || empty($parametersAsArray['profil_title']) ||
-                empty($parametersAsArray['telephone']) || empty($parametersAsArray['address'])
+                empty($parametersAsArray['job']) || empty($parametersAsArray['company']) || empty($parametersAsArray['city']) || empty($parametersAsArray['month_start']) ||
+                empty($parametersAsArray['year_start']) || empty($parametersAsArray['month_end']) || empty($parametersAsArray['year_end']) || empty($parametersAsArray['this_day'])
             ) {
                 return $this->json([
                     'message' => 'Veuiller remplir tous les champ svp !',
@@ -39,11 +40,10 @@ class ExperienceUpdateController extends AbstractController
                 ]);
             } else {
 
-                $str = $parametersAsArray['email'];
-                $pattern = "/@/i";
+               
                 $date = date('Y-m-d');
 
-                if (preg_match($pattern, $str) === 1) {
+               
 
                     if (empty($parametersAsArray["id"])) {
                         return $this->json([
@@ -52,7 +52,7 @@ class ExperienceUpdateController extends AbstractController
                         ]);
                     } else {
 
-                        $experience = $entityManager->getRepository(PersonalInformation::class)->find($parametersAsArray["id"]);
+                    $experience = $entityManager->getRepository(ProfessionalExperience::class)->find($parametersAsArray["id"]);
                         $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $parametersAsArray["id_cv"]]);
 
                         $array = [];
@@ -76,18 +76,12 @@ class ExperienceUpdateController extends AbstractController
 
                         $entityManager->flush();
 
-                        return $this->json([
-                            'message' => 'Champ modifier',
-                            'status' => 'succes'
-                        ]);
-                    }
-                } else {
-                    return $this->json([
-                        'message' => 'Mail non valide',
-                        'status' => 'error'
+                    return $this->json(['message' => 'Champ modifier avec success',
+                        'status' => 'success'
                     ]);
                 }
-            }
+            } 
+           
         }
     }
 }

@@ -28,7 +28,7 @@ class TrainingDeleteController extends AbstractController
 
         if ($id == NULL) {
             $output = array(
-                "status" => "erreur",
+                "status" => "error",
                 "message" => "Données introuvable, merci de contacter l'administrateur !"
             );
         } else {
@@ -40,7 +40,7 @@ class TrainingDeleteController extends AbstractController
 
             if (empty($formation)) {
                 $output = array(
-                    "status" => "erreur",
+                    "status" => "error",
                     "message" => "Training non disponible !"
                 );
             } else {
@@ -56,7 +56,7 @@ class TrainingDeleteController extends AbstractController
                 } catch (Exception $ex) {
 
                     $output = array(
-                        "status" => "erreur",
+                        "status" => "error",
                         "message" => $ex->getMessage()
                     );
                 }

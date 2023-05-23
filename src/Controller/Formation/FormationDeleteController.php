@@ -29,7 +29,7 @@ class FormationDeleteController extends AbstractController
 
         if ($id == NULL) {
             $output = array(
-                "status" => "erreur",
+                "status" => "error",
                 "message" => "Données introuvable, merci de contacter l'administrateur !"
             );
         } else {
@@ -41,7 +41,7 @@ class FormationDeleteController extends AbstractController
 
             if (empty($formation)) {
                 $output = array(
-                    "status" => "erreur",
+                    "status" => "error",
                     "message" => "Formation non disponible !"
                 );
             } else {
@@ -52,12 +52,12 @@ class FormationDeleteController extends AbstractController
                     $em->flush();
                     $output = array(
                         "status" => "success",
-                        "message" => "Formation supprimé avec succès !"
+                        "message" => "Formation supprimé avec success !"
                     );
                 } catch (Exception $ex) {
 
                     $output = array(
-                        "status" => "erreur",
+                        "status" => "error",
                         "message" => $ex->getMessage()
                     );
                 }

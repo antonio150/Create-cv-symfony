@@ -31,7 +31,7 @@ class CenterofinterestDeleteController extends AbstractController
 
         if ($id == NULL) {
             $output = array(
-                "status" => "erreur",
+                "status" => "error",
                 "message" => "Données introuvable, merci de contacter l'administrateur !"
             );
         } else {
@@ -43,7 +43,7 @@ class CenterofinterestDeleteController extends AbstractController
 
             if (empty($info)) {
                 $output = array(
-                    "status" => "erreur",
+                    "status" => "error",
                     "message" => "Centerofinterest non disponible !"
                 );
             } else {
@@ -54,12 +54,12 @@ class CenterofinterestDeleteController extends AbstractController
                     $em->flush();
                     $output = array(
                         "status" => "success",
-                        "message" => "Centerofinterest supprimé avec succès !"
+                        "message" => "Centerofinterest supprimé avec success !"
                     );
                 } catch (Exception $ex) {
 
                     $output = array(
-                        "status" => "erreur",
+                        "status" => "error",
                         "message" => $ex->getMessage()
                     );
                 }

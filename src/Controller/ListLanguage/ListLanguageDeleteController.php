@@ -27,7 +27,7 @@ class ListLanguageDeleteController extends AbstractController
 
         if ($id == NULL) {
             $output = array(
-                "status" => "erreur",
+                "status" => "error",
                 "message" => "Données introuvable, merci de contacter l'administrateur !"
             );
         } else {
@@ -39,7 +39,7 @@ class ListLanguageDeleteController extends AbstractController
 
             if (empty($formation)) {
                 $output = array(
-                    "status" => "erreur",
+                    "status" => "error",
                     "message" => "List Language non disponible !"
                 );
             } else {
@@ -55,7 +55,7 @@ class ListLanguageDeleteController extends AbstractController
                 } catch (Exception $ex) {
 
                     $output = array(
-                        "status" => "erreur",
+                        "status" => "error",
                         "message" => $ex->getMessage()
                     );
                 }

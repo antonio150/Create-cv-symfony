@@ -37,7 +37,7 @@ class FormationReadController extends AbstractController
         }
 
         return $this->json([
-            'message' => 'La liste des utilisateurs',
+            'message' => 'Liste des utilisateurs avec success',
             'data' => $output,
             'status' => 'success'
         ]);
