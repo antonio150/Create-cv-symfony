@@ -71,10 +71,12 @@ class InformationCreateController extends AbstractController
 
                     // $brochureFile = $request->files->get('file');
                     $pathname = $parametersAsArray["path"];
+                    $valPathname = str_replace("\\", "/", $pathname);
                     $newFilename = $parametersAsArray["photo"];
                     $rand = rand(10, 10000);
+                    echo ($valPathname);
 
-                    $filesystem->copy($pathname . '/' . $newFilename, $this->getParameter('brochures_directory') . '/' . $rand . $newFilename);
+                    $filesystem->copy($valPathname . '/' . $newFilename, $this->getParameter('brochures_directory') . '/' . $rand . $newFilename);
 
 
 
@@ -83,7 +85,7 @@ class InformationCreateController extends AbstractController
 
                     $info->setPhoto($rand . $parametersAsArray["photo"]);
 
-                    $info->setPath($parametersAsArray["path"]);
+                    $info->setPath($valPathname);
                     $info->setPosition($parametersAsArray['position']);
                     $info->setDatenaiss(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['datenaiss']));
                     $info->setLieudenaiss($parametersAsArray['lieudenaiss']);
