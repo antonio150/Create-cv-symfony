@@ -24,72 +24,81 @@ class InformationCreateController extends AbstractController
         EntityManagerInterface $entityManager,
         SluggerInterface $slugger
     ): JsonResponse {
-        $parametersAsArray = [];
-        if ($content = $request->getContent()) {
-            $parametersAsArray = json_decode($content, true);
-        }
+        // $parametersAsArray = [];
+        // if ($content = $request->getContent()) {
+        //     $parametersAsArray = json_decode($content, true);
+        // }
 
-        if (empty($parametersAsArray)) {
-            return $this->json([
-                'message' => 'Le champ est vide',
-                'status' => 'error'
-            ]);
-        } else {
+        // if (empty($parametersAsArray)) {
+        //     return $this->json([
+        //         'message' => 'Le champ est vide',
+        //         'status' => 'error'
+        //     ]);
+        // } else {
             if (
-                empty($parametersAsArray['name']) || empty($parametersAsArray['first_name']) || empty($parametersAsArray['email']) ||
-                empty($parametersAsArray['telephone']) || empty($parametersAsArray['address']) 
+            empty($request->request->get("Name")) || empty($request->request->get("FirstName")) || empty($request->request->get("Email")) ||
+            empty($request->request->get("Telephone")) || empty($request->request->get("Address")) 
             ) {
                 return $this->json([
                     'message' => 'Veuiller remplir tous les champ svp !',
                     'status' => 'error'
                 ]);
             } else {
-                $str = $parametersAsArray['email'];
+            $str = $request->request->get("Email");
                 $pattern = "/@/i";
 
                 $date = date('Y-m-d');
                 if (preg_match($pattern, $str) === 1) {
                     $info = new PersonalInformation();
 
-                    $info->setName($parametersAsArray['name']);
-                    $info->setFirstName($parametersAsArray['first_name']);
-                    $info->setEmail($parametersAsArray['email']);
-                    $info->setTelephone($parametersAsArray['telephone']);
-                    $info->setAddress($parametersAsArray['address']);
-                    $info->setPostalCode($parametersAsArray['postal_code']);
-                    $info->setCity($parametersAsArray['city']);
-                    $info->setSexe($parametersAsArray['sexe']);
-                    $info->setNationality($parametersAsArray['nationality']);
-                    $info->setMaritalStatus($parametersAsArray['marital_status']);
-                    $info->setIsDeleted(false);
 
 
 
-                    $filesystem = new Filesystem();
+                $info->setName($request->request->get("Name"));
+                $info->setFirstName($request->request->get("FirstName"));
+                $info->setEmail($request->request->get("Email"));
+                $info->setTelephone($request->request->get("Telephone"));
+                $info->setAddress($request->request->get("Address"));
+                $info->setPostalCode($request->request->get("PostalCode"));
+                $info->setCity($request->request->get("City"));
+                $info->setSexe($request->request->get("Sexe"));
+                $info->setNationality($request->request->get("Nationality"));
+                $info->setMaritalStatus($request->request->get("MartialStatus"));
+                $info->setIsDeleted(false);
 
 
 
-                    // $brochureFile = $request->files->get('file');
-                    $pathname = $parametersAsArray["path"];
-                    $valPathname = str_replace("\\", "/", $pathname);
-                    $newFilename = $parametersAsArray["photo"];
-                    $rand = rand(10, 10000);
-                    echo ($valPathname);
-
-                    $filesystem->copy($valPathname . '/' . $newFilename, $this->getParameter('brochures_directory') . '/' . $rand . $newFilename);
+                $brochureFile = $request->files->get('file');
 
 
+                if ($brochureFile) {
+                    $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                    // this is needed to safely include the file name as part of the URL
+                    $safeFilename = $slugger->slug($originalFilename);
+                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $brochureFile->guessExtension();
+
+
+                    try {
+                        $brochureFile->move(
+                            $this->getParameter('brochures_directory'),
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+
+                    $info->setPhoto($newFilename);
+
+                    $info->setPath($this->getParameter('brochures_directory'));
+                }
 
 
 
 
-                    $info->setPhoto($rand . $parametersAsArray["photo"]);
-
-                    $info->setPath($valPathname);
-                    $info->setPosition($parametersAsArray['position']);
-                    $info->setDatenaiss(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['datenaiss']));
-                    $info->setLieudenaiss($parametersAsArray['lieudenaiss']);
-                    $info->setDriverLicense($parametersAsArray['driver_license']);
+                $info->setPosition($request->request->get("Position"));
+                $info->setDatenaiss(\DateTime::createFromFormat('Y-m-d', $request->request->get("DateOfBirth")));
+                $info->setLieudenaiss($request->request->get("PlaceOfBirth"));
+                $info->setDriverLicense($request->request->get("DriverLicense"));
 
 
 
@@ -116,7 +125,7 @@ class InformationCreateController extends AbstractController
                     
 
                    
-            }
+            // }
         }
     }
 }

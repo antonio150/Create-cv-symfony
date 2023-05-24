@@ -34,33 +34,33 @@ class ProductController extends AbstractController
 
 
 
-        // $brochureFile = $request->files->get('file');
-        $brochureFile = $parametersAsArray["path"];
-        $pathname = $parametersAsArray["photo"];
+        $brochureFile = $request->files->get('file');
+        // $brochureFile = $parametersAsArray["path"];
+        // $pathname = $parametersAsArray["photo"];
         // // dd($brochureFile);
 
 
-        // if ($brochureFile) {
-        //     $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
-        //     // this is needed to safely include the file name as part of the URL
-        //     $safeFilename = $slugger->slug($originalFilename);
-        //     $newFilename = $safeFilename . '-' . uniqid() . '.' . $brochureFile->guessExtension();
+        if ($brochureFile) {
+            $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+            // this is needed to safely include the file name as part of the URL
+            $safeFilename = $slugger->slug($originalFilename);
+            $newFilename = $safeFilename . '-' . uniqid() . '.' . $brochureFile->guessExtension();
 
 
-        //     try {
-        //         $brochureFile->move(
-        //             $this->getParameter('brochures_directory'),
-        //             $newFilename
-        //         );
-        //     } catch (FileException $e) {
-        //         // ... handle exception if something happens during file upload
-        //     }
-        //     // $path = $this->getParameter('brochures_directory');
-        //     $product->setBrochureFilename($newFilename);
-        // }
+            try {
+                $brochureFile->move(
+                    $this->getParameter('brochures_directory'),
+                    $newFilename
+                );
+            } catch (FileException $e) {
+                // ... handle exception if something happens during file upload
+            }
+            // $path = $this->getParameter('brochures_directory');
+            $product->setBrochureFilename($newFilename);
+        }
 
         // echo ($brochureFile . '/' . $pathname);
-        $filesystem->copy($brochureFile . '/' . $pathname, $this->getParameter('brochures_directory') . '/' . $pathname);
+        // $filesystem->copy($brochureFile . '/' . $pathname, $this->getParameter('brochures_directory') . '/' . $pathname);
 
         return $this->json([
             'message' => 'Liste des Training',
