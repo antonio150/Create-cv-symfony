@@ -72,15 +72,16 @@ class InformationCreateController extends AbstractController
                     // $brochureFile = $request->files->get('file');
                     $pathname = $parametersAsArray["path"];
                     $newFilename = $parametersAsArray["photo"];
+                    $rand = rand(10, 10000);
 
-                    $filesystem->copy($pathname . '/' . $newFilename, $this->getParameter('brochures_directory') . '/' . $newFilename);
-
-
-
+                    $filesystem->copy($pathname . '/' . $newFilename, $this->getParameter('brochures_directory') . '/' . $rand . $newFilename);
 
 
 
-                    $info->setPhoto($parametersAsArray["photo"]);
+
+
+
+                    $info->setPhoto($rand . $parametersAsArray["photo"]);
 
                     $info->setPath($parametersAsArray["path"]);
                     $info->setPosition($parametersAsArray['position']);
