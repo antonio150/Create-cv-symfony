@@ -25,15 +25,21 @@ class ReferenceUpdateController extends AbstractController
             $parametersAsArray = json_decode($content, true);
         }
 
-        if (empty($parametersAsArray)) {
+
+        $countNB = count($parametersAsArray);
+
+
+        if ($countNB === 0) {
             return $this->json([
                 'message' => 'Le champ est vide',
                 'status' => 'error'
             ]);
         } else {
+
+            foreach ($parametersAsArray as $referenceJson) {
             if (
-                empty($parametersAsArray['name']) || empty($parametersAsArray['company']) || empty($parametersAsArray['city']) ||
-                empty($parametersAsArray['phone']) || empty($parametersAsArray['mail'])
+                    empty($referenceJson['name']) || empty($referenceJson['company']) || empty($referenceJson['city']) ||
+                    empty($referenceJson['phone']) || empty($referenceJson['mail'])
             ) {
                 return $this->json([
                     'message' => 'Veuiller remplir tous les champ svp !',
@@ -41,51 +47,54 @@ class ReferenceUpdateController extends AbstractController
                 ]);
             } else {
 
-                $str = $parametersAsArray['mail'];
+                    $str = $referenceJson['mail'];
                 $pattern = "/@/i";
                 $date = date('Y-m-d');
 
                 if (preg_match($pattern, $str) === 1) {
 
-                    if (empty($parametersAsArray["id"])) {
+                        if (empty($referenceJson["id"])) {
                         return $this->json(['message' => 'Id non definie !',
                             'status' => 'error'
                         ]);
                     } else {
 
-                        $info = $entityManager->getRepository(Reference::class)->find($parametersAsArray["id"]);
-                        $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $parametersAsArray["id_cv"]]);
+                            $info = $entityManager->getRepository(Reference::class)->find($referenceJson["id"]);
+                            $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $referenceJson["id_cv"]]);
 
                         $array = [];
 
 
                         $info->setIdCv($val);
 
-                        $info->setName($parametersAsArray['name']);
-                        $info->setCompany($parametersAsArray['company']);
-                        $info->setCity($parametersAsArray['city']);
-                        $info->setPhone($parametersAsArray['phone']);
-                        $info->setMail($parametersAsArray['mail']);
+                            $info->setName($referenceJson['name']);
+                            $info->setCompany($referenceJson['company']);
+                            $info->setCity($referenceJson['city']);
+                            $info->setPhone($referenceJson['phone']);
+                            $info->setMail($referenceJson['mail']);
 
                         $info->setDeleted(false);
 
 
-                        // $info->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['createdAt']));
+                        // $info->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $referenceJson['createdAt']));
                         $info->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
 
                         $entityManager->flush();
 
-                        return $this->json(['message' => 'Modification effectué avec succès',
-                            'status' => 'success'
-                        ]);
+                       
                     }
                 } else {
                     return $this->json([
                         'message' => 'Mail non valide',
                         'status' => 'error'
-                    ]);
+                        ]);
+                    }
                 }
             }
+            return $this->json([
+                'message' => 'Modification effectué avec succès',
+                'status' => 'success'
+            ]);
         }
     }
 }

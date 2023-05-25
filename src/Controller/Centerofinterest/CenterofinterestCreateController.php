@@ -24,18 +24,23 @@ class CenterofinterestCreateController extends AbstractController
             $parametersAsArray = json_decode($content, true);
         }
 
-        if (empty($parametersAsArray)) {
+        $countNB = count($parametersAsArray);
+
+
+        if ($countNB === 0) {
             return $this->json([
                 'message' => 'Le champ est vide',
                 'status' => 'error'
             ]);
         } else {
 
+            foreach ($parametersAsArray as $centerofinterestJson) {
+
 
             $date = date('Y-m-d');
 
             $centerofinterest = new CenterOfInterest();
-            $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $parametersAsArray["id_cv"]]);
+                $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $centerofinterestJson["id_cv"]]);
 
             $array = [];
 
@@ -43,10 +48,9 @@ class CenterofinterestCreateController extends AbstractController
                 $centerofinterest->setIdCv($infos);
 
 
-                $array[] = $centerofinterest;
             }
 
-            $centerofinterest->setDescription($parametersAsArray['description']);
+                $centerofinterest->setDescription($centerofinterestJson['description']);
 
             $centerofinterest->setIsDeleted(false);
 
@@ -54,13 +58,13 @@ class CenterofinterestCreateController extends AbstractController
 
 
             $centerofinterest->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
-            // $centerofinterest->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
+            // $centerofinterest->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $centerofinterestJson['updatedAt']));
 
 
             
             $entityManager->persist($centerofinterest);
             $entityManager->flush();
-
+            }
             return $this->json([
                 'message' => 'Centre d\'interet Créer avec succés',
                 'status' => 'success'

@@ -26,14 +26,20 @@ class ListLanguageCreateController extends AbstractController
             $parametersAsArray = json_decode($content, true);
         }
 
-        if (empty($parametersAsArray)) {
+        $countNB = count($parametersAsArray);
+
+
+        if ($countNB === 0) {
             return $this->json([
                 'message' => 'Le champ est vide',
                 'status' => 'error'
             ]);
         } else {
+
+            foreach ($parametersAsArray as $listlanguageJson) {
+
             if (
-                empty($parametersAsArray['note_language']) || empty($parametersAsArray['id_language'])
+                    empty($listlanguageJson['note_language']) || empty($listlanguageJson['id_language'])
             ) {
                 return $this->json([
                     'message' => 'Veuiller remplir tous les champ svp !',
@@ -43,51 +49,48 @@ class ListLanguageCreateController extends AbstractController
 
                 $date = date('Y-m-d');
 
-                $formation = new ListLanguage();
+                    $listlanguage = new ListLanguage();
 
-                $val = $entityManager->getRepository(Language::class)->findBy(['id' => $parametersAsArray["id_language"]]);
+                    $val = $entityManager->getRepository(Language::class)->findBy(['id' => $listlanguageJson["id_language"]]);
 
                 $array = [];
 
                 foreach ($val as $infos) {
-                    $formation->setIdLanguage($infos);
+                        $listlanguage->setIdLanguage($infos);
 
-
-                    $array[] = $formation;
                 }
 
 
-                $id_cv = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $parametersAsArray["id_cv"]]);
+                    $id_cv = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $listlanguageJson["id_cv"]]);
 
                 $array = [];
 
                 foreach ($id_cv as $infos) {
-                    $formation->setIdCv($infos);
+                        $listlanguage->setIdCv($infos);
 
 
-                    $array[] = $formation;
                 }
-                $formation->setNoteLanguage($parametersAsArray['note_language']);
+                    $listlanguage->setNoteLanguage($listlanguageJson['note_language']);
 
 
-                $formation->setDeleted(false);
+                    $listlanguage->setDeleted(false);
 
 
 
 
 
-                $formation->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
-                // $formation->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
+                    $listlanguage->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
+                    // $listlanguage->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $listlanguageJson['updatedAt']));
 
 
-                $entityManager->persist($formation);
+                    $entityManager->persist($listlanguage);
                 $entityManager->flush();
-
-                return $this->json([
-                    'message' => 'Formation créer avec succés',
-                    'status' => 'success'
-                ]);
+                }
             }
+            return $this->json([
+                'message' => 'Formation créer avec succés',
+                'status' => 'success'
+            ]);
         }
     }
 }

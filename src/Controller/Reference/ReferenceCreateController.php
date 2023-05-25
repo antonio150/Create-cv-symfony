@@ -25,29 +25,34 @@ class ReferenceCreateController extends AbstractController
             $parametersAsArray = json_decode($content, true);
         }
 
-        if (empty($parametersAsArray)) {
+        $countNB = count($parametersAsArray);
+
+
+        if ($countNB === 0) {
             return $this->json([
                 'message' => 'Le champ est vide',
                 'status' => 'error'
             ]);
         } else {
+
+            foreach ($parametersAsArray as $referenceJson) {
             if (
-                empty($parametersAsArray['name']) || empty($parametersAsArray['company']) || empty($parametersAsArray['city']) ||
-                empty($parametersAsArray['phone']) || empty($parametersAsArray['mail'])
+                    empty($referenceJson['name']) || empty($referenceJson['company']) || empty($referenceJson['city']) ||
+                    empty($referenceJson['phone']) || empty($referenceJson['mail'])
             ) {
                 return $this->json([
                     'message' => 'Veuiller remplir tous les champ svp !',
                     'status' => 'error'
                 ]);
             } else {
-                $str = $parametersAsArray['mail'];
+                    $str = $referenceJson['mail'];
                 $pattern = "/@/i";
 
                 $date = date('Y-m-d');
                 if (preg_match($pattern, $str) === 1) {
                     $reference = new Reference();
 
-                    $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $parametersAsArray["id_cv"]]);
+                        $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $referenceJson["id_cv"]]);
 
 
 
@@ -55,27 +60,24 @@ class ReferenceCreateController extends AbstractController
                         $reference->setIdCv($references);
                     }
 
-                    $reference->setName($parametersAsArray['name']);
-                    $reference->setCompany($parametersAsArray['company']);
-                    $reference->setCity($parametersAsArray['city']);
-                    $reference->setPhone($parametersAsArray['phone']);
-                    $reference->setMail($parametersAsArray['mail']);
+                        $reference->setName($referenceJson['name']);
+                        $reference->setCompany($referenceJson['company']);
+                        $reference->setCity($referenceJson['city']);
+                        $reference->setPhone($referenceJson['phone']);
+                        $reference->setMail($referenceJson['mail']);
 
                     $reference->setDeleted(false);
 
 
                     $reference->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
-                    // $reference->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
+                    // $reference->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $referenceJson['updatedAt']));
 
 
 
                     $entityManager->persist($reference);
                     $entityManager->flush();
 
-                    return $this->json([
-                        'message' => 'Reference créer avec succés',
-                        'status' => 'success'
-                    ]);
+                    
                 } else {
                     return $this->json([
                         'message' => 'Email non valide',
@@ -83,6 +85,11 @@ class ReferenceCreateController extends AbstractController
                     ]);
                 }
             }
+            }
+            return $this->json([
+                'message' => 'Reference créer avec succés',
+                'status' => 'success'
+            ]);
         }
     }
 }

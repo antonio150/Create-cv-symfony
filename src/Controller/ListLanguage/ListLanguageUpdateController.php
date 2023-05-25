@@ -25,14 +25,19 @@ class ListLanguageUpdateController extends AbstractController
             $parametersAsArray = json_decode($content, true);
         }
 
-        if (empty($parametersAsArray)) {
+        $countNB = count($parametersAsArray);
+
+
+        if ($countNB === 0) {
             return $this->json([
                 'message' => 'Le champ est vide',
                 'status' => 'error'
             ]);
         } else {
+
+            foreach ($parametersAsArray as $listlanguageJson) {
             if (
-                empty($parametersAsArray['note_language']) || empty($parametersAsArray['id_language'])
+                    empty($listlanguageJson['note_language']) || empty($listlanguageJson['id_language'])
             ) {
                 return $this->json([
                     'message' => 'Veuiller remplir tous les champ svp !',
@@ -45,22 +50,22 @@ class ListLanguageUpdateController extends AbstractController
 
 
 
-                if (empty($parametersAsArray["id"])) {
+                    if (empty($listlanguageJson["id"])) {
                     return $this->json(['message' => 'Id non definie !',
                         'status' => 'error'
                     ]);
                 } else {
-                    $formation = $entityManager->getRepository(ListLanguage::class)->findOneBy(["id" => $parametersAsArray["id"]]);
+                        $formation = $entityManager->getRepository(ListLanguage::class)->findOneBy(["id" => $listlanguageJson["id"]]);
 
 
-                    $val = $entityManager->getRepository(Language::class)->findOneBy(['id' => $parametersAsArray["id_language"]]);
+                        $val = $entityManager->getRepository(Language::class)->findOneBy(['id' => $listlanguageJson["id_language"]]);
 
                     $array = [];
 
 
                     $formation->setIdLanguage($val);
 
-                    $id_cv = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $parametersAsArray["id_cv"]]);
+                        $id_cv = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $listlanguageJson["id_cv"]]);
 
                     $array = [];
 
@@ -69,23 +74,24 @@ class ListLanguageUpdateController extends AbstractController
 
 
 
-                    $formation->setNoteLanguage($parametersAsArray['note_language']);
+                        $formation->setNoteLanguage($listlanguageJson['note_language']);
 
 
                     $formation->setDeleted(false);
 
 
 
-                    // $info->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['createdAt']));
+                    // $info->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $listlanguageJson['createdAt']));
                     $formation->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
 
                     $entityManager->flush();
-
-                    return $this->json(['message' => 'Modification effectué avec succès',
-                        'status' => 'success'
-                    ]);
+                    }
                 }
             }
+            return $this->json([
+                'message' => 'Modification effectué avec succès',
+                'status' => 'success'
+            ]);
         }
     }
 }

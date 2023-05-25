@@ -25,41 +25,46 @@ class CenterofinterestUpdateController extends AbstractController
             $parametersAsArray = json_decode($content, true);
         }
 
-        if (empty($parametersAsArray)) {
+        $countNB = count($parametersAsArray);
+
+
+        if ($countNB === 0) {
             return $this->json([
                 'message' => 'Le champ est vide',
                 'status' => 'error'
             ]);
         } else {
 
+            foreach ($parametersAsArray as $centerofinterestJson) {
+
             $date = date('Y-m-d');
 
 
-            if (empty($parametersAsArray["id"])) {
+                if (empty($centerofinterestJson["id"])) {
                 return $this->json(['message' => 'Id non definie !',
                     'status' => 'error'
                 ]);
             } else {
 
-                $centerofinterest = $entityManager->getRepository(CenterOfInterest::class)->find($parametersAsArray["id"]);
-                $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $parametersAsArray["id_cv"]]);
+                    $centerofinterest = $entityManager->getRepository(CenterOfInterest::class)->find($centerofinterestJson["id"]);
+                    $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $centerofinterestJson["id_cv"]]);
 
                 $array = [];
 
 
                 $centerofinterest->setIdCv($val);
 
-                $centerofinterest->setDescription($parametersAsArray['description']);
+                    $centerofinterest->setDescription($centerofinterestJson['description']);
 
 
                 $centerofinterest->setIsDeleted(false);
 
 
-                // $centerofinterest->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['createdAt']));
+                // $centerofinterest->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $centerofinterestJson['createdAt']));
                 $centerofinterest->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
 
                 $entityManager->flush();
-
+                }
                 return $this->json([
                     'message' => 'Modification effectué avec succès',
                     'status' => 'success'
