@@ -19,9 +19,11 @@ use App\Repository\CustomFieldInformationRepository;
 use App\Repository\PersonalInformationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class CvCreateController extends AbstractController
 {
@@ -32,6 +34,7 @@ class CvCreateController extends AbstractController
         PersonalInformationRepository $personalInformationRepository,
         CustomFieldInformationRepository $customFieldInformationRepository,
         CurriculumRepository $curriculumRepository,
+        SluggerInterface $slugger,
         EntityManagerInterface $entityManager
     ): Response
     {
@@ -67,14 +70,9 @@ class CvCreateController extends AbstractController
                     'message' => 'Merci de remplir les champs skill ! ',
                     'status' => 'error'
                 );
-            } else if (empty($data["Language"])) {
+            } else if (empty($data["ListeLanguage"])) {
                 $output = array(
                     'message' => 'Merci de remplir les champs skill ! ',
-                    'status' => 'error'
-                );
-            } else if (empty($data["Information"])) {
-                $output = array(
-                    'message' => 'Merci de remplir les champs information ! ',
                     'status' => 'error'
                 );
             } else if (empty($data["CenterOfInterest"])) {
@@ -100,8 +98,8 @@ class CvCreateController extends AbstractController
             } else {
 
                 if (
-                    empty($data["Information"]['name']) || empty($data["Information"]['first_name']) || empty($data["Information"]['email']) ||
-                    empty($data["Information"]['telephone']) || empty($data["Information"]['address'])
+                    empty($request->request->get("Name")) || empty($request->request->get("FirstName")) || empty($request->request->get("Email")) ||
+                    empty($request->request->get("Telephone")) || empty($request->request->get("Address"))
                 ) {
                     $output = array(
                         'message' => 'Veuiller remplir tous les champ de Information svp !',
@@ -159,74 +157,109 @@ class CvCreateController extends AbstractController
 
                     // ======================================== Information =========================================
 
-                    $str = $data["Information"]['email'];
+                    $str = $request->request->get("Email");
                     $pattern = "/@/i";
 
                     $date = date('Y-m-d');
-
-
                     if (preg_match($pattern, $str) === 1) {
-
-
-                        // foreach ($data["Information"] as $value) {
-
-                        
-
                         $info = new PersonalInformation();
 
-                        $cv->setPersonalInformation($info->getId());
 
-                        $info->setName($data["Information"]["name"]);
-                        $info->setFirstName($data["Information"]["first_name"]);
-                        $info->setEmail($data["Information"]["email"]);
-                        $info->setTelephone($data["Information"]["telephone"]);
-                        $info->setAddress($data["Information"]["address"]);
-                        $info->setPostalCode($data["Information"]["postal_code"]);
-                        $info->setCity($data["Information"]["city"]);
-                        $info->setSexe($data["Information"]["sexe"]);
-                        $info->setNationality($data["Information"]["nationality"]);
-                        $info->setMaritalStatus($data["Information"]["marital_status"]);
+                        $info->setName($request->request->get("Name"));
+                        $info->setFirstName($request->request->get("FirstName"));
+                        $info->setEmail($request->request->get("Email"));
+                        $info->setTelephone($request->request->get("Telephone"));
+                        $info->setAddress($request->request->get("Address"));
+                        $info->setPostalCode($request->request->get("PostalCode"));
+                        $info->setCity($request->request->get("City"));
+                        $info->setSexe($request->request->get("Sexe"));
+                        $info->setNationality($request->request->get("Nationality"));
+                        $info->setMaritalStatus($request->request->get("MartialStatus"));
                         $info->setIsDeleted(false);
-                        $info->setPhoto($data["Information"]["photo"]);
-                        $info->setPath($data["Information"]["path"]);
-                        $info->setPosition($data["Information"]["position"]);
-                        $info->setDatenaiss(\DateTime::createFromFormat('Y-m-d', $data["Information"]["datenaiss"]));
-                        $info->setLieudenaiss($data["Information"]["lieudenaiss"]);
-                        $info->setDriverLicense($data["Information"]["driver_license"]);
+
+
+
+                        $brochureFile = $request->files->get('file');
+
+
+                        if ($brochureFile) {
+                            $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
+                            // this is needed to safely include the file name as part of the URL
+                            $safeFilename = $slugger->slug($originalFilename);
+                            $newFilename = $safeFilename . '-' . uniqid() . '.' . $brochureFile->guessExtension();
+
+
+                            try {
+                                $brochureFile->move(
+                                    $this->getParameter('brochures_directory'),
+                                    $newFilename
+                                );
+                            } catch (FileException $e) {
+                                // ... handle exception if something happens during file upload
+                            }
+
+                            $info->setPhoto($newFilename);
+
+                            $info->setPath($this->getParameter('brochures_directory'));
+                        }
+
+
+
+
+                        $info->setPosition($request->request->get("Position"));
+                        $info->setDatenaiss(\DateTime::createFromFormat('Y-m-d', $request->request->get("DateOfBirth")));
+                        $info->setLieudenaiss($request->request->get("PlaceOfBirth"));
+                        $info->setDriverLicense($request->request->get("DriverLicense"));
 
 
 
                         $info->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
-                        // $info->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $data['updatedAt']));
+                        // $info->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
 
 
-                        $form = $data;
-                        $vals = $info->getId();
 
                         $entityManager->persist($info);
                         $entityManager->flush();
+
+                        $output = array(
+                            'message' => 'Liste des Informations créer avec succés',
+
+                            'status' => 'success'
+                        );
+                    } else {
+                        $output = array(
+                            'message' => 'Email non valide',
+                            'status' => 'error'
+                        );
                     }
-
-
 
                     // ======================================== PROFIL =========================================
 
-                    $profil = new Profil();
+                    $info = new Profil();
+                    $date = date('Y-m-d');
 
-                    $cv->setIdProfil($profil->getId());
-                    
-                    $profil->setDescription($data["Profil"]['description']);
-                    // $profil->setCurriculum($data['curriculum']);
-                    $profil->setIsDeleted(false);
+                    $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $data["Profil"]["id_cv"]]);
 
-                    $profil->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
-                    // $profil->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $data['updatedAt']));
+                    $array = [];
 
-                    $entityManager->persist($profil);
+                    foreach ($val as $infos) {
+                        $info->setIdCv($infos);
+
+
+                        $array[] = $info;
+                    }
+
+                    $info->setDescription($data["Profil"]['description']);
+
+                    $info->setIsDeleted(false);
+
+                    $info->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
+
+                    $entityManager->persist($info);
                     $entityManager->flush();
 
                     $output = array(
-                        'message' => 'Ajout avec success ',
+                        'message' => 'Profil ajouter avec succès',
                         'status' => 'success'
                     );
 
@@ -237,7 +270,16 @@ class CvCreateController extends AbstractController
 
                     $formation = new Formation();
 
-                    $formation->setIdCv($cv->getId());
+                    $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $data["Formation"]["id_cv"]]);
+
+                    $array = [];
+
+                    foreach ($val as $infos) {
+                        $formation->setIdCv($infos);
+
+
+                        $array[] = $formation;
+                    }
                     $formation->setTraining($data["Formation"]['training']);
                     $formation->setEstablishment($data["Formation"]['establishment']);
                     $formation->setCity($data["Formation"]['city']);
@@ -253,17 +295,16 @@ class CvCreateController extends AbstractController
 
 
                     $formation->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
-                    // $formation->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $data['updatedAt']));
+                    // $formation->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
 
 
                     $entityManager->persist($formation);
                     $entityManager->flush();
 
                     $output = array(
-                        'message' => 'Ajout avec success ',
+                        'message' => 'Formation créé avec succès',
                         'status' => 'success'
                     );
-
 
                     // ======================================== EXPERIENCE =========================================
 
@@ -272,7 +313,17 @@ class CvCreateController extends AbstractController
 
                     $experience = new ProfessionalExperience();
 
-                    $experience->setIdCv($cv->getId());
+                    $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $data["Experience"]["id_cv"]]);
+
+                    $array = [];
+
+                    foreach ($val as $infos) {
+                        $experience->setIdCv($infos);
+
+
+                        $array[] = $experience;
+                    }
+
                     $experience->setJob($data["Experience"]['job']);
                     $experience->setCompany($data["Experience"]['company']);
                     $experience->setCity($data["Experience"]['city']);
@@ -288,14 +339,14 @@ class CvCreateController extends AbstractController
 
 
                     $experience->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
-                    // $experience->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $data['updatedAt']));
+                    // $experience->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
 
 
                     $entityManager->persist($experience);
                     $entityManager->flush();
 
                     $output = array(
-                        'message' => 'Experience Créer avec success',
+                        'message' => 'Experience créer avec succés',
                         'status' => 'success'
                     );
 
@@ -304,67 +355,80 @@ class CvCreateController extends AbstractController
 
 
                     $skill = new Skill();
+                    $date = date('Y-m-d');
 
-                    $skill->setIdCv($cv->getId());
+                    $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $data["Skill"]["id_cv"]]);
+
+
+
+                    foreach ($val as $references) {
+                        $skill->setIdCv($references);
+                    }
+
                     $skill->setSkill($data["Skill"]['skill']);
                     $skill->setLevel($data["Skill"]['level']);
                     $skill->setIsDeleted(false);
 
                     $skill->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
-                    // $skill->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $data['updatedAt']));
+                    // $skill->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
 
                     $entityManager->persist($skill);
                     $entityManager->flush();
 
                     $output = array(
-                        'message' => 'Skill Créer avec success',
+                        'message' => 'Skill créer avec succés',
                         'status' => 'success'
                     );
 
 
 
-                    // ======================================== LANGUAGE =========================================
+                    // ======================================== Liste LANGUAGE =========================================
 
 
 
 
-                    $date = date('Y-m-d');
+                    $listeLanguage = new ListLanguage();
 
-                    $lang = new ListLanguage();
-
-                    $val = $entityManager->getRepository(Language::class)->findBy(['id' => $data["id_language"]]);
+                    $val = $entityManager->getRepository(Language::class)->findBy(['id' => $data["ListeLanguage"]["id_language"]]);
 
                     $array = [];
 
                     foreach ($val as $infos) {
-                        $lang->setIdLanguage($infos);
+                        $listeLanguage->setIdLanguage($infos);
 
 
-                        $array[] = $formation;
+                        $array[] = $listeLanguage;
                     }
 
 
-                    $id_cv = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $data["id_cv"]]);
+                    $id_cv = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $data["ListeLanguage"]["id_cv"]]);
 
                     $array = [];
 
                     foreach ($id_cv as $infos) {
-                        $lang->setIdCv($infos);
+                        $listeLanguage->setIdCv($infos);
+
+
+                        $array[] = $listeLanguage;
                     }
+                    $listeLanguage->setNoteLanguage($data["ListeLanguage"]['note_language']);
 
-                    $lang->setDeleted(false);
 
-
-                    $lang->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
-                    // $lang->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $data['updatedAt']));
+                    $listeLanguage->setDeleted(false);
 
 
 
-                    $entityManager->persist($lang);
+
+
+                    $listeLanguage->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
+                    // $listeLanguage->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
+
+
+                    $entityManager->persist($formation);
                     $entityManager->flush();
 
                     $output = array(
-                        'message' => 'Language Créer avec success',
+                        'message' => 'Liste Language créer avec succés',
                         'status' => 'success'
                     );
 
@@ -375,26 +439,29 @@ class CvCreateController extends AbstractController
                     
 
                     $centerofinterest = new CenterOfInterest();
+                    $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $data["CenterOfInterest"]["id_cv"]]);
+
+                    $array = [];
+
+                    foreach ($val as $infos) {
+                        $centerofinterest->setIdCv($infos);
+
+
+                        $array[] = $centerofinterest;
+                    }
 
                     $centerofinterest->setDescription($data["CenterOfInterest"]['description']);
 
                     $centerofinterest->setIsDeleted(false);
-
-
-
-
+        
                     $centerofinterest->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
-                    // $centerofinterest->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $data['updatedAt']));
-
-
-                    $form = $data;
-                    $vals = $centerofinterest->getId();
-
+                    // $centerofinterest->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
+        
                     $entityManager->persist($centerofinterest);
                     $entityManager->flush();
 
                     $output = array(
-                        'message' => 'Centre d\'interet Créer avec success',
+                        'message' => 'Centre d\'interet Créer avec succés',
                         'status' => 'success'
                     );
 
@@ -408,10 +475,16 @@ class CvCreateController extends AbstractController
                     $pattern = "/@/i";
 
 
-                    if (preg_match($pattern,
-                        $str
-                    ) === 1) {
+                    if (preg_match($pattern, $str) === 1) {
                         $reference = new Reference();
+
+                        $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $data["Reference"]["id_cv"]]);
+
+
+
+                        foreach ($val as $references) {
+                            $reference->setIdCv($references);
+                        }
 
                         $reference->setName($data["Reference"]['name']);
                         $reference->setCompany($data["Reference"]['company']);
@@ -423,8 +496,7 @@ class CvCreateController extends AbstractController
 
 
                         $reference->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
-                        // $reference->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $data['updatedAt']));
-
+                        // $reference->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $data["Reference"]['updatedAt']));
 
 
 
@@ -432,12 +504,12 @@ class CvCreateController extends AbstractController
                         $entityManager->flush();
 
                         $output = array(
-                            'message' => 'La liste des Refence Créer avec success',
+                            'message' => 'Reference créer avec succés',
                             'status' => 'success'
                         );
                     } else {
                         $output = array(
-                            'message' => 'Email de reference non valide',
+                            'message' => 'Email non valide',
                             'status' => 'error'
                         );
                     }
@@ -492,10 +564,6 @@ class CvCreateController extends AbstractController
                     $training->setYearEnd($data["Training"]['year_end']);
                     $training->setThisDay($data["Training"]['this_day']);
                     $training->setisDeleted(false);
-
-
-
-
 
                     $training->setCreatedAt(\DateTime::createFromFormat(
                         'Y-m-d',

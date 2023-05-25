@@ -2,6 +2,7 @@
 
 namespace App\Controller\Profil;
 
+use App\Entity\Curriculum;
 use App\Entity\Profil;
 use App\Repository\ProfilRepository;
 use Doctrine\ORM\EntityManager;
@@ -34,7 +35,16 @@ class ProfilCreateController extends AbstractController
 
             $info = new Profil();
             $date = date('Y-m-d');
+            $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $parametersAsArray["id_cv"]]);
 
+
+
+            foreach ($val as $references) {
+                $info->setIdCv($references);
+            }
+
+
+            // $info->setIdCv($parametersAsArray['id_cv']);
             $info->setDescription($parametersAsArray['description']);
             // $info->setCurriculum($parametersAsArray['curriculum']);
             $info->setIsDeleted(false);

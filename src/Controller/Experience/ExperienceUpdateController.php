@@ -25,64 +25,60 @@ class ExperienceUpdateController extends AbstractController
             $parametersAsArray = json_decode($content, true);
         }
 
-        if (empty($parametersAsArray)) {
+        $countNB = count($parametersAsArray);
+
+
+        if ($countNB === 0) {
             return $this->json([
                 'message' => 'Le champ est vide',
                 'status' => 'error'
             ]);
         } else {
-            if (
-                empty($parametersAsArray['job']) || empty($parametersAsArray['company']) || empty($parametersAsArray['city']) || empty($parametersAsArray['month_start']) ||
-                empty($parametersAsArray['year_start']) || empty($parametersAsArray['month_end']) || empty($parametersAsArray['year_end']) || empty($parametersAsArray['this_day'])
-            ) {
-                return $this->json([
-                    'message' => 'Veuiller remplir tous les champ svp !',
-                    'status' => 'error'
-                ]);
-            } else {
+
+            foreach ($parametersAsArray as $experienceJson) {
 
                
                 $date = date('Y-m-d');
 
-               
 
-                    if (empty($parametersAsArray["id"])) {
+
+                if (empty($experienceJson["id"])) {
                     return $this->json([
                         'message' => 'Id non definie !',
                             'status' => 'error'
                         ]);
                     } else {
 
-                    $experience = $entityManager->getRepository(ProfessionalExperience::class)->find($parametersAsArray["id"]);
-                        $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $parametersAsArray["id_cv"]]);
+                    $experience = $entityManager->getRepository(ProfessionalExperience::class)->find($experienceJson["id"]);
+                    $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $experienceJson["id_cv"]]);
 
                         $array = [];
 
 
                         $experience->setIdCv($val);
-                        $experience->setJob($parametersAsArray['job']);
-                        $experience->setCompany($parametersAsArray['company']);
-                        $experience->setCity($parametersAsArray['city']);
-                        $experience->setMonthStart($parametersAsArray['month_start']);
-                        $experience->setYearStart($parametersAsArray['year_start']);
-                        $experience->setMonthEnd($parametersAsArray['month_end']);
-                        $experience->setYearEnd($parametersAsArray['year_end']);
-                        $experience->setThisDay($parametersAsArray['this_day']);
+                    $experience->setJob($experienceJson['job']);
+                    $experience->setCompany($experienceJson['company']);
+                    $experience->setCity($experienceJson['city']);
+                    $experience->setMonthStart($experienceJson['month_start']);
+                    $experience->setYearStart($experienceJson['year_start']);
+                    $experience->setMonthEnd($experienceJson['month_end']);
+                    $experience->setYearEnd($experienceJson['year_end']);
+                    $experience->setThisDay($experienceJson['this_day']);
                         $experience->setIsDeleted(false);
 
 
-                        // $experience->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['createdAt']));
+                        // $experience->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $experienceJson['createdAt']));
                         $experience->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
 
 
                         $entityManager->flush();
-
-                    return $this->json([
-                        'message' => 'Modification effectué avec succès',
-                        'status' => 'success'
-                    ]);
                 }
-            } 
+            }
+            return $this->json([
+                'message' => 'Modification effectué avec succès',
+                'status' => 'success'
+            ]);
+        
            
         }
     }

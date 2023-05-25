@@ -23,28 +23,24 @@ class ExperienceCreateController extends AbstractController
         if ($content = $request->getContent()) {
             $parametersAsArray = json_decode($content, true);
         }
+        $countNB = count($parametersAsArray);
 
-        if (empty($parametersAsArray)) {
+
+        if ($countNB === 0) {
             return $this->json([
                 'message' => 'Le champ est vide',
                 'status' => 'error'
             ]);
         } else {
-            if (
-                empty($parametersAsArray['job']) || empty($parametersAsArray['company']) || empty($parametersAsArray['city']) || empty($parametersAsArray['month_start']) ||
-                empty($parametersAsArray['year_start']) || empty($parametersAsArray['month_end']) || empty($parametersAsArray['year_end']) || empty($parametersAsArray['this_day'])
-            ) {
-                return $this->json([
-                    'message' => 'Veuiller remplir tous les champ svp !',
-                    'status' => 'error'
-                ]);
-            } else {
 
+            foreach ($parametersAsArray as $experienceJson) {
                 $date = date('Y-m-d');
+
+
 
                 $experience = new ProfessionalExperience();
 
-                $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $parametersAsArray["id_cv"]]);
+                $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $experienceJson["id_cv"]]);
 
                 $array = [];
 
@@ -55,14 +51,14 @@ class ExperienceCreateController extends AbstractController
                     $array[] = $experience;
                 }
 
-                $experience->setJob($parametersAsArray['job']);
-                $experience->setCompany($parametersAsArray['company']);
-                $experience->setCity($parametersAsArray['city']);
-                $experience->setMonthStart($parametersAsArray['month_start']);
-                $experience->setYearStart($parametersAsArray['year_start']);
-                $experience->setMonthEnd($parametersAsArray['month_end']);
-                $experience->setYearEnd($parametersAsArray['year_end']);
-                $experience->setThisDay($parametersAsArray['this_day']);
+                $experience->setJob($experienceJson['job']);
+                $experience->setCompany($experienceJson['company']);
+                $experience->setCity($experienceJson['city']);
+                $experience->setMonthStart($experienceJson['month_start']);
+                $experience->setYearStart($experienceJson['year_start']);
+                $experience->setMonthEnd($experienceJson['month_end']);
+                $experience->setYearEnd($experienceJson['year_end']);
+                $experience->setThisDay($experienceJson['this_day']);
                 $experience->setIsDeleted(false);
 
 
@@ -70,17 +66,16 @@ class ExperienceCreateController extends AbstractController
 
 
                 $experience->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
-                // $experience->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
+                // $experience->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $experienceJson['updatedAt']));
 
 
                 $entityManager->persist($experience);
                 $entityManager->flush();
-
-                return $this->json([
-                    'message' => 'Experience créer avec succés',
-                    'status' => 'success'
-                ]);
             }
+            return $this->json([
+                'message' => 'Experience créer avec succés',
+                'status' => 'success'
+            ]);
         }
     }
 }

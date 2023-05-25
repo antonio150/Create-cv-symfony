@@ -25,61 +25,54 @@ class FormationUpdateController extends AbstractController
             $parametersAsArray = json_decode($content, true);
         }
 
-        if (empty($parametersAsArray)) {
+        $countNB = count($parametersAsArray);
+
+
+        if ($countNB === 0) {
             return $this->json([
                 'message' => 'Le champ est vide',
                 'status' => 'error'
             ]);
         } else {
-            if (
-                empty($parametersAsArray['training']) || empty($parametersAsArray['establishment']) || empty($parametersAsArray['city']) ||
-                empty($parametersAsArray['month_start']) || empty($parametersAsArray['year_start']) || empty($parametersAsArray['month_end']) || empty($parametersAsArray['year_end'])
-            ) {
-                return $this->json([
-                    'message' => 'Veuiller remplir tous les champ svp !',
-                    'status' => 'error'
-                ]);
-            } else {
+
+            foreach ($parametersAsArray as $formationJson) {
 
 
                 $date = date('Y-m-d');
 
 
 
-                if (empty($parametersAsArray["id"])) {
+                if (empty($formationJson["id"])) {
                     return $this->json(['message' => 'Id non definie !',
                         'status' => 'error'
                     ]);
                 } else {
-                    $formation = $entityManager->getRepository(Formation::class)->find($parametersAsArray["id"]);
-                    $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $parametersAsArray["id_cv"]]);
-
-                    $array = [];
-
+                    $formation = $entityManager->getRepository(Formation::class)->find($formationJson["id"]);
+                    $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $formationJson["id_cv"]]);
 
                     $formation->setIdCv($val);
 
-                    $formation->setTraining($parametersAsArray['training']);
-                    $formation->setEstablishment($parametersAsArray['establishment']);
-                    $formation->setCity($parametersAsArray['city']);
-                    $formation->setMonthStart($parametersAsArray['month_start']);
-                    $formation->setYearStart($parametersAsArray['year_start']);
-                    $formation->setMonthEnd($parametersAsArray['month_end']);
-                    $formation->setYearEnd($parametersAsArray['year_end']);
-                    $formation->setThisDay($parametersAsArray['this_day']);
+                    $formation->setTraining($formationJson['training']);
+                    $formation->setEstablishment($formationJson['establishment']);
+                    $formation->setCity($formationJson['city']);
+                    $formation->setMonthStart($formationJson['month_start']);
+                    $formation->setYearStart($formationJson['year_start']);
+                    $formation->setMonthEnd($formationJson['month_end']);
+                    $formation->setYearEnd($formationJson['year_end']);
+                    $formation->setThisDay($formationJson['this_day']);
 
 
 
-                    // $info->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['createdAt']));
+                    // $info->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $formationJson['createdAt']));
                     $formation->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
 
                     $entityManager->flush();
-
-                    return $this->json(['message' => 'Modification effectué avec succès',
-                        'status' => 'success'
-                    ]);
                 }
             }
+            return $this->json([
+                'message' => 'Modification effectué avec succès',
+                'status' => 'success'
+            ]);
         }
     }
 }

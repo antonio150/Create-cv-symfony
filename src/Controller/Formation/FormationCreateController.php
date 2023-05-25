@@ -26,27 +26,24 @@ class FormationCreateController extends AbstractController
             $parametersAsArray = json_decode($content, true);
         }
 
-        if (empty($parametersAsArray)) {
+        $countNB = count($parametersAsArray);
+
+
+        if ($countNB === 0) {
             return $this->json([
                 'message' => 'Le champ est vide',
                 'status' => 'error'
             ]);
         } else {
-            if (
-                empty($parametersAsArray['training']) || empty($parametersAsArray['establishment']) || empty($parametersAsArray['city']) ||
-                empty($parametersAsArray['month_start']) || empty($parametersAsArray['year_start']) || empty($parametersAsArray['month_end']) || empty($parametersAsArray['year_end'])
-            ) {
-                return $this->json([
-                    'message' => 'Veuiller remplir tous les champ svp !',
-                    'status' => 'error'
-                ]);
-            } else {
+
+            foreach ($parametersAsArray as $formationJson) {
+
 
                 $date = date('Y-m-d');
 
                 $formation = new Formation();
 
-                $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $parametersAsArray["id_cv"]]);
+                $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $formationJson["id_cv"]]);
 
                 $array = [];
 
@@ -56,14 +53,14 @@ class FormationCreateController extends AbstractController
 
                     $array[] = $formation;
                 }
-                $formation->setTraining($parametersAsArray['training']);
-                $formation->setEstablishment($parametersAsArray['establishment']);
-                $formation->setCity($parametersAsArray['city']);
-                $formation->setMonthStart($parametersAsArray['month_start']);
-                $formation->setYearStart($parametersAsArray['year_start']);
-                $formation->setMonthEnd($parametersAsArray['month_end']);
-                $formation->setYearEnd($parametersAsArray['year_end']);
-                $formation->setThisDay($parametersAsArray['this_day']);
+                $formation->setTraining($formationJson['training']);
+                $formation->setEstablishment($formationJson['establishment']);
+                $formation->setCity($formationJson['city']);
+                $formation->setMonthStart($formationJson['month_start']);
+                $formation->setYearStart($formationJson['year_start']);
+                $formation->setMonthEnd($formationJson['month_end']);
+                $formation->setYearEnd($formationJson['year_end']);
+                $formation->setThisDay($formationJson['this_day']);
                 $formation->setDeleted(false);
 
 
@@ -71,20 +68,17 @@ class FormationCreateController extends AbstractController
 
 
                 $formation->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
-                // $formation->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
+                // $formation->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $formationJson['updatedAt']));
 
 
-                $form = $parametersAsArray;
-                $vals = $formation->getId();
 
                 $entityManager->persist($formation);
                 $entityManager->flush();
-
-                return $this->json([
-                    'message' => 'Formation créé avec succès',
-                    'status' => 'success'
-                ]);
             }
+            return $this->json([
+                'message' => 'Formation créé avec succès',
+                'status' => 'success'
+            ]);
         }
     }
 }
