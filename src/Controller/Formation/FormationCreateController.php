@@ -63,10 +63,6 @@ class FormationCreateController extends AbstractController
                 $formation->setThisDay($formationJson['this_day']);
                 $formation->setDeleted(false);
 
-
-
-
-
                 $formation->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
                 // $formation->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $formationJson['updatedAt']));
 

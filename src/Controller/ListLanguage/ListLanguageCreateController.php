@@ -57,10 +57,7 @@ class ListLanguageCreateController extends AbstractController
 
                 foreach ($val as $infos) {
                         $listlanguage->setIdLanguage($infos);
-
-                }
-
-
+                    }
                     $id_cv = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $listlanguageJson["id_cv"]]);
 
                 $array = [];
@@ -74,10 +71,6 @@ class ListLanguageCreateController extends AbstractController
 
 
                     $listlanguage->setDeleted(false);
-
-
-
-
 
                     $listlanguage->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
                     // $listlanguage->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $listlanguageJson['updatedAt']));

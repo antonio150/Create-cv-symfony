@@ -27,7 +27,7 @@ class ReferenceUpdateController extends AbstractController
 
 
         $countNB = count($parametersAsArray);
-
+        
 
         if ($countNB === 0) {
             return $this->json([

@@ -25,6 +25,8 @@ class FormationUpdateController extends AbstractController
             $parametersAsArray = json_decode($content, true);
         }
 
+          
+
         $countNB = count($parametersAsArray);
 
 
