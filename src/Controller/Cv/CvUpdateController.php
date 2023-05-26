@@ -18,9 +18,9 @@ class CvUpdateController extends AbstractController
         Request $request
     ): Response {
 
-        $parametersAsArray = [];
+        $data = [];
         if ($content = $request->getContent()) {
-            $parametersAsArray = json_decode($content, true);
+            $data = json_decode($content, true);
         }
 
 
@@ -28,35 +28,35 @@ class CvUpdateController extends AbstractController
 
 
 
-        if (empty($parametersAsArray)) {
-            return $this->json([
+        if (empty($data)) {
+            $output = array(
                 'message' => 'Le champ est vide',
                 'status' => 'error'
-            ]);
+            );
         } else {
 
-            if (empty($parametersAsArray["id"])) {
-                return $this->json([
+            if (empty($data["id"])) {
+                $output = array(
                     'message' => 'Id non definie !',
                     'status' => 'error'
-                ]);
+                );
             } else {
                 $date = date('Y-m-d');
 
-                $profil = $entityManager->getRepository(Profil::class)->find($parametersAsArray["id"]);
+                $profil = $entityManager->getRepository(Profil::class)->find($data["id"]);
 
-                $profil->setDescription($parametersAsArray['description']);
-                // $profil->setCurriculum($parametersAsArray['curriculum']);
+                $profil->setDescription($data['description']);
+                // $profil->setCurriculum($data['curriculum']);
 
-                // $profil->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['createdAt']));
+                // $profil->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $data['createdAt']));
                 $profil->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
 
                 $entityManager->flush();
 
-                return $this->json([
+                $output = array(
                     'message' => 'Profil modifié avec succès',
                     'status' => 'success'
-                ]);
+                );
             }
         }
 
@@ -70,17 +70,17 @@ class CvUpdateController extends AbstractController
 
 
 
-        $countNB = count($parametersAsArray);
+        $countNB = count($data);
 
 
         if ($countNB === 0) {
-            return $this->json([
+            $output = array(
                 'message' => 'Le champ est vide',
                 'status' => 'error'
-            ]);
+            );
         } else {
 
-            foreach ($parametersAsArray as $formationJson) {
+            foreach ($data as $formationJson) {
 
 
                 $date = date('Y-m-d');
@@ -88,10 +88,10 @@ class CvUpdateController extends AbstractController
 
 
                 if (empty($formationJson["id"])) {
-                    return $this->json([
+                    $output = array(
                         'message' => 'Id non definie !',
                         'status' => 'error'
-                    ]);
+                    );
                 } else {
                     $formation = $entityManager->getRepository(Formation::class)->find($formationJson["id"]);
                     $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $formationJson["id_cv"]]);
@@ -115,27 +115,27 @@ class CvUpdateController extends AbstractController
                     $entityManager->flush();
                 }
             }
-            return $this->json([
+            $output = array(
                 'message' => 'Modification effectué avec succès',
                 'status' => 'success'
-            ]);
+            );
         }
 
 
         // ======================================== EXPERIENCE =========================================
 
 
-        $countNB = count($parametersAsArray);
+        $countNB = count($data);
 
 
         if ($countNB === 0) {
-            return $this->json([
+            $output = array(
                 'message' => 'Le champ est vide',
                 'status' => 'error'
-            ]);
+            );
         } else {
 
-            foreach ($parametersAsArray as $experienceJson) {
+            foreach ($data as $experienceJson) {
 
 
                 $date = date('Y-m-d');
@@ -143,7 +143,7 @@ class CvUpdateController extends AbstractController
 
 
                 if (empty($experienceJson["id"])) {
-                    return $this->json([
+                    $output = array([
                         'message' => 'Id non definie !',
                         'status' => 'error'
                     ]);
@@ -174,10 +174,10 @@ class CvUpdateController extends AbstractController
                     $entityManager->flush();
                 }
             }
-            return $this->json([
+            $output = array(
                 'message' => 'Modification effectué avec succès',
                 'status' => 'success'
-            ]);
+            );
         }
 
 
@@ -186,54 +186,54 @@ class CvUpdateController extends AbstractController
 
 
 
-        if (empty($parametersAsArray)) {
-            return $this->json([
+        if (empty($data)) {
+            $output = array(
                 'message' => 'Le champ est vide',
                 'status' => 'error'
-            ]);
+            );
         } else {
             if (
-                empty($parametersAsArray['skill']) || empty($parametersAsArray['level'])
+                empty($data['skill']) || empty($data['level'])
             ) {
-                return $this->json([
+                $output = array(
                     'message' => 'Veuiller remplir tous les champ svp !',
                     'status' => 'error'
-                ]);
+                );
             } else {
 
 
                 $date = date('Y-m-d');
 
 
-                if (empty($parametersAsArray["id"])) {
-                    return $this->json([
+                if (empty($data["id"])) {
+                    $output = array(
                         'message' => 'Id non definie !',
                         'status' => 'error'
-                    ]);
+                    );
                 } else {
 
-                    $skill = $entityManager->getRepository(Skill::class)->find($parametersAsArray["id"]);
+                    $skill = $entityManager->getRepository(Skill::class)->find($data["id"]);
 
-                    $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $parametersAsArray["id_cv"]]);
+                    $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $data["id_cv"]]);
 
 
                     $skill->setIdCv($val);
 
-                    $skill->setSkill($parametersAsArray['skill']);
-                    $skill->setLevel($parametersAsArray['level']);
+                    $skill->setSkill($data['skill']);
+                    $skill->setLevel($data['level']);
 
                     $skill->setIsDeleted(false);
 
 
-                    // $skill->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['createdAt']));
+                    // $skill->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $data['createdAt']));
                     $skill->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
 
                     $entityManager->flush();
 
-                    return $this->json([
+                    $output = array(
                         'message' => 'Modification effectué avec succès',
                         'status' => 'success'
-                    ]);
+                    );
                 }
             }
         }
@@ -243,24 +243,24 @@ class CvUpdateController extends AbstractController
 
 
 
-        $countNB = count($parametersAsArray);
+        $countNB = count($data);
 
 
         if ($countNB === 0) {
-            return $this->json([
+            $output = array(
                 'message' => 'Le champ est vide',
                 'status' => 'error'
-            ]);
+            );
         } else {
 
-            foreach ($parametersAsArray as $listlanguageJson) {
+            foreach ($data as $listlanguageJson) {
                 if (
                     empty($listlanguageJson['note_language']) || empty($listlanguageJson['id_language'])
                 ) {
-                    return $this->json([
+                    $output = array(
                         'message' => 'Veuiller remplir tous les champ svp !',
                         'status' => 'error'
-                    ]);
+                    );
                 } else {
 
 
@@ -269,10 +269,10 @@ class CvUpdateController extends AbstractController
 
 
                     if (empty($listlanguageJson["id"])) {
-                        return $this->json([
+                        $output = array(
                             'message' => 'Id non definie !',
                             'status' => 'error'
-                        ]);
+                        );
                     } else {
                         $formation = $entityManager->getRepository(ListLanguage::class)->findOneBy(["id" => $listlanguageJson["id"]]);
 
@@ -307,36 +307,36 @@ class CvUpdateController extends AbstractController
                     }
                 }
             }
-            return $this->json([
+            $output = array(
                 'message' => 'Modification effectué avec succès',
                 'status' => 'success'
-            ]);
+            );
         }
 
 
         // ======================================== Center of INTEREST =========================================
 
 
-        $countNB = count($parametersAsArray);
+        $countNB = count($data);
 
 
         if ($countNB === 0) {
-            return $this->json([
+            $output = array(
                 'message' => 'Le champ est vide',
                 'status' => 'error'
-            ]);
+            );
         } else {
 
-            foreach ($parametersAsArray as $centerofinterestJson) {
+            foreach ($data as $centerofinterestJson) {
 
                 $date = date('Y-m-d');
 
 
                 if (empty($centerofinterestJson["id"])) {
-                    return $this->json([
+                    $output = array(
                         'message' => 'Id non definie !',
                         'status' => 'error'
-                    ]);
+                    );
                 } else {
 
                     $centerofinterest = $entityManager->getRepository(CenterOfInterest::class)->find($centerofinterestJson["id"]);
@@ -358,10 +358,10 @@ class CvUpdateController extends AbstractController
 
                     $entityManager->flush();
                 }
-                return $this->json([
+                $output = array(
                     'message' => 'Modification effectué avec succès',
                     'status' => 'success'
-                ]);
+                );
             }
         }
 
@@ -370,22 +370,22 @@ class CvUpdateController extends AbstractController
         // ======================================== Reference =========================================
 
 
-        $countNB = count($parametersAsArray);
+        $countNB = count($data);
 
 
         if ($countNB === 0) {
-            return $this->json([
+            $output = array(
                 'message' => 'Le champ est vide',
                 'status' => 'error'
-            ]);
+            );
         } else {
 
-            foreach ($parametersAsArray as $referenceJson) {
+            foreach ($data as $referenceJson) {
                 if (
                     empty($referenceJson['name']) || empty($referenceJson['company']) || empty($referenceJson['city']) ||
                     empty($referenceJson['phone']) || empty($referenceJson['mail'])
                 ) {
-                    return $this->json([
+                    $output = array([
                         'message' => 'Veuiller remplir tous les champ svp !',
                         'status' => 'error'
                     ]);
@@ -398,10 +398,10 @@ class CvUpdateController extends AbstractController
                     if (preg_match($pattern, $str) === 1) {
 
                         if (empty($referenceJson["id"])) {
-                            return $this->json([
+                            $output = array(
                                 'message' => 'Id non definie !',
                                 'status' => 'error'
-                            ]);
+                            );
                         } else {
 
                             $info = $entityManager->getRepository(Reference::class)->find($referenceJson["id"]);
@@ -427,14 +427,14 @@ class CvUpdateController extends AbstractController
                             $entityManager->flush();
                         }
                     } else {
-                        return $this->json([
+                        $output = array([
                             'message' => 'Mail non valide',
                             'status' => 'error'
                         ]);
                     }
                 }
             }
-            return $this->json([
+            $output = array([
                 'message' => 'Modification effectué avec succès',
                 'status' => 'success'
             ]);
@@ -445,8 +445,8 @@ class CvUpdateController extends AbstractController
         // ======================================== Bas de page =========================================
 
 
-        if (empty($parametersAsArray)) {
-            return $this->json([
+        if (empty($data)) {
+            $output = array([
                 'message' => 'Le champ est vide',
                 'status' => 'error'
             ]);
@@ -455,27 +455,27 @@ class CvUpdateController extends AbstractController
             $date = date('Y-m-d');
 
 
-            if (empty($parametersAsArray["id"])) {
-                return $this->json([
+            if (empty($data["id"])) {
+                $output = array([
                     'message' => 'Id non definie !',
                     'status' => 'error'
                 ]);
             } else {
 
-                $basdepage = $entityManager->getRepository(BasDePage::class)->find($parametersAsArray["id"]);
+                $basdepage = $entityManager->getRepository(BasDePage::class)->find($data["id"]);
 
-                $basdepage->setDescription($parametersAsArray['description']);
+                $basdepage->setDescription($data['description']);
 
 
                 $basdepage->setDeleted(false);
 
 
-                // $basdepage->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['createdAt']));
+                // $basdepage->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $data['createdAt']));
                 $basdepage->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
 
                 $entityManager->flush();
 
-                return $this->json([
+                $output = array([
                     'message' => 'Modification effectué avec succès',
                     'status' => 'success'
                 ]);
@@ -486,17 +486,17 @@ class CvUpdateController extends AbstractController
 
         // ======================================== Training =========================================
 
-        if (empty($parametersAsArray)) {
-            return $this->json([
+        if (empty($data)) {
+            $output = array([
                 'message' => 'Le champ est vide',
                 'status' => 'error'
             ]);
         } else {
             if (
-                empty($parametersAsArray['position']) || empty($parametersAsArray['employer']) || empty($parametersAsArray['city']) ||
-                empty($parametersAsArray['month_start']) || empty($parametersAsArray['year_start']) || empty($parametersAsArray['month_end']) || empty($parametersAsArray['year_end'])
+                empty($data['position']) || empty($data['employer']) || empty($data['city']) ||
+                empty($data['month_start']) || empty($data['year_start']) || empty($data['month_end']) || empty($data['year_end'])
             ) {
-                return $this->json([
+                $output = array([
                     'message' => 'Veuiller remplir tous les champ svp !',
                     'status' => 'error'
                 ]);
@@ -507,39 +507,42 @@ class CvUpdateController extends AbstractController
 
 
 
-                if (empty($parametersAsArray["id"])) {
-                    return $this->json([
+                if (empty($data["id"])) {
+                    $output = array([
                         'message' => 'Id non definie !',
                         'status' => 'error'
                     ]);
                 } else {
-                    $training = $entityManager->getRepository(ProfessionalTraining::class)->find($parametersAsArray["id"]);
+                    $training = $entityManager->getRepository(ProfessionalTraining::class)->find($data["id"]);
 
 
-                    $training->setPosition($parametersAsArray['position']);
-                    $training->setEmployer($parametersAsArray['employer']);
-                    $training->setCity($parametersAsArray['city']);
-                    $training->setMonthStart($parametersAsArray['month_start']);
-                    $training->setYearStart($parametersAsArray['year_start']);
-                    $training->setMonthEnd($parametersAsArray['month_end']);
-                    $training->setYearEnd($parametersAsArray['year_end']);
-                    $training->setThisDay($parametersAsArray['this_day']);
+                    $training->setPosition($data['position']);
+                    $training->setEmployer($data['employer']);
+                    $training->setCity($data['city']);
+                    $training->setMonthStart($data['month_start']);
+                    $training->setYearStart($data['year_start']);
+                    $training->setMonthEnd($data['month_end']);
+                    $training->setYearEnd($data['year_end']);
+                    $training->setThisDay($data['this_day']);
 
                     $training->setIsDeleted(false);
 
 
 
-                    // $info->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['createdAt']));
+                    // $info->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $data['createdAt']));
                     $training->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
 
                     $entityManager->flush();
 
-                    return $this->json([
+                    $output = array([
                         'message' => 'Modification effectué avec succès',
                         'status' => 'success'
                     ]);
                 }
             }
         }
+        return $this->json([
+            "output" => $output
+        ]);
     }
 }
