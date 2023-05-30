@@ -32,10 +32,7 @@ class CvCreateController extends AbstractController
      * @Route("/api/v1/cv/create", name="app_cv_create")
      */
     public function curriculum(
-        PersonalInformationRepository $personalInformationRepository,
-        CustomFieldInformationRepository $customFieldInformationRepository,
-        CurriculumRepository $curriculumRepository,
-        SluggerInterface $slugger,
+       
         EntityManagerInterface $entityManager
     ): Response
     {
@@ -73,15 +70,7 @@ class CvCreateController extends AbstractController
                 );
             } else {
 
-                // if (
-                //     empty($request->request->get("Name")) || empty($request->request->get("FirstName")) || empty($request->request->get("Email")) ||
-                //     empty($request->request->get("Telephone")) || empty($request->request->get("Address"))
-                // ) {
-                //     $output = array(
-                //         'message' => 'Veuiller remplir tous les champ de Information svp !',
-                //         'status' => 'error'
-                //     );
-                // } else 
+              
                 if (
                     empty($data["Skill"]['skill']) || empty($data["Skill"]['level'])
                 ) {
@@ -99,14 +88,7 @@ class CvCreateController extends AbstractController
                     );
                 } else {
                     $date = date('Y-m-d');
-                    $cv = new Curriculum();
-
-                    $cv->setDeleted(false);
-                    $cv->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
-                    // $info->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
-
-                    $entityManager->persist($cv);
-                    $entityManager->flush();
+                    $idCV = $_GET["id"];
 
 
 
@@ -115,7 +97,7 @@ class CvCreateController extends AbstractController
                     $profil = new Profil();
                     $date = date('Y-m-d');
 
-                    $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $cv->getId()]);
+                    $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $idCV]);
                     // dd($val);
                     $array = [];
 
@@ -154,7 +136,7 @@ class CvCreateController extends AbstractController
 
                             $formation = new Formation();
 
-                            $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $cv->getId()]);
+                            $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $idCV]);
 
                             $array = [];
 
@@ -208,7 +190,7 @@ class CvCreateController extends AbstractController
 
                             $experience = new ProfessionalExperience();
 
-                            $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $cv->getId()]);
+                            $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $idCV]);
 
                             $array = [];
 
@@ -252,7 +234,7 @@ class CvCreateController extends AbstractController
                     $skill = new Skill();
                     $date = date('Y-m-d');
 
-                    $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $cv->getId()]);
+                    $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $idCV]);
 
 
 
@@ -316,7 +298,7 @@ class CvCreateController extends AbstractController
                                 }
 
 
-                                $id_cv = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $cv->getId()]);
+                                $id_cv = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $idCV]);
 
                                 $array = [];
 
@@ -365,7 +347,7 @@ class CvCreateController extends AbstractController
                             $date = date('Y-m-d');
 
                             $centerofinterest = new CenterOfInterest();
-                            $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $cv->getId()]);
+                            $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $idCV]);
 
                             $array = [];
                             // dd($val);
@@ -427,7 +409,7 @@ class CvCreateController extends AbstractController
                                 if (preg_match($pattern, $str) === 1) {
                                     $reference = new Reference();
 
-                                    $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $cv->getId()]);
+                                    $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $idCV]);
 
 
 
@@ -539,7 +521,7 @@ class CvCreateController extends AbstractController
 
                     // echo ($_GET["name"]);
 
-                    $valcv = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $cv->getId()]);
+                    $valcv = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $idCV]);
                     $valuser = $entityManager->getRepository(Utilisateur::class)->findOneBy(['id' => $_GET["id_user"]]);
                     $valprofil = $entityManager->getRepository(Profil::class)->findOneBy(['id' => $profil->getId()]);
                     $valbasdepage = $entityManager->getRepository(BasDePage::class)->findOneBy(['id' => $basdepage->getId()]);

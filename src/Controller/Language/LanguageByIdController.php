@@ -43,7 +43,7 @@ class LanguageByIdController extends AbstractController
 
                 foreach ($val as $infos) {
                     $val["language"] = $infos->getLanguage();
-                    $val["level"] = $infos->getLevel();
+                  
                     $val["createdAt"] = $infos->getCreatedAt();
                     $val["updatedAt"] = $infos->getUpdatedAt();
 

@@ -54,22 +54,22 @@ class CvByIdController extends AbstractController
                 $data = $repository->findBy(['id' => $valpersonalInformation]);
 
                 foreach ($data as $item) {
-                    $temp["name"] = $item->getName();
-                    $temp["first_name"] = $item->getFirstName();
-                    $temp["email"] = $item->getEmail();
-                    $temp["telephone"] = $item->getTelephone();
-                    $temp["address"] = $item->getAddress();
-                    $temp["postal_code"] = $item->getPostalCode();
-                    $temp["city"] = $item->getCity();
-                    $temp["sexe"] = $item->getSexe();
-                    $temp["nationality"] = $item->getNationality();
-                    $temp["marital_status"] = $item->getMaritalStatus();
-                    $temp["photo"] = $item->getPhoto();
-                    $temp["path"] = $item->getPath();
-                    $temp["position"] = $item->getPosition();
-                    $temp["datenaiss"] = $item->getDatenaiss();
-                    $temp["lieudenaiss"] = $item->getLieudenaiss();
-                    $temp["driver_license"] = $item->getDriverLicense();
+                    $temp['Information']["name"] = $item->getName();
+                    $temp['Information']["first_name"] = $item->getFirstName();
+                    $temp['Information']["email"] = $item->getEmail();
+                    $temp['Information']["telephone"] = $item->getTelephone();
+                    $temp['Information']["address"] = $item->getAddress();
+                    $temp['Information']["postal_code"] = $item->getPostalCode();
+                    $temp['Information']["city"] = $item->getCity();
+                    $temp['Information']["sexe"] = $item->getSexe();
+                    $temp['Information']["nationality"] = $item->getNationality();
+                    $temp['Information']["marital_status"] = $item->getMaritalStatus();
+                    $temp['Information']["photo"] = $item->getPhoto();
+                    $temp['Information']["path"] = $item->getPath();
+                    $temp['Information']["position"] = $item->getPosition();
+                    $temp['Information']["datenaiss"] = $item->getDatenaiss();
+                    $temp['Information']["lieudenaiss"] = $item->getLieudenaiss();
+                    $temp['Information']["driver_license"] = $item->getDriverLicense();
 
                     // $temp["createdAt"] = $item->getCreatedAt();
                     // $temp["updatedAt"] = $item->getUpdatedAt();
@@ -87,8 +87,8 @@ class CvByIdController extends AbstractController
                 $data = $repository->findBy(['id' => $valid_profil]);
 
                 foreach ($data as $item) {
-                    $temp["id"] = $item->getId();
-                    $temp["description"] = $item->getDescription();
+                    $temp['Profil']["id"] = $item->getId();
+                    $temp['Profil']["description"] = $item->getDescription();
                     // $temp["curriculum"] = $item->getgetCurriculum();
 
                     array_push($output, $temp);
@@ -104,19 +104,19 @@ class CvByIdController extends AbstractController
 
 
                 foreach ($data as $item) {
-                    $temp["id_cv"] = $item->getIdCv();
-                    $temp["training"] = $item->getTraining();
-                    $temp["establishment"] = $item->getEstablishment();
-                    $temp["city"] = $item->getCity();
-                    $temp["month_start"] = $item->getMonthStart();
-                    $temp["year_start"] = $item->getYearStart();
-                    $temp["month_end"] = $item->getMonthEnd();
-                    $temp["year_end"] = $item->getYearEnd();
-                    $temp["this_day"] = $item->isThisDay();
-                    $temp["description"] = $item->getDescription();
+                    $temp['Formation']["id_cv"] = $item->getIdCv();
+                    $temp['Formation']["training"] = $item->getTraining();
+                    $temp['Formation']["establishment"] = $item->getEstablishment();
+                    $temp['Formation']["city"] = $item->getCity();
+                    $temp['Formation']["month_start"] = $item->getMonthStart();
+                    $temp['Formation']["year_start"] = $item->getYearStart();
+                    $temp['Formation']["month_end"] = $item->getMonthEnd();
+                    $temp['Formation']["year_end"] = $item->getYearEnd();
+                    $temp['Formation']["this_day"] = $item->isThisDay();
+                    $temp['Formation']["description"] = $item->getDescription();
 
-                    $temp["createdAt"] = $item->getCreatedAt();
-                    $temp["updatedAt"] = $item->getUpdatedAt();
+                    // $temp["createdAt"] = $item->getCreatedAt();
+                    // $temp["updatedAt"] = $item->getUpdatedAt();
                     array_push($output, $temp);
                 }
 
@@ -126,16 +126,16 @@ class CvByIdController extends AbstractController
                 $data = $repository->findBy(['id_cv' => $valIdCv]);
 
                 foreach ($data as $item) {
-                    $temp["id_cv"] = $item->getIdCv();
-                    $temp["job"] = $item->getJob();
-                    $temp["company"] = $item->getCompany();
-                    $temp["city"] = $item->getCity();
-                    $temp["month_start"] = $item->getMonthStart();
-                    $temp["year_start"] = $item->getYearStart();
-                    $temp["month_end"] = $item->getMonthEnd();
-                    $temp["year_end"] = $item->getYearEnd();
-                    $temp["this_day"] = $item->isThisDay();
-                    $temp["description"] = $item->getDescription();
+                    $temp['Experience']["id_cv"] = $item->getIdCv();
+                    $temp['Experience']["job"] = $item->getJob();
+                    $temp['Experience']["company"] = $item->getCompany();
+                    $temp['Experience']["city"] = $item->getCity();
+                    $temp['Experience']["month_start"] = $item->getMonthStart();
+                    $temp['Experience']["year_start"] = $item->getYearStart();
+                    $temp['Experience']["month_end"] = $item->getMonthEnd();
+                    $temp['Experience']["year_end"] = $item->getYearEnd();
+                    $temp['Experience']["this_day"] = $item->isThisDay();
+                    $temp['Experience']["description"] = $item->getDescription();
                     array_push($output, $temp);
                 }
 
@@ -146,13 +146,13 @@ class CvByIdController extends AbstractController
                 $data = $repository->findBy(['id_cv' => $valIdCv]);
 
                 foreach ($data as $item) {
-                    $temp["id_cv"] = $item->getIdCv();
-                    $temp["skill"] = $item->getSkill();
-                    $temp["level"] = $item->getLevel();
+                    $temp['Skill']["id_cv"] = $item->getIdCv();
+                    $temp['Skill']["skill"] = $item->getSkill();
+                    $temp['Skill']["level"] = $item->getLevel();
 
 
-                    $temp["createdAt"] = $item->getCreatedAt();
-                    $temp["updatedAt"] = $item->getUpdatedAt();
+                    // $temp["createdAt"] = $item->getCreatedAt();
+                    // $temp["updatedAt"] = $item->getUpdatedAt();
                     array_push($output, $temp);
                 }
 
@@ -163,12 +163,12 @@ class CvByIdController extends AbstractController
                 $data = $repository->findBy(['id_cv' => $valIdCv]);
 
                 foreach ($data as $item) {
-                    $temp["id_cv"] = $item->getIdCv();
-                    $temp["id_language"] = $item->getIdLanguage();
-                    $temp["note_language"] = $item->getNoteLanguage();
+                    $temp['ListLanguage']["id_cv"] = $item->getIdCv();
+                    $temp['ListLanguage']["id_language"] = $item->getIdLanguage();
+                    $temp['ListLanguage']["note_language"] = $item->getNoteLanguage();
 
-                    $temp["createdAt"] = $item->getCreatedAt();
-                    $temp["updatedAt"] = $item->getUpdatedAt();
+                    // $temp["createdAt"] = $item->getCreatedAt();
+                    // $temp["updatedAt"] = $item->getUpdatedAt();
                     array_push($output, $temp);
                 }
 
@@ -180,12 +180,12 @@ class CvByIdController extends AbstractController
                 $data = $repository->findBy(['id_cv' => $valIdCv]);
 
                 foreach ($data as $item) {
-                    $temp["id_cv"] = $item->getIdCv();
-                    $temp["description"] = $item->getDescription();
+                    $temp['CenterOfInterest']["id_cv"] = $item->getIdCv();
+                    $temp['CenterOfInterest']["description"] = $item->getDescription();
 
 
-                    $temp["createdAt"] = $item->getCreatedAt();
-                    $temp["updatedAt"] = $item->getUpdatedAt();
+                    // $temp["createdAt"] = $item->getCreatedAt();
+                    // $temp["updatedAt"] = $item->getUpdatedAt();
                     array_push($output, $temp);
                 }
 
@@ -196,15 +196,15 @@ class CvByIdController extends AbstractController
                 $data = $repository->findBy(['id_cv' => $valIdCv]);
 
                 foreach ($data as $item) {
-                    $temp["id_cv"] = $item->getIdCv();
-                    $temp["name"] = $item->getName();
-                    $temp["company"] = $item->getCompany();
-                    $temp["city"] = $item->getCity();
-                    $temp["phone"] = $item->getPhone();
-                    $temp["mail"] = $item->getMail();
+                    $temp['Reference']["id_cv"] = $item->getIdCv();
+                    $temp['Reference']["name"] = $item->getName();
+                    $temp['Reference']["company"] = $item->getCompany();
+                    $temp['Reference']["city"] = $item->getCity();
+                    $temp['Reference']["phone"] = $item->getPhone();
+                    $temp['Reference']["mail"] = $item->getMail();
 
-                    $temp["createdAt"] = $item->getCreatedAt();
-                    $temp["updatedAt"] = $item->getUpdatedAt();
+                    // $temp["createdAt"] = $item->getCreatedAt();
+                    // $temp["updatedAt"] = $item->getUpdatedAt();
                     array_push($output, $temp);
                 }
 
@@ -214,11 +214,11 @@ class CvByIdController extends AbstractController
                 $data = $repository->findBy(['id' => $valid_bas_de_page]);
 
                 foreach ($data as $item) {
-                    $temp["description"] = $item->getDescription();
+                    $temp['BasDePage']["description"] = $item->getDescription();
 
 
-                    $temp["createdAt"] = $item->getCreatedAt();
-                    $temp["updatedAt"] = $item->getUpdatedAt();
+                    // $temp["createdAt"] = $item->getCreatedAt();
+                    // $temp["updatedAt"] = $item->getUpdatedAt();
                     array_push($output, $temp);
                 }
 
@@ -228,18 +228,18 @@ class CvByIdController extends AbstractController
                 $data = $repository->findBy(['id' => $valid_training]);
 
                 foreach ($data as $item) {
-                    $temp["position"] = $item->getPosition();
-                    $temp["employer"] = $item->getEmployer();
-                    $temp["city"] = $item->getCity();
-                    $temp["month_start"] = $item->getMonthStart();
-                    $temp["year_start"] = $item->getYearStart();
-                    $temp["month_end"] = $item->getMonthEnd();
-                    $temp["year_end"] = $item->getYearEnd();
-                    $temp["this_day"] = $item->isThisDay();
-                    $temp["description"] = $item->getDescription();
+                    $temp['Training']["position"] = $item->getPosition();
+                    $temp['Training']["employer"] = $item->getEmployer();
+                    $temp['Training']["city"] = $item->getCity();
+                    $temp['Training']["month_start"] = $item->getMonthStart();
+                    $temp['Training']["year_start"] = $item->getYearStart();
+                    $temp['Training']["month_end"] = $item->getMonthEnd();
+                    $temp['Training']["year_end"] = $item->getYearEnd();
+                    $temp['Training']["this_day"] = $item->isThisDay();
+                    $temp['Training']["description"] = $item->getDescription();
 
-                    $temp["createdAt"] = $item->getCreatedAt();
-                    $temp["updatedAt"] = $item->getUpdatedAt();
+                    // $temp["createdAt"] = $item->getCreatedAt();
+                    // $temp["updatedAt"] = $item->getUpdatedAt();
                     array_push($output, $temp);
                 }
             }

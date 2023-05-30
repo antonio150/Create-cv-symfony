@@ -34,6 +34,16 @@ class CvCreatewithInfomationController extends AbstractController
 
         $date = date('Y-m-d');
 
+        $date = date('Y-m-d');
+        $cv = new Curriculum();
+
+        $cv->setDeleted(false);
+        $cv->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
+        // $info->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
+
+        $entityManager->persist($cv);
+        $entityManager->flush();
+
         if (preg_match($pattern, $str) === 1) {
             $info = new PersonalInformation();
 
@@ -99,7 +109,7 @@ class CvCreatewithInfomationController extends AbstractController
             // ======================================== UPDATE CV =========================================
 
             // echo ($_GET["name"]);
-            $valcv = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $_GET["id_cv"]]);
+            $valcv = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $cv->getId()]);
             $valinfo = $entityManager->getRepository(PersonalInformation::class)->findOneBy(['id' => $info->getId()]);
             // dd($profil->getId());
             $array = [];
@@ -113,7 +123,7 @@ class CvCreatewithInfomationController extends AbstractController
 
             $output = array(
                 'message' => 'Liste des Informations créer avec succés',
-
+                'id' => $cv->getId(),
                 'status' => 'success'
             );
         } else {

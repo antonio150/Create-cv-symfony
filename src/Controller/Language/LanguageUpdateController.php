@@ -53,8 +53,7 @@ class LanguageUpdateController extends AbstractController
                     $lang = $entityManager->getRepository(Language::class)->find($parametersAsArray["id"]);
 
                     $lang->setLanguage($parametersAsArray['language']);
-                    $lang->setLevel($parametersAsArray['level']);
-
+                   
                     $lang->setIsDeleted(false);
 
 

@@ -21,8 +21,7 @@ class LanguageReadController extends AbstractController
 
         foreach ($data as $item) {
             $temp["language"] = $item->getLanguage();
-            $temp["level"] = $item->getLevel();
-
+          
 
             $temp["createdAt"] = $item->getCreatedAt();
             $temp["updatedAt"] = $item->getUpdatedAt();

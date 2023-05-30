@@ -46,8 +46,7 @@ class LanguageCreateController extends AbstractController
                 $lang = new EntityLanguage();
 
                 $lang->setLanguage($parametersAsArray['language']);
-                $lang->setLevel($parametersAsArray['level']);
-
+               
                 $lang->setIsDeleted(false);
 
 

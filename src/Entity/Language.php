@@ -12,7 +12,7 @@ class Language
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -22,11 +22,7 @@ class Language
      */
     private $language;
 
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $level;
-
+  
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
@@ -42,11 +38,7 @@ class Language
      */
     private $updatedAt;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Curriculum::class)
-     */
-    private $curriculum;
-
+   
     /**
      * @ORM\OneToOne(targetEntity=ListLanguage::class, mappedBy="id_language", cascade={"persist", "remove"})
      */
@@ -69,17 +61,7 @@ class Language
         return $this;
     }
 
-    public function getLevel(): ?int
-    {
-        return $this->level;
-    }
-
-    public function setLevel(?int $level): self
-    {
-        $this->level = $level;
-
-        return $this;
-    }
+    
 
     public function isIsDeleted(): ?bool
     {
@@ -117,17 +99,7 @@ class Language
         return $this;
     }
 
-    public function getCurriculum(): ?Curriculum
-    {
-        return $this->curriculum;
-    }
-
-    public function setCurriculum(?Curriculum $curriculum): self
-    {
-        $this->curriculum = $curriculum;
-
-        return $this;
-    }
+   
 
     public function getListLanguage(): ?ListLanguage
     {
