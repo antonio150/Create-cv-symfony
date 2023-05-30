@@ -42,7 +42,7 @@ class FormationUpdateController extends AbstractController
 
                 $date = date('Y-m-d');
 
-
+                // dd($formationJson["id"]);
 
                 if (empty($formationJson["id"])) {
                     return $this->json(['message' => 'Id non definie !',

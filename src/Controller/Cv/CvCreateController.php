@@ -365,13 +365,13 @@ class CvCreateController extends AbstractController
                             $date = date('Y-m-d');
 
                             $centerofinterest = new CenterOfInterest();
-                            $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $cv->getId()]);
+                            $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $cv->getId()]);
 
                             $array = [];
+                            // dd($val);
 
-                            foreach ($val as $infos) {
-                                $centerofinterest->setIdCv($infos);
-                            }
+                            $centerofinterest->setIdCv($val);
+                          
 
                             $centerofinterest->setDescription($centerofinterestJson['description']);
 

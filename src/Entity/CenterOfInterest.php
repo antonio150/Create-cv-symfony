@@ -37,10 +37,7 @@ class CenterOfInterest
      */
     private $updatedAt;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Curriculum::class)
-     */
-    private $curriculum;
+   
 
     /**
      * @ORM\ManyToOne(targetEntity=Curriculum::class, inversedBy="id_interet")
@@ -100,17 +97,7 @@ class CenterOfInterest
         return $this;
     }
 
-    public function getCurriculum(): ?Curriculum
-    {
-        return $this->curriculum;
-    }
-
-    public function setCurriculum(?Curriculum $curriculum): self
-    {
-        $this->curriculum = $curriculum;
-
-        return $this;
-    }
+  
 
     public function getIdCv(): ?Curriculum
     {

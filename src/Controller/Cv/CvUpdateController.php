@@ -2,6 +2,17 @@
 
 namespace App\Controller\Cv;
 
+use App\Entity\BasDePage;
+use App\Entity\CenterOfInterest;
+use App\Entity\Curriculum;
+use App\Entity\Formation;
+use App\Entity\Language;
+use App\Entity\ListLanguage;
+use App\Entity\ProfessionalExperience;
+use App\Entity\ProfessionalTraining;
+use App\Entity\Profil;
+use App\Entity\Reference;
+use App\Entity\Skill;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,525 +35,559 @@ class CvUpdateController extends AbstractController
         }
 
 
-        // ======================================== PROFIL =========================================
+        $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $_GET["id"]]);
 
-
-
-        if (empty($data)) {
+        if ($val === null) {
             $output = array(
-                'message' => 'Le champ est vide',
+                'message' => 'Id non definie',
                 'status' => 'error'
             );
         } else {
+            $array = [];
 
-            if (empty($data["id"])) {
+
+            $valIdCv = $val->getId();
+            $valpersonalInformation = $val->getPersonalInformation();
+            $valid_profil = $val->getIdProfil();
+            $valid_user = $val->getIdUser();
+            $valid_formation = $val->getIdFormation();
+            $valid_experience = $val->getIdExperience();
+            $valid_interet = $val->getIdInteret();
+            $valid_reference = $val->getIdReference();
+            $valid_skill = $val->getIdSkill();
+            $valid_langue = $val->getIdLangue();
+            $valid_bas_de_page = $val->getIdBasDePage();
+            $valid_training = $val->getIdTraining();
+
+
+
+
+            // ======================================== PROFIL =========================================
+
+
+
+            if (empty($data["Profil"])) {
                 $output = array(
-                    'message' => 'Id non definie !',
+                    'message' => 'Le champ est vide',
                     'status' => 'error'
                 );
             } else {
-                $date = date('Y-m-d');
 
-                $profil = $entityManager->getRepository(Profil::class)->find($data["id"]);
-
-                $profil->setDescription($data['description']);
-                // $profil->setCurriculum($data['curriculum']);
-
-                // $profil->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $data['createdAt']));
-                $profil->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
-
-                $entityManager->flush();
-
-                $output = array(
-                    'message' => 'Profil modifié avec succès',
-                    'status' => 'success'
-                );
-            }
-        }
-
-
-        // ======================================== Formation =========================================
-
-
-
-
-
-
-
-
-        $countNB = count($data);
-
-
-        if ($countNB === 0) {
-            $output = array(
-                'message' => 'Le champ est vide',
-                'status' => 'error'
-            );
-        } else {
-
-            foreach ($data as $formationJson) {
-
-
-                $date = date('Y-m-d');
-
-
-
-                if (empty($formationJson["id"])) {
+                if (empty($valid_profil)) {
                     $output = array(
                         'message' => 'Id non definie !',
                         'status' => 'error'
                     );
                 } else {
-                    $formation = $entityManager->getRepository(Formation::class)->find($formationJson["id"]);
-                    $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $formationJson["id_cv"]]);
+                    $date = date('Y-m-d');
 
-                    $formation->setIdCv($val);
+                    $profil = $entityManager->getRepository(Profil::class)->find($valid_profil);
 
-                    $formation->setTraining($formationJson['training']);
-                    $formation->setEstablishment($formationJson['establishment']);
-                    $formation->setCity($formationJson['city']);
-                    $formation->setMonthStart($formationJson['month_start']);
-                    $formation->setYearStart($formationJson['year_start']);
-                    $formation->setMonthEnd($formationJson['month_end']);
-                    $formation->setYearEnd($formationJson['year_end']);
-                    $formation->setThisDay($formationJson['this_day']);
+                    $profil->setDescription($data["Profil"]['description']);
+                    // $profil->setCurriculum($data['curriculum']);
 
-
-
-                    // $info->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $formationJson['createdAt']));
-                    $formation->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
-
-                    $entityManager->flush();
-                }
-            }
-            $output = array(
-                'message' => 'Modification effectué avec succès',
-                'status' => 'success'
-            );
-        }
-
-
-        // ======================================== EXPERIENCE =========================================
-
-
-        $countNB = count($data);
-
-
-        if ($countNB === 0) {
-            $output = array(
-                'message' => 'Le champ est vide',
-                'status' => 'error'
-            );
-        } else {
-
-            foreach ($data as $experienceJson) {
-
-
-                $date = date('Y-m-d');
-
-
-
-                if (empty($experienceJson["id"])) {
-                    $output = array([
-                        'message' => 'Id non definie !',
-                        'status' => 'error'
-                    ]);
-                } else {
-
-                    $experience = $entityManager->getRepository(ProfessionalExperience::class)->find($experienceJson["id"]);
-                    $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $experienceJson["id_cv"]]);
-
-                    $array = [];
-
-
-                    $experience->setIdCv($val);
-                    $experience->setJob($experienceJson['job']);
-                    $experience->setCompany($experienceJson['company']);
-                    $experience->setCity($experienceJson['city']);
-                    $experience->setMonthStart($experienceJson['month_start']);
-                    $experience->setYearStart($experienceJson['year_start']);
-                    $experience->setMonthEnd($experienceJson['month_end']);
-                    $experience->setYearEnd($experienceJson['year_end']);
-                    $experience->setThisDay($experienceJson['this_day']);
-                    $experience->setIsDeleted(false);
-
-
-                    // $experience->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $experienceJson['createdAt']));
-                    $experience->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
-
-
-                    $entityManager->flush();
-                }
-            }
-            $output = array(
-                'message' => 'Modification effectué avec succès',
-                'status' => 'success'
-            );
-        }
-
-
-
-        // ======================================== SKILL =========================================
-
-
-
-        if (empty($data)) {
-            $output = array(
-                'message' => 'Le champ est vide',
-                'status' => 'error'
-            );
-        } else {
-            if (
-                empty($data['skill']) || empty($data['level'])
-            ) {
-                $output = array(
-                    'message' => 'Veuiller remplir tous les champ svp !',
-                    'status' => 'error'
-                );
-            } else {
-
-
-                $date = date('Y-m-d');
-
-
-                if (empty($data["id"])) {
-                    $output = array(
-                        'message' => 'Id non definie !',
-                        'status' => 'error'
-                    );
-                } else {
-
-                    $skill = $entityManager->getRepository(Skill::class)->find($data["id"]);
-
-                    $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $data["id_cv"]]);
-
-
-                    $skill->setIdCv($val);
-
-                    $skill->setSkill($data['skill']);
-                    $skill->setLevel($data['level']);
-
-                    $skill->setIsDeleted(false);
-
-
-                    // $skill->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $data['createdAt']));
-                    $skill->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
+                    // $profil->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $data['createdAt']));
+                    $profil->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
 
                     $entityManager->flush();
 
                     $output = array(
-                        'message' => 'Modification effectué avec succès',
+                        'message' => 'Profil modifié avec succès',
                         'status' => 'success'
                     );
                 }
             }
-        }
 
 
-        // ======================================== Liste LANGUAGE =========================================
+            // ======================================== Formation =========================================
 
 
-
-        $countNB = count($data);
-
-
-        if ($countNB === 0) {
-            $output = array(
-                'message' => 'Le champ est vide',
-                'status' => 'error'
-            );
-        } else {
-
-            foreach ($data as $listlanguageJson) {
-                if (
-                    empty($listlanguageJson['note_language']) || empty($listlanguageJson['id_language'])
-                ) {
-                    $output = array(
-                        'message' => 'Veuiller remplir tous les champ svp !',
-                        'status' => 'error'
-                    );
-                } else {
+            $countNB = count($data['Formation']);
 
 
-                    $date = date('Y-m-d');
-
-
-
-                    if (empty($listlanguageJson["id"])) {
-                        $output = array(
-                            'message' => 'Id non definie !',
-                            'status' => 'error'
-                        );
-                    } else {
-                        $formation = $entityManager->getRepository(ListLanguage::class)->findOneBy(["id" => $listlanguageJson["id"]]);
-
-
-                        $val = $entityManager->getRepository(Language::class)->findOneBy(['id' => $listlanguageJson["id_language"]]);
-
-                        $array = [];
-
-
-                        $formation->setIdLanguage($val);
-
-                        $id_cv = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $listlanguageJson["id_cv"]]);
-
-                        $array = [];
-
-
-                        $formation->setIdCv($id_cv);
-
-
-
-                        $formation->setNoteLanguage($listlanguageJson['note_language']);
-
-
-                        $formation->setDeleted(false);
-
-
-
-                        // $info->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $listlanguageJson['createdAt']));
-                        $formation->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
-
-                        $entityManager->flush();
-                    }
-                }
-            }
-            $output = array(
-                'message' => 'Modification effectué avec succès',
-                'status' => 'success'
-            );
-        }
-
-
-        // ======================================== Center of INTEREST =========================================
-
-
-        $countNB = count($data);
-
-
-        if ($countNB === 0) {
-            $output = array(
-                'message' => 'Le champ est vide',
-                'status' => 'error'
-            );
-        } else {
-
-            foreach ($data as $centerofinterestJson) {
-
-                $date = date('Y-m-d');
-
-
-                if (empty($centerofinterestJson["id"])) {
-                    $output = array(
-                        'message' => 'Id non definie !',
-                        'status' => 'error'
-                    );
-                } else {
-
-                    $centerofinterest = $entityManager->getRepository(CenterOfInterest::class)->find($centerofinterestJson["id"]);
-                    $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $centerofinterestJson["id_cv"]]);
-
-                    $array = [];
-
-
-                    $centerofinterest->setIdCv($val);
-
-                    $centerofinterest->setDescription($centerofinterestJson['description']);
-
-
-                    $centerofinterest->setIsDeleted(false);
-
-
-                    // $centerofinterest->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $centerofinterestJson['createdAt']));
-                    $centerofinterest->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
-
-                    $entityManager->flush();
-                }
+            if ($countNB === 0) {
                 $output = array(
-                    'message' => 'Modification effectué avec succès',
-                    'status' => 'success'
+                    'message' => 'Le champ est vide',
+                    'status' => 'error'
                 );
-            }
-        }
+            } else {
+                $formation = $entityManager->getRepository(Formation::class)->findBy(['id_cv' => $valIdCv]);
+                foreach ($data['Formation'] as $formationJson) {
+                    // dd($formation);
 
-
-
-        // ======================================== Reference =========================================
-
-
-        $countNB = count($data);
-
-
-        if ($countNB === 0) {
-            $output = array(
-                'message' => 'Le champ est vide',
-                'status' => 'error'
-            );
-        } else {
-
-            foreach ($data as $referenceJson) {
-                if (
-                    empty($referenceJson['name']) || empty($referenceJson['company']) || empty($referenceJson['city']) ||
-                    empty($referenceJson['phone']) || empty($referenceJson['mail'])
-                ) {
-                    $output = array([
-                        'message' => 'Veuiller remplir tous les champ svp !',
-                        'status' => 'error'
-                    ]);
-                } else {
-
-                    $str = $referenceJson['mail'];
-                    $pattern = "/@/i";
                     $date = date('Y-m-d');
 
-                    if (preg_match($pattern, $str) === 1) {
+                    foreach ($formation as $formations) {
 
-                        if (empty($referenceJson["id"])) {
+                        if (empty($valIdCv)) {
                             $output = array(
                                 'message' => 'Id non definie !',
                                 'status' => 'error'
                             );
                         } else {
 
-                            $info = $entityManager->getRepository(Reference::class)->find($referenceJson["id"]);
-                            $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $referenceJson["id_cv"]]);
 
-                            $array = [];
+                            // dd($valIdCv);
 
+                            // $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $valIdCv]);
 
-                            $info->setIdCv($val);
+                            // dd($formationJson['training']);
+                            // $formation->setIdCv($val);
 
-                            $info->setName($referenceJson['name']);
-                            $info->setCompany($referenceJson['company']);
-                            $info->setCity($referenceJson['city']);
-                            $info->setPhone($referenceJson['phone']);
-                            $info->setMail($referenceJson['mail']);
+                            $formations->setTraining($formationJson['training']);
+                            $formations->setEstablishment($formationJson['establishment']);
+                            $formations->setCity($formationJson['city']);
+                            $formations->setMonthStart($formationJson['month_start']);
+                            $formations->setYearStart($formationJson['year_start']);
+                            $formations->setMonthEnd($formationJson['month_end']);
+                            $formations->setYearEnd($formationJson['year_end']);
+                            $formations->setThisDay($formationJson['this_day']);
 
-                            $info->setDeleted(false);
-
-
-                            // $info->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $referenceJson['createdAt']));
-                            $info->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
+                            // $info->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $formationJson['createdAt']));
+                            $formations->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
 
                             $entityManager->flush();
                         }
-                    } else {
-                        $output = array([
-                            'message' => 'Mail non valide',
+                        array_shift($formation);
+                        break;
+                    }
+                }
+                $output = array(
+                    'message' => 'Modification effectué avec succès',
+                    'status' => 'success'
+                );
+            }
+
+
+            // ======================================== EXPERIENCE =========================================
+
+
+            $countNB = count($data['Experience']);
+
+
+            if ($countNB === 0) {
+                $output = array(
+                    'message' => 'Le champ est vide',
+                    'status' => 'error'
+                );
+            } else {
+                $experience = $entityManager->getRepository(ProfessionalExperience::class)->findBy(['id_cv' => $valIdCv]);
+                foreach ($data['Experience'] as $experienceJson) {
+
+
+                    $date = date('Y-m-d');
+
+                    foreach ($experience as $experiences) {
+
+                        if (empty($valIdCv)) {
+                            $output = array([
+                                'message' => 'Id non definie !',
+                                'status' => 'error'
+                            ]);
+                        } else {
+
+
+
+                            // $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $valIdCv]);
+
+
+                            // $experience->setIdCv($val);
+                            $experiences->setJob($experienceJson['job']);
+                            $experiences->setCompany($experienceJson['company']);
+                            $experiences->setCity($experienceJson['city']);
+                            $experiences->setMonthStart($experienceJson['month_start']);
+                            $experiences->setYearStart($experienceJson['year_start']);
+                            $experiences->setMonthEnd($experienceJson['month_end']);
+                            $experiences->setYearEnd($experienceJson['year_end']);
+                            $experiences->setThisDay($experienceJson['this_day']);
+                            $experiences->setIsDeleted(false);
+
+
+                            // $experiences->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $experienceJson['createdAt']));
+                            $experiences->setUpdatedAt(\DateTime::createFromFormat(
+                                'Y-m-d',
+                                $date
+                            ));
+
+
+                            $entityManager->flush();
+
+                            array_shift($experience);
+                            break;
+                        }
+                    }
+                }
+                $output = array(
+                    'message' => 'Modification effectué avec succès',
+                    'status' => 'success'
+                );
+            }
+
+
+
+            // ======================================== SKILL =========================================
+
+
+
+            if (empty($data['Skill'])) {
+                $output = array(
+                    'message' => 'Le champ est vide',
+                    'status' => 'error'
+                );
+            } else {
+                if (
+                    empty($data['Skill']['skill']) || empty($data['Skill']['level'])
+                ) {
+                    $output = array(
+                        'message' => 'Veuiller remplir tous les champ svp !',
+                        'status' => 'error'
+                    );
+                } else {
+
+
+                    $date = date('Y-m-d');
+
+
+                    if (empty($valIdCv)) {
+                        $output = array(
+                            'message' => 'Id non definie !',
                             'status' => 'error'
-                        ]);
+                        );
+                    } else {
+
+                        $skill = $entityManager->getRepository(Skill::class)->findOneBy(['id_cv' => $valIdCv]);
+
+                        // $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $valIdCv]);
+
+
+                        // $skill->setIdCv($val);
+
+                        $skill->setSkill($data['Skill']['skill']);
+                        $skill->setLevel($data['Skill']['level']);
+
+                        $skill->setIsDeleted(false);
+
+
+                        // $skill->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $data['createdAt']));
+                        $skill->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
+
+                        $entityManager->flush();
+
+                        $output = array(
+                            'message' => 'Modification effectué avec succès',
+                            'status' => 'success'
+                        );
                     }
                 }
             }
-            $output = array([
-                'message' => 'Modification effectué avec succès',
-                'status' => 'success'
-            ]);
-        }
+
+
+            // ======================================== Liste LANGUAGE =========================================
 
 
 
-        // ======================================== Bas de page =========================================
+            $countNB = count($data['ListLanguage']);
 
 
-        if (empty($data)) {
-            $output = array([
-                'message' => 'Le champ est vide',
-                'status' => 'error'
-            ]);
-        } else {
-
-            $date = date('Y-m-d');
-
-
-            if (empty($data["id"])) {
-                $output = array([
-                    'message' => 'Id non definie !',
+            if ($countNB === 0) {
+                $output = array(
+                    'message' => 'Le champ est vide',
                     'status' => 'error'
-                ]);
+                );
             } else {
 
-                $basdepage = $entityManager->getRepository(BasDePage::class)->find($data["id"]);
+                $listLanguage = $entityManager->getRepository(ListLanguage::class)->findBy(['id_cv' => $valIdCv]);
 
-                $basdepage->setDescription($data['description']);
+                foreach ($data['ListLanguage'] as $listlanguageJson) {
+                    if (
+                        empty($listlanguageJson['note_language']) || empty($listlanguageJson['id_language'])
+                    ) {
+                        $output = array(
+                            'message' => 'Veuiller remplir tous les champ svp !',
+                            'status' => 'error'
+                        );
+                    } else {
 
 
-                $basdepage->setDeleted(false);
+                        $date = date('Y-m-d');
+
+                        foreach ($listLanguage as $listLanguages) {
 
 
-                // $basdepage->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $data['createdAt']));
-                $basdepage->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
 
-                $entityManager->flush();
 
-                $output = array([
+                            if (empty($valIdCv)) {
+                                $output = array(
+                                    'message' => 'Id non definie !',
+                                    'status' => 'error'
+                                );
+                            } else {
+
+
+
+                                $val = $entityManager->getRepository(Language::class)->findOneBy(['id' => $listlanguageJson["id_language"]]);
+
+
+                                $listLanguages->setIdLanguage($val);
+
+                                // $id_cv = $entityManager->getRepository(Curriculum::class)->findOneBy(['id_cv' => $valIdCv]);
+
+                                // $array = [];
+
+
+                                // $listLanguage->setIdCv($id_cv);
+
+
+
+                                $listLanguages->setNoteLanguage($listlanguageJson['note_language']);
+
+
+                                $listLanguages->setDeleted(false);
+
+
+
+                                // $info->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $listlanguageJson['createdAt']));
+                                $listLanguages->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
+
+                                $entityManager->flush();
+                            }
+
+                            array_shift($listLanguage);
+                            break;
+                        }
+                    }
+                }
+                $output = array(
                     'message' => 'Modification effectué avec succès',
                     'status' => 'success'
-                ]);
+                );
             }
-        }
 
 
+            // ======================================== Center of INTEREST =========================================
 
-        // ======================================== Training =========================================
 
-        if (empty($data)) {
-            $output = array([
-                'message' => 'Le champ est vide',
-                'status' => 'error'
-            ]);
-        } else {
-            if (
-                empty($data['position']) || empty($data['employer']) || empty($data['city']) ||
-                empty($data['month_start']) || empty($data['year_start']) || empty($data['month_end']) || empty($data['year_end'])
-            ) {
-                $output = array([
-                    'message' => 'Veuiller remplir tous les champ svp !',
+            $countNB = count($data['CenterOfInterest']);
+            // dd($countNB);
+
+            if ($countNB === 0) {
+                $output = array(
+                    'message' => 'Le champ est vide',
                     'status' => 'error'
-                ]);
+                );
             } else {
+                $findCOI = [];
+                $centerofinterest = $entityManager->getRepository(CenterOfInterest::class)->findBy(['id_cv' => $valIdCv]);
+                $centerofinterestArr = $centerofinterest;
 
+
+
+
+
+                foreach ($data['CenterOfInterest'] as $centerofinterestJson) {
+
+                    foreach ($centerofinterestArr as $centerofinterests) {
+
+
+
+                        $centerofinterests->setDescription($centerofinterestJson['description']);
+
+
+                        $centerofinterests->setIsDeleted(false);
+
+
+                        // $centerofinterest->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $centerofinterestJson['createdAt']));
+                        $centerofinterests->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
+
+                        $entityManager->flush();
+
+                        // break;
+
+                        array_shift($centerofinterestArr);
+                        break;
+                    }
+                   
+                }
+                $output = array(
+                    'message' => 'Modification effectué avec succès',
+                    'status' => 'success'
+                );
+            }
+
+
+
+            // ======================================== Reference =========================================
+
+
+            $countNB = count($data['Reference']);
+
+
+            if ($countNB === 0) {
+                $output = array(
+                    'message' => 'Le champ est vide',
+                    'status' => 'error'
+                );
+            } else {
+                $reference = $entityManager->getRepository(Reference::class)->findBy(['id_cv' => $valIdCv]);
+
+                foreach ($data['Reference'] as $referenceJson) {
+                    foreach ($reference as $references) {
+                        if (
+                            empty($referenceJson['name']) || empty($referenceJson['company']) || empty($referenceJson['city']) ||
+                            empty($referenceJson['phone']) || empty($referenceJson['mail'])
+                        ) {
+                            $output = array([
+                                'message' => 'Veuiller remplir tous les champ svp !',
+                                'status' => 'error'
+                            ]);
+                        } else {
+
+                            $str = $referenceJson['mail'];
+                            $pattern = "/@/i";
+                            $date = date('Y-m-d');
+
+
+
+                            // $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $valIdCv]);
+                            echo $references->getId();
+                            echo $referenceJson['name'];
+
+                            // $reference->setIdCv($val);
+
+                            $references->setName($referenceJson['name']);
+                            $references->setCompany($referenceJson['company']);
+                            $references->setCity($referenceJson['city']);
+                            $references->setPhone($referenceJson['phone']);
+                            $references->setMail($referenceJson['mail']);
+
+                            $references->setDeleted(false);
+
+
+                            // $reference->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $referenceJson['createdAt']));
+                            $references->setUpdatedAt(\DateTime::createFromFormat(
+                                'Y-m-d',
+                                $date
+                            ));
+
+                            $entityManager->flush();
+                                
+                          
+                        }
+                        array_shift($centerofinterestArr);
+                        break;
+                    }
+                }
+                $output = array(
+                    'message' => 'Modification effectué avec succès',
+                    'status' => 'success'
+                );
+            }
+
+
+
+            // ======================================== Bas de page =========================================
+
+
+            if (empty($data['BasDePage'])) {
+                $output = array(
+                    'message' => 'Le champ est vide',
+                    'status' => 'error'
+                );
+            } else {
 
                 $date = date('Y-m-d');
 
 
-
-                if (empty($data["id"])) {
-                    $output = array([
+                if (empty($valid_bas_de_page)) {
+                    $output = array(
                         'message' => 'Id non definie !',
                         'status' => 'error'
-                    ]);
+                    );
                 } else {
-                    $training = $entityManager->getRepository(ProfessionalTraining::class)->find($data["id"]);
+
+                    $basdepage = $entityManager->getRepository(BasDePage::class)->find($valid_bas_de_page);
+
+                    $basdepage->setDescription($data['BasDePage']['description']);
 
 
-                    $training->setPosition($data['position']);
-                    $training->setEmployer($data['employer']);
-                    $training->setCity($data['city']);
-                    $training->setMonthStart($data['month_start']);
-                    $training->setYearStart($data['year_start']);
-                    $training->setMonthEnd($data['month_end']);
-                    $training->setYearEnd($data['year_end']);
-                    $training->setThisDay($data['this_day']);
-
-                    $training->setIsDeleted(false);
+                    $basdepage->setDeleted(false);
 
 
-
-                    // $info->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $data['createdAt']));
-                    $training->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
+                    // $basdepage->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $data['createdAt']));
+                    $basdepage->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
 
                     $entityManager->flush();
 
-                    $output = array([
+                    $output = array(
                         'message' => 'Modification effectué avec succès',
                         'status' => 'success'
-                    ]);
+                    );
                 }
             }
+
+
+
+            // ======================================== Training =========================================
+
+            if (empty($data['Training'])) {
+                $output = array(
+                    'message' => 'Le champ est vide',
+                    'status' => 'error'
+                );
+            } else {
+                if (
+                    empty($data['Training']['position']) || empty($data['Training']['employer']) || empty($data['Training']['city']) ||
+                    empty($data['Training']['month_start']) || empty($data['Training']['year_start']) || empty($data['Training']['month_end']) ||
+                    empty($data['Training']['year_end'])
+                ) {
+                    $output = array(
+                        'message' => 'Veuiller remplir tous les champ svp !',
+                        'status' => 'error'
+                    );
+                } else {
+
+
+                    $date = date('Y-m-d');
+
+
+
+                    if (empty($valid_training)) {
+                        $output = array(
+                            'message' => 'Id non definie !',
+                            'status' => 'error'
+                        );
+                    } else {
+                        $training = $entityManager->getRepository(ProfessionalTraining::class)->find($valid_training);
+
+
+                        $training->setPosition($data['Training']['position']);
+                        $training->setEmployer($data['Training']['employer']);
+                        $training->setCity($data['Training']['city']);
+                        $training->setMonthStart($data['Training']['month_start']);
+                        $training->setYearStart($data['Training']['year_start']);
+                        $training->setMonthEnd($data['Training']['month_end']);
+                        $training->setYearEnd($data['Training']['year_end']);
+                        $training->setThisDay($data['Training']['this_day']);
+
+                        $training->setIsDeleted(false);
+
+
+
+                        // $info->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $data['createdAt']));
+                        $training->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $date));
+
+                        $entityManager->flush();
+
+                        $output = array(
+                            'message' => 'Modification effectué avec succès',
+                            'status' => 'success'
+                        );
+                    }
+                }
+            }
+            return $this->json([
+                "output" => $output
+            ]);
         }
-        return $this->json([
-            "output" => $output
-        ]);
     }
 }
