@@ -22,18 +22,7 @@ class InformationUpdateController extends AbstractController
         Request $request,
         SluggerInterface $slugger
     ): JsonResponse {
-        // $parametersAsArray = [];
-        // if ($content = $request->getContent()) {
-        //     $parametersAsArray = json_decode($content, true);
-        // }
-
-        // if (empty($parametersAsArray)) {
-        //     return $this->json([
-        //         'message' => 'Le champ est vide',
-        //         'status' => 'error'
-        //     ]);
-        // } else {
-        // dd($request->request->get("Name"));
+      
         if (
             empty($request->request->get("Name")) || empty($request->request->get("FirstName")) || empty($request->request->get("Email")) ||
             empty($request->request->get("Telephone")) || empty($request->request->get("Address"))

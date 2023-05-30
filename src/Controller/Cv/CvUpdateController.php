@@ -126,7 +126,8 @@ class CvUpdateController extends AbstractController
                             );
                         } else {
 
-
+                            echo $formations->getId();
+                            echo $formationJson['training'];
                             // dd($valIdCv);
 
                             // $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $valIdCv]);
@@ -259,7 +260,7 @@ class CvUpdateController extends AbstractController
 
                         // $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $valIdCv]);
 
-
+                        // dd($skill);
                         // $skill->setIdCv($val);
 
                         $skill->setSkill($data['Skill']['skill']);
@@ -449,8 +450,7 @@ class CvUpdateController extends AbstractController
 
 
                             // $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $valIdCv]);
-                            echo $references->getId();
-                            echo $referenceJson['name'];
+                           
 
                             // $reference->setIdCv($val);
 
@@ -473,7 +473,7 @@ class CvUpdateController extends AbstractController
                                 
                           
                         }
-                        array_shift($centerofinterestArr);
+                        array_shift($reference);
                         break;
                     }
                 }
