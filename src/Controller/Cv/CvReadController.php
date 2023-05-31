@@ -2,6 +2,7 @@
 
 namespace App\Controller\Cv;
 
+use App\Controller\Information\InformationReadController;
 use App\Entity\BasDePage;
 use App\Entity\CenterOfInterest;
 use App\Entity\Curriculum;
@@ -94,8 +95,15 @@ class CvReadController extends AbstractController
                     // $tempInformation["updatedAt"] = $item->getUpdatedAt();
                     
                 }
+
+                // require_once './Information/InformationReadController.php';
+                // $informationContr = new InformationReadController();
+                // echo ($informationContr->readInformation());
+
                 $informationData = $this->forward('App\Controller\Information\InformationReadController::readInformation')->getContent();
-                array_push($output, $informationData);
+                $informationData1 = str_replace('\"', '"', $informationData);
+                // $informationData = str_replace(, "", $informationData);
+                array_push($output, $informationData1);
                 // dd($valid_profil);
 
 

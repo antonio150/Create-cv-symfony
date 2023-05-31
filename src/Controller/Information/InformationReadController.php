@@ -17,9 +17,7 @@ class InformationReadController extends AbstractController
      * @Route("/information/information/read", name="app_information_information_read")
      */
     public function readInformation(
-        Request $request,
-        PersonalInformationRepository $info,
-        EntityManagerInterface $entityManager
+       
     ): JsonResponse {
 
 
