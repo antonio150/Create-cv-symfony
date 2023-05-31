@@ -96,7 +96,7 @@ class CvReadController extends AbstractController
                     
                 }
 
-                // require_once './Information/InformationReadController.php';
+                // require '../Information/InformationReadController.php';
                 // $informationContr = new InformationReadController();
                 // echo ($informationContr->readInformation());
 
