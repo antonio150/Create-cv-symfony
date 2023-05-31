@@ -19,6 +19,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+
+use App\Controller\Profil\ProfilReadController;
+
+
 class CvReadController extends AbstractController
 {
     /**
@@ -90,7 +94,8 @@ class CvReadController extends AbstractController
                     // $tempInformation["updatedAt"] = $item->getUpdatedAt();
                     
                 }
-                array_push($output, $tempInformation);
+                $informationData = $this->forward('App\Controller\Information\InformationReadController::readInformation')->getContent();
+                array_push($output, $informationData);
                 // dd($valid_profil);
 
 
@@ -108,7 +113,11 @@ class CvReadController extends AbstractController
 
                     
                 }
-                array_push($output, $tempProfil);
+                // $profilData = new ProfilReadController;
+                // dd($profilData->indexProfil());
+
+                $profilData = $this->forward('App\Controller\Profil\ProfilReadController::readProfil')->getContent();
+                array_push($output, $profilData);
 
 
                 // ======================================== Formation =========================================
@@ -134,8 +143,9 @@ class CvReadController extends AbstractController
                     // $tempFormation["updatedAt"] = $item->getUpdatedAt();
                     array_push($outputFormation['Formation'], $tempFormation);
                 }
+                $formationData = $this->forward('App\Controller\Formation\FormationReadController::readFormation')->getContent();
 
-                array_push($output, $outputFormation);
+                array_push($output, $formationData);
 
                 // ======================================== EXPERIENCE =========================================
 
@@ -157,7 +167,8 @@ class CvReadController extends AbstractController
                 }
 
                 // dd($outputExperience);
-                array_push($output, $outputExperience);
+                $experienceData = $this->forward('App\Controller\Experience\ExperienceReadController::readExperience')->getContent();
+                array_push($output, $experienceData);
 
                 // ======================================== SKILL =========================================
 
@@ -175,6 +186,8 @@ class CvReadController extends AbstractController
                     array_push($output, $tempSkill);
                 }
 
+                $skillData = $this->forward('App\Controller\Skill\SkillReadController::readSkill')->getContent();
+                array_push($output, $skillData);
 
                 // ======================================== Liste LANGUAGE =========================================
 

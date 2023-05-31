@@ -4,6 +4,7 @@ namespace App\Controller\Formation;
 
 use App\Entity\Curriculum;
 use App\Entity\Formation;
+use App\Repository\FormationRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,7 +19,8 @@ class FormationCreateController extends AbstractController
      */
     public function index(
         EntityManagerInterface $entityManager,
-        Request $request
+        Request $request,
+        FormationRepository $formationRepository
     ): Response
     {
         $parametersAsArray = [];
@@ -68,8 +70,10 @@ class FormationCreateController extends AbstractController
 
 
 
-                $entityManager->persist($formation);
-                $entityManager->flush();
+                // $entityManager->persist($formation);
+                // $entityManager->flush();
+                $formationRepository->add($formation, true);
+
             }
             return $this->json([
                 'message' => 'Formation créé avec succès',

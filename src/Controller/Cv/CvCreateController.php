@@ -102,7 +102,6 @@ class CvCreateController extends AbstractController
                     // dd($val);
                     $array = [];
 
-                    
 
                     foreach ($val as $profils) {
                         $profil->setIdCv($profils);
@@ -111,6 +110,7 @@ class CvCreateController extends AbstractController
                     $profil->setDescription($data["Profil"]['description']);
                     $profil->setIsDeleted(false);
                     $profil->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
+
 
                     $entityManager->persist($profil);
                     $entityManager->flush();

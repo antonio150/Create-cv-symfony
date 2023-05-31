@@ -12,7 +12,7 @@ class TrainingReadController extends AbstractController
     /**
      * @Route("/training/training/read", name="app_training_training_read")
      */
-    public function index(): Response
+    public function readTraining(): Response
     {
         $output = array();
         $temp = array();
@@ -35,9 +35,8 @@ class TrainingReadController extends AbstractController
             array_push($output, $temp);
         }
 
-        return $this->json(['message' => 'Liste des Training',
-            'data' => $output,
-            'status' => 'success'
+        return $this->json([
+            'Training' => $output
         ]);
     }
 }

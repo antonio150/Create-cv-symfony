@@ -4,6 +4,7 @@ namespace App\Controller\Reference;
 
 use App\Entity\Curriculum;
 use App\Entity\Reference;
+use App\Repository\ReferenceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,7 +19,8 @@ class ReferenceCreateController extends AbstractController
      */
     public function index(
         Request $request,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        ReferenceRepository $referenceRepository
     ): JsonResponse {
         $parametersAsArray = [];
         if ($content = $request->getContent()) {
@@ -70,13 +72,13 @@ class ReferenceCreateController extends AbstractController
 
 
                     $reference->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
-                    // $reference->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $referenceJson['updatedAt']));
+                        // $reference->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $referenceJson['updatedAt']));
 
 
 
-                    $entityManager->persist($reference);
-                    $entityManager->flush();
-
+                        // $entityManager->persist($reference);
+                        // $entityManager->flush();
+                        $referenceRepository->add($reference, true);
                     
                 } else {
                     return $this->json([

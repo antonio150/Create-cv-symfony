@@ -22,19 +22,10 @@ class InformationCreateController extends AbstractController
     public function index(
         Request $request,
         EntityManagerInterface $entityManager,
-        SluggerInterface $slugger
+        SluggerInterface $slugger,
+        PersonalInformationRepository $personalInformationRepository
     ): JsonResponse {
-        // $parametersAsArray = [];
-        // if ($content = $request->getContent()) {
-        //     $parametersAsArray = json_decode($content, true);
-        // }
-
-        // if (empty($parametersAsArray)) {
-        //     return $this->json([
-        //         'message' => 'Le champ est vide',
-        //         'status' => 'error'
-        //     ]);
-        // } else {
+     
             if (
             empty($request->request->get("Name")) || empty($request->request->get("FirstName")) || empty($request->request->get("Email")) ||
             empty($request->request->get("Telephone")) || empty($request->request->get("Address")) 
@@ -103,12 +94,12 @@ class InformationCreateController extends AbstractController
 
 
                     $info->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
-                    // $info->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
+                // $info->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
 
-
+                $personalInformationRepository->add($info, true);
                  
-                    $entityManager->persist($info);
-                    $entityManager->flush();
+                    // $entityManager->persist($info);
+                    // $entityManager->flush();
 
                     return $this->json([
                         'message' => 'Liste des Informations créer avec succés',

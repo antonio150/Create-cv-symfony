@@ -1,0 +1,133 @@
+{
+       
+    "id": "1",
+    
+    "Profil" : {
+            "description" : "good ambiance"
+    },
+
+    "Formation" : [
+{
+        
+        "training": "dada22222222",
+        "establishment" : "yhyh",
+        "city" : "toamasina2",
+        "month_start" : "2",
+        "year_start" : "1996",
+        "month_end" : "2",
+        "year_end" : "2000",
+        "this_day" : "true",
+        "description" : "none"
+    },
+
+    {
+        
+        "training": "gtyu4558585",
+        "establishment" : "yhyh",
+        "city" : "toamasina2",
+        "month_start" : "2",
+        "year_start" : "1996",
+        "month_end" : "2",
+        "year_end" : "2000",
+        "this_day" : "true",
+        "description" : "none"
+    }
+    ],
+
+    "Experience" : [
+{
+                
+                "job": "dev1",
+                "company" : "dfrfr",
+                "city" : "ikujk",
+                "month_start" : "1",
+                "year_start" : "1996",
+                "month_end" : "2",
+                "year_end" : "2000",
+                "this_day" : "true",
+                "description" : "sqD BE RE FGHTH"
+            },
+
+            {
+                
+                "job": "dev2",
+                "company" : "dfrfr",
+                "city" : "ikujk",
+                "month_start" : "1",
+                "year_start" : "1996",
+                "month_end" : "2",
+                "year_end" : "2000",
+                "this_day" : "true",
+                "description" : "sqD BE RE FGHTH"
+            }
+            ],
+
+    "Skill" : {
+            "skill" : "tony515151",
+            "level" : "2"
+        },
+
+    "ListLanguage" : [
+        {
+            
+            "id_language" : "4",
+            "note_language" : "15"
+        },
+        {
+            
+            "id_language" : "3",
+            "note_language" : "15"
+        }
+    ],
+
+    "CenterOfInterest" : [
+            {
+            
+            "description" : "Bonjour tout le monde"
+        },
+
+        {
+          
+            "description" : "dff gthyhy ffdfe22"
+        }
+        ],
+    "Reference" : [
+                {
+                
+            "name" : "tony1",
+                "company" : "koto",
+                "city" : "toamasina",
+                
+                "phone" : "0323589656",
+                "mail" : "d@gmail.com"
+            },
+
+            {
+                
+            "name" : "tony2",
+                "company" : "koto",
+                "city" : "toamasina",
+                
+                "phone" : "0323589656",
+                "mail" : "d@gmail.com"
+            }
+            ],
+
+    "BasDePage" : {
+                
+                "description" : "sdf ghhyyyyy"
+            },
+
+    "Training" : {
+                "position": "defdefgfgfgrtgf",
+                "employer" : "teacher",
+                "city" : "tana",
+                "month_start" : "1",
+                "year_start" : "2000",
+                "month_end" : "5",
+                "year_end" : "2020",
+                "this_day" : "true",
+                "description" : "vfrgr rggt"
+            }
+
+}

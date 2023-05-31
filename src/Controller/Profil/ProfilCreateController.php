@@ -19,7 +19,8 @@ class ProfilCreateController extends AbstractController
      */
     public function createProfil(
         EntityManagerInterface $entityManager,
-        Request $request
+        Request $request,
+        ProfilRepository $profilRepository
     ): Response {
         $parametersAsArray = [];
         if ($content = $request->getContent()) {
@@ -50,10 +51,12 @@ class ProfilCreateController extends AbstractController
             $info->setIsDeleted(false);
 
             $info->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
-                    // $info->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
+            // $info->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
 
-            $entityManager->persist($info);
-            $entityManager->flush();
+            // $entityManager->persist($info);
+            // $entityManager->flush();
+            $profilRepository->add($info, true);
+
 
             return $this->json([
                 'message' => 'Profil ajouter avec succès',

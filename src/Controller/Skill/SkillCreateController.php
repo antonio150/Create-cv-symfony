@@ -4,6 +4,7 @@ namespace App\Controller\Skill;
 
 use App\Entity\Curriculum;
 use App\Entity\Skill;
+use App\Repository\SkillRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +18,8 @@ class SkillCreateController extends AbstractController
      */
     public function index(
         Request $request,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        SkillRepository $skillRepository
     ): Response {
         $parametersAsArray = [];
         if ($content = $request->getContent()) {
@@ -58,8 +60,9 @@ class SkillCreateController extends AbstractController
                 $skill->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
                 // $skill->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
 
-                $entityManager->persist($skill);
-                $entityManager->flush();
+                // $entityManager->persist($skill);
+                // $entityManager->flush();
+                $skillRepository->add($skill, true);
 
                 return $this->json([
                     'message' => 'Skill créer avec succés',

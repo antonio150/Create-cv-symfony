@@ -16,14 +16,11 @@ class ExperienceReadController extends AbstractController
     /**
      * @Route("/experience/experience/read", name="app_experience_experience_read")
      */
-    public function index(
+    public function readExperience(
         Request $request,
         PersonalInformationRepository $info,
         EntityManagerInterface $entityManager
     ): JsonResponse {
-
-
-
 
         $output = array();
         $temp = array();
@@ -45,8 +42,7 @@ class ExperienceReadController extends AbstractController
         }
 
         return $this->json(['message' => 'Liste des experiences',
-            'data' => $output,
-            'status' => 'success'
+            'Experience' => $output
         ]);
     }
 }

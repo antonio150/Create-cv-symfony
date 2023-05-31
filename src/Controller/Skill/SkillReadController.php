@@ -12,7 +12,7 @@ class SkillReadController extends AbstractController
     /**
      * @Route("/skill/skill/read", name="app_skill_skill_read")
      */
-    public function index(): Response
+    public function readSkill(): Response
     {
         $output = array();
         $temp = array();
@@ -30,10 +30,7 @@ class SkillReadController extends AbstractController
             array_push($output, $temp);
         }
 
-        return $this->json([
-            'message' => 'List des compétences',
-            'data' => $output,
-            'status' => 'success'
+        return $this->json(['Skill' => $output
         ]);
     }
 }

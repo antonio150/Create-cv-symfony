@@ -1,0 +1,146 @@
+[
+    {
+        "Profil": [
+            {
+                "id": 76,
+                "description": "efeefr"
+            },
+            {
+                "id": 75,
+                "description": "efeefr"
+            },
+            {
+                "id": 74,
+                "description": "efeefr"
+            },
+            {
+                "id": 73,
+                "description": "efeefr"
+            },
+            {
+                "id": 72,
+                "description": "efeefr"
+            },
+            {
+                "id": 71,
+                "description": "efeefr"
+            },
+            {
+                "id": 70,
+                "description": "efeefr"
+            },
+            {
+                "id": 69,
+                "description": "efeefr"
+            },
+            {
+                "id": 68,
+                "description": "efeefr"
+            },
+            {
+                "id": 67,
+                "description": "efeefr"
+            },
+            {
+                "id": 66,
+                "description": "efeefr"
+            },
+            {
+                "id": 65,
+                "description": "efeefr"
+            },
+            {
+                "id": 64,
+                "description": "efeefr"
+            },
+            {
+                "id": 63,
+                "description": "efeefr"
+            },
+            {
+                "id": 62,
+                "description": "efeefr"
+            },
+            {
+                "id": 61,
+                "description": "efeefr"
+            },
+            {
+                "id": 60,
+                "description": "efeefr"
+            },
+            {
+                "id": 59,
+                "description": "efeefr"
+            },
+            {
+                "id": 58,
+                "description": "efeefr"
+            },
+            {
+                "id": 57,
+                "description": "efeefr"
+            }
+        ]
+    },
+    {
+        "Skill": {
+            "id_cv": {},
+            "skill": "tony",
+            "level": 2
+        }
+    },
+    {
+        "ListLanguage": []
+    },
+    {
+        "CenterOfInterest": [
+            {
+                "id_cv": {},
+                "description": "dff gthyhy ffdfe11"
+            },
+            {
+                "id_cv": {},
+                "description": "dff gthyhy ffdfe22"
+            }
+        ]
+    },
+    {
+        "Reference": [
+            {
+                "id_cv": {},
+                "name": "tony1",
+                "company": "koto",
+                "city": "toamasina",
+                "phone": "0323589656",
+                "mail": "d@gmail.com"
+            },
+            {
+                "id_cv": {},
+                "name": "tony2",
+                "company": "koto",
+                "city": "toamasina",
+                "phone": "0323589656",
+                "mail": "d@gmail.com"
+            }
+        ]
+    },
+    {
+        "BasDePage": {
+            "description": "sdf ghhyyyyy"
+        }
+    },
+    {
+        "Training": {
+            "position": "defdefgfgfgrtgf",
+            "employer": "teacher",
+            "city": "tana",
+            "month_start": 1,
+            "year_start": 2000,
+            "month_end": 5,
+            "year_end": 2020,
+            "this_day": true,
+            "description": null
+        }
+    }
+]

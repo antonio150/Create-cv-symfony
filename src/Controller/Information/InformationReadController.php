@@ -16,7 +16,7 @@ class InformationReadController extends AbstractController
     /**
      * @Route("/information/information/read", name="app_information_information_read")
      */
-    public function index(
+    public function readInformation(
         Request $request,
         PersonalInformationRepository $info,
         EntityManagerInterface $entityManager
@@ -54,9 +54,7 @@ class InformationReadController extends AbstractController
         }
 
         return $this->json([
-                'message' => 'Liste des informations',
-            'data' => $output,
-            'status' => 'success'
+                'Information' => $output
         ]);
     }
 }

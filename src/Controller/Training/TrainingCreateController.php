@@ -3,6 +3,7 @@
 namespace App\Controller\Training;
 
 use App\Entity\ProfessionalTraining;
+use App\Repository\ProfessionalTrainingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +17,8 @@ class TrainingCreateController extends AbstractController
      */
     public function index(
         EntityManagerInterface $entityManager,
-        Request $request
+        Request $request,
+        ProfessionalTrainingRepository $professionalTrainingRepository
     ): Response {
         $parametersAsArray = [];
         if ($content = $request->getContent()) {
@@ -61,8 +63,9 @@ class TrainingCreateController extends AbstractController
                 // $formation->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
 
 
-                $entityManager->persist($formation);
-                $entityManager->flush();
+                // $entityManager->persist($formation);
+                // $entityManager->flush();
+                $professionalTrainingRepository->add($formation, true);
 
                 return $this->json([
                     'message' => 'Training créer avec succés',

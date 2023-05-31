@@ -5,6 +5,7 @@ namespace App\Controller\ListLanguage;
 use App\Entity\Curriculum;
 use App\Entity\Language;
 use App\Entity\ListLanguage;
+use App\Repository\ListLanguageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +20,8 @@ class ListLanguageCreateController extends AbstractController
      */
     public function index(
         EntityManagerInterface $entityManager,
-        Request $request
+        Request $request,
+        ListLanguageRepository $listLanguageRepository
     ): Response {
         $parametersAsArray = [];
         if ($content = $request->getContent()) {
@@ -76,8 +78,11 @@ class ListLanguageCreateController extends AbstractController
                     // $listlanguage->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $listlanguageJson['updatedAt']));
 
 
-                    $entityManager->persist($listlanguage);
-                $entityManager->flush();
+                    //     $entityManager->persist($listlanguage);
+                    // $entityManager->flush();
+
+                    $listLanguageRepository->add($listlanguage, true);
+
                 }
             }
             return $this->json([

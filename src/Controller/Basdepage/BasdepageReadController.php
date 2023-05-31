@@ -12,7 +12,7 @@ class BasdepageReadController extends AbstractController
     /**
      * @Route("/basdepage/basdepage/read", name="app_basdepage_basdepage_read")
      */
-    public function index(): Response
+    public function readBasdepage(): Response
     {
         $output = array();
         $temp = array();
@@ -29,8 +29,7 @@ class BasdepageReadController extends AbstractController
         }
 
         return $this->json(['message' => 'Liste des Bas de page',
-            'data' => $output,
-            'status' => 'success'
+            'BasDePage' => $output
         ]);
     }
 }

@@ -13,7 +13,7 @@ class FormationReadController extends AbstractController
     /**
      * @Route("/formation/formation/read", name="app_formation_formation_read")
      */
-    public function index(Request $request): Response
+    public function readFormation(Request $request): Response
     {
         $output = array();
         $temp = array();
@@ -39,10 +39,7 @@ class FormationReadController extends AbstractController
             array_push($output, $temp);
         }
 
-        return $this->json([
-            'message' => 'Liste des utilisateurs avec success',
-            'data' => $output,
-            'status' => 'success'
+        return $this->json(['Formation' => $output
         ]);
     }
 }

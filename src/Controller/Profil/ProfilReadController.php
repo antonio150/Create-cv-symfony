@@ -12,7 +12,7 @@ class ProfilReadController extends AbstractController
     /**
      * @Route("/profil/profil/read", name="app_profil_profil_read")
      */
-    public function indexProfil(): Response
+    public function readProfil(): Response
     {
         $output = array();
         $temp = array();
@@ -27,10 +27,7 @@ class ProfilReadController extends AbstractController
             array_push($output, $temp);
         }
 
-        return $this->json([
-            'message' => 'Liste des profils',
-            'data' => $output,
-            'status' => 'success'
+        return $this->json(['Profil' => $output
         ]);
     }
 }

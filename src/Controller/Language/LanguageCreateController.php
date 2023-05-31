@@ -3,6 +3,7 @@
 namespace App\Controller\Language;
 
 use App\Entity\Language as EntityLanguage;
+use App\Repository\LanguageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\Language;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,7 +18,8 @@ class LanguageCreateController extends AbstractController
      */
     public function index(
         Request $request,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        LanguageRepository $languageRepository
     ): Response {
         $parametersAsArray = [];
         if ($content = $request->getContent()) {
@@ -57,8 +59,10 @@ class LanguageCreateController extends AbstractController
                 $form = $parametersAsArray;
                 $vals = $lang->getId();
 
-                $entityManager->persist($lang);
-                $entityManager->flush();
+                // $entityManager->persist($lang);
+                // $entityManager->flush();
+
+                $languageRepository->add($lang, true);
 
                 return $this->json([
                         'message' => 'Modification effectué avec succès',

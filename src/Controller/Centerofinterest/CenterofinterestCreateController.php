@@ -4,6 +4,7 @@ namespace App\Controller\Centerofinterest;
 
 use App\Entity\CenterOfInterest;
 use App\Entity\Curriculum;
+use App\Repository\CenterOfInterestRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +18,8 @@ class CenterofinterestCreateController extends AbstractController
      */
     public function index(
         Request $request,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        CenterOfInterestRepository $centerOfInterestRepository
     ): Response {
         $parametersAsArray = [];
         if ($content = $request->getContent()) {
@@ -58,12 +60,14 @@ class CenterofinterestCreateController extends AbstractController
 
 
             $centerofinterest->setCreatedAt(\DateTime::createFromFormat('Y-m-d', $date));
-            // $centerofinterest->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $centerofinterestJson['updatedAt']));
+                // $centerofinterest->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $centerofinterestJson['updatedAt']));
 
 
-            
-            $entityManager->persist($centerofinterest);
-            $entityManager->flush();
+
+                // $entityManager->persist($centerofinterest);
+                // $entityManager->flush();
+
+                $centerOfInterestRepository->add($centerofinterest, true);
             }
             return $this->json([
                 'message' => 'Centre d\'interet Créer avec succés',

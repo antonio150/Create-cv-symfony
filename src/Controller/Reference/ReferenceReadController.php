@@ -12,7 +12,7 @@ class ReferenceReadController extends AbstractController
     /**
      * @Route("/reference/reference/read", name="app_reference_reference_read")
      */
-    public function index(): Response
+    public function readReference(): Response
     {
         $output = array();
         $temp = array();
@@ -32,10 +32,7 @@ class ReferenceReadController extends AbstractController
             array_push($output, $temp);
         }
 
-        return $this->json([
-            'message' => 'Liste des references',
-            'data' => $output,
-            'status' => 'success'
+        return $this->json(['Reference' => $output
         ]);
     }
 }

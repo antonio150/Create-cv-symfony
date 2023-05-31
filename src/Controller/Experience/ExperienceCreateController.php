@@ -4,6 +4,7 @@ namespace App\Controller\Experience;
 
 use App\Entity\Curriculum;
 use App\Entity\ProfessionalExperience;
+use App\Repository\ProfessionalExperienceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +18,8 @@ class ExperienceCreateController extends AbstractController
      */
     public function index(
         EntityManagerInterface $entityManager,
-        Request $request
+        Request $request,
+        ProfessionalExperienceRepository $professionalExperienceRepository
     ): Response {
         $parametersAsArray = [];
         if ($content = $request->getContent()) {
@@ -69,8 +71,10 @@ class ExperienceCreateController extends AbstractController
                 // $experience->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $experienceJson['updatedAt']));
 
 
-                $entityManager->persist($experience);
-                $entityManager->flush();
+                // $entityManager->persist($experience);
+                // $entityManager->flush();
+
+                $professionalExperienceRepository->add($experience, true);
             }
             return $this->json([
                 'message' => 'Experience créer avec succés',

@@ -38,9 +38,9 @@ class Language
      */
     private $updatedAt;
 
-   
+
     /**
-     * @ORM\OneToOne(targetEntity=ListLanguage::class, mappedBy="id_language", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=ListLanguage::class, mappedBy="id_language")
      */
     private $listLanguage;
 

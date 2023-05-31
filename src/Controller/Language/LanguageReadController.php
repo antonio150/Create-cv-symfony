@@ -12,7 +12,7 @@ class LanguageReadController extends AbstractController
     /**
      * @Route("/language/language/read", name="app_language_language_read")
      */
-    public function index(): Response
+    public function readLanguage(): Response
     {
         $output = array();
         $temp = array();
@@ -28,9 +28,9 @@ class LanguageReadController extends AbstractController
             array_push($output, $temp);
         }
 
-        return $this->json(['message' => 'Liste des languages',
-            'data' => $output,
-            'status' => 'success'
+        return $this->json([
+            'Language' => $output
+           
         ]);
     }
 }

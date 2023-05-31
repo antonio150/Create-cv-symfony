@@ -3,6 +3,7 @@
 namespace App\Controller\Basdepage;
 
 use App\Entity\BasDePage;
+use App\Repository\BasDePageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +17,8 @@ class BasdepageCreateController extends AbstractController
      */
     public function index(
         Request $request,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        BasDePageRepository $basDePageRepository
     ): Response {
         $parametersAsArray = [];
         if ($content = $request->getContent()) {
@@ -46,10 +48,12 @@ class BasdepageCreateController extends AbstractController
             // $basdepage->setUpdatedAt(\DateTime::createFromFormat('Y-m-d', $parametersAsArray['updatedAt']));
 
 
-          
 
-            $entityManager->persist($basdepage);
-            $entityManager->flush();
+
+            // $entityManager->persist($basdepage);
+            // $entityManager->flush();
+
+            $basDePageRepository->add($basdepage, true);
 
             return $this->json(['message' => 'Bas de page Créer',
                 'status' => 'success'

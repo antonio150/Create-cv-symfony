@@ -18,7 +18,7 @@ class ListLanguage
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=Language::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Language::class, inversedBy="id_language")
      */
     private $id_language;
 

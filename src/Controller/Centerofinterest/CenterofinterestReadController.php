@@ -12,7 +12,7 @@ class CenterofinterestReadController extends AbstractController
     /**
      * @Route("/centerofinterest/centerofinterest/read", name="app_centerofinterest_centerofinterest_read")
      */
-    public function index(): Response
+    public function readCenterofinterest(): Response
     {
         $output = array();
         $temp = array();
@@ -30,8 +30,7 @@ class CenterofinterestReadController extends AbstractController
         }
 
         return $this->json(['message' => 'Liste des Centerofinterest',
-            'data' => $output,
-            'status' => 'success'
+            'CenterOfInterest' => $output
         ]);
     }
 }
