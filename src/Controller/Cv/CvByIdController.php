@@ -31,8 +31,8 @@ class CvByIdController extends AbstractController
 
         $output = array();
         $temp = array();
-
-        $valCV = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $_GET["id"]]);
+        $data = json_decode($request->getContent(), true);
+        $valCV = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $data["id"]]);
 
         foreach ($valCV as $Curriculums) {
 
