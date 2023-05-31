@@ -88,8 +88,9 @@ class CvCreateController extends AbstractController
                     );
                 } else {
                     $date = date('Y-m-d');
-                    $idCV = $_GET["id"];
+                    $idCV = $data["Id"];
 
+                   
 
 
                     // ======================================== PROFIL =========================================
@@ -100,6 +101,8 @@ class CvCreateController extends AbstractController
                     $val = $entityManager->getRepository(Curriculum::class)->findBy(['id' => $idCV]);
                     // dd($val);
                     $array = [];
+
+                    
 
                     foreach ($val as $profils) {
                         $profil->setIdCv($profils);
@@ -522,7 +525,7 @@ class CvCreateController extends AbstractController
                     // echo ($_GET["name"]);
 
                     $valcv = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $idCV]);
-                    $valuser = $entityManager->getRepository(Utilisateur::class)->findOneBy(['id' => $_GET["id_user"]]);
+                    $valuser = $entityManager->getRepository(Utilisateur::class)->findOneBy(['id' => $data["Id_user"]]);
                     $valprofil = $entityManager->getRepository(Profil::class)->findOneBy(['id' => $profil->getId()]);
                     $valbasdepage = $entityManager->getRepository(BasDePage::class)->findOneBy(['id' => $basdepage->getId()]);
                     $valtraining = $entityManager->getRepository(ProfessionalTraining::class)->findOneBy(['id' => $training->getId()]);

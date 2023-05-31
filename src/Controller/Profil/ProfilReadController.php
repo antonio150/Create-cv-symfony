@@ -12,7 +12,7 @@ class ProfilReadController extends AbstractController
     /**
      * @Route("/profil/profil/read", name="app_profil_profil_read")
      */
-    public function index(): Response
+    public function indexProfil(): Response
     {
         $output = array();
         $temp = array();

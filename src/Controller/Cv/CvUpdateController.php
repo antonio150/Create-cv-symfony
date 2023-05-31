@@ -35,7 +35,7 @@ class CvUpdateController extends AbstractController
         }
 
 
-        $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $_GET["id"]]);
+        $val = $entityManager->getRepository(Curriculum::class)->findOneBy(['id' => $data["id"]]);
 
         if ($val === null) {
             $output = array(
@@ -380,10 +380,6 @@ class CvUpdateController extends AbstractController
                 $findCOI = [];
                 $centerofinterest = $entityManager->getRepository(CenterOfInterest::class)->findBy(['id_cv' => $valIdCv]);
                 $centerofinterestArr = $centerofinterest;
-
-
-
-
 
                 foreach ($data['CenterOfInterest'] as $centerofinterestJson) {
 

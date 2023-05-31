@@ -17,7 +17,7 @@ class ProfilCreateController extends AbstractController
     /**
      * @Route("/profil/profil/create", name="app_profil_profil_create")
      */
-    public function index(
+    public function createProfil(
         EntityManagerInterface $entityManager,
         Request $request
     ): Response {

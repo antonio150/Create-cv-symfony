@@ -152,6 +152,7 @@ class CvUpdateInformationController extends AbstractController
                 } else {
                     return $this->json([
                         'message' => 'Mail non valide',
+                        'id' => $val->getId(),
                         'status' => 'error'
                     ]);
                 }
