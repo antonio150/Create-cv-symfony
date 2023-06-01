@@ -96,15 +96,15 @@ class CvReadController extends AbstractController
                     
                 }
 
-                // require '../Information/InformationReadController.php';
-                // $informationContr = new InformationReadController();
-                // echo ($informationContr->readInformation());
+                require_once '..\Information\InformationReadController.php';
+                $informationContr = new InformationReadController();
+                dd($informationContr->readInformation());
 
                 $informationData = $this->forward('App\Controller\Information\InformationReadController::readInformation')->getContent();
                 $informationData1 = str_replace('\"', '"', $informationData);
                 // $informationData = str_replace(, "", $informationData);
                 array_push($output, $informationData1);
-                // dd($valid_profil);
+                dd($informationData1);
 
 
 
