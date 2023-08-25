@@ -1,0 +1,22 @@
+<?php //App%255CController%255CListLanguage%255CListLanguageUpdateController%2523index
+
+return [PHP_INT_MAX, static function () { return \Symfony\Component\VarExporter\Internal\Hydrator::hydrate(
+    $o = [
+        clone (\Symfony\Component\VarExporter\Internal\Registry::$prototypes['Symfony\\Component\\Routing\\Annotation\\Route'] ?? \Symfony\Component\VarExporter\Internal\Registry::p('Symfony\\Component\\Routing\\Annotation\\Route')),
+    ],
+    null,
+    [
+        'Symfony\\Component\\Routing\\Annotation\\Route' => [
+            'path' => [
+                '/list/language/list/language/update',
+            ],
+            'name' => [
+                'app_list_language_list_language_update',
+            ],
+        ],
+    ],
+    [
+        $o[0],
+    ],
+    []
+); }];

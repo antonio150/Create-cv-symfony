@@ -1,0 +1,3 @@
+<?php //App%255CController%255CUserType%255CUserTypeListController
+
+return [PHP_INT_MAX, []];

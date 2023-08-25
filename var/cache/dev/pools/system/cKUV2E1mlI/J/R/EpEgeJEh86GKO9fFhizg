@@ -1,0 +1,3 @@
+<?php //App%255CController%255CInformation%255CInformationGetByIdController
+
+return [PHP_INT_MAX, []];
